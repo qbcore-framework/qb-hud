@@ -4,16 +4,17 @@ game 'gta5'
 description 'QB-HUD'
 version '1.0.0'
 
-server_scripts {
-	"config.lua",
-	"server/money.lua",
+shared_scripts { 
+	'@qb-core/import.lua',
+	'config.lua'
 }
 
+server_script 'server/money.lua'
+
 client_scripts {
-	"config.lua",
-	"client/money.lua",
-	"client/main.lua",
-	"client/ui.lua",
+	'client/money.lua',
+	'client/main.lua',
+	'client/ui.lua'
 }
 
 ui_page 'html/ui.html'
@@ -26,5 +27,5 @@ files {
 	'html/css/pricedown_bl-webfont.woff2',
 	'html/css/gta-ui.ttf',
 	'html/js/app.js',
-	'html/css/pdown.ttf',
+	'html/css/pdown.ttf'
 }
