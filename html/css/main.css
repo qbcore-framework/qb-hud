@@ -219,7 +219,7 @@ p {
     display: none;
 }
 
-.ui-car-speed, .ui-car-fuel {
+.ui-car-speed, .ui-car-fuel, .ui-car-nos {
     font-family: 'Quicksand', sans-serif;
     font-size: 17px;
     position: absolute;
@@ -253,6 +253,24 @@ p {
 }
 
 .speed-text, .fuel-text {
+    color: rgba(255, 255, 255, 1.0);
+    font-size: 18px;
+}
+
+.ui-car-nos {
+    left: 23.7vw;
+}
+
+.nos-label {
+    position: relative;
+    left: 1.9vw;
+    bottom: 0.8vh;
+    font-size: 10px;
+    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
+}
+
+.nos-text {
+    height: 12px;
     color: rgba(255, 255, 255, 1.0);
     font-size: 18px;
 }

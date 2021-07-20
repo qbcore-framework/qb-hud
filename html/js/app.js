@@ -132,6 +132,15 @@ var moneyTimeout = null;
             $("#voice-icon").css("color", "white");
         }
 
+        if (data.nos != null ) {
+            $(".nos-text").css('display', 'block');
+            $(".nos-label").css('display', 'block');
+            $(".nos-text").html(data.nos);
+        } else {
+            $(".nos-text").css('display', 'none');
+            $(".nos-label").css('display', 'none');
+        }
+
         $(".fuel-text").html((data.fuel).toFixed(0));
         $(".speed-text").html(data.speed);
 

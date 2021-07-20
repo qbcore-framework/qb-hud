@@ -2,6 +2,7 @@ local speed = 0.0
 local seatbeltOn = false
 local cruiseOn = false
 local radarActive = false
+local nos = 0
 local stress = 0
 local hunger = 100
 local thirst = 100
@@ -59,6 +60,11 @@ AddEventHandler('seatbelt:client:ToggleCruise', function()
     })
 end)
 
+RegisterNetEvent('hud:client:UpdateNitrous')
+AddEventHandler('hud:client:UpdateNitrous', function(hasNitro, nitroLevel, bool)
+    nos = nitroLevel
+end)
+
 -- Player HUD
 
 Citizen.CreateThread(function()
@@ -85,6 +91,7 @@ Citizen.CreateThread(function()
                 street1 = GetStreetNameFromHashKey(street1),
                 street2 = GetStreetNameFromHashKey(street2),
                 speed = math.ceil(speed),
+                nos = nos,
                 fuel = fuel,
             })
             Citizen.Wait(500)
