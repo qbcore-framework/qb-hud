@@ -64,13 +64,74 @@ var moneyTimeout = null;
 
     QBHud.UpdateHud = function(data) {
         $(".ui-container").css("display", data.show ? "none" : "block");
-        $(".healthBar").css("width", data.health - 100 + "%");
-        $(".armorBar").css("width", data.armor + "%");
-        $(".thirstBar").css("width", data.thirst + "%");
-        $(".hungerBar").css("width", data.hunger + "%");
-        $(".bleedingBar").css("width", data.bleeding + "%");
 
-        $('.time-text').html(data.time.hour + ':' + data.time.minute);
+        if (data.health == 100) {
+            $(".health").css("display", "none");
+        } else {
+            $(".health").css("display", "block");
+            $(".health").find(".progressBar")
+            .attr("style", "width: " + data.health + "%");
+            SetProgressBar(data.health, '.progress-health')
+        }
+
+        if (data.armor > 0) {
+            $(".armor").css("display", "block");
+            $(".armor").find(".progressBar")
+            .attr("style", "width: " + data.armor + "%");
+            SetProgressBar(data.armor, '.progress-armor')
+        } else {
+            $(".armor").css("display", "none");
+        }
+
+        if (data.hunger == 100) {
+            $(".hunger").css("display", "none");
+        } else {
+            $(".hunger").css("display", "block");
+            $(".hunger").find(".progressBar")
+            .attr("style", "width: " + data.hunger + "%");
+            SetProgressBar(data.hunger, '.progress-hunger')
+        }
+
+        if (data.thirst == 100) {
+            $(".thirst").css("display", "none");
+        } else {
+            $(".thirst").css("display", "block");
+            $(".thirst").find(".progressBar")
+            .attr("style", "width: " + data.thirst + "%");
+            SetProgressBar(data.thirst, '.progress-thirst')
+        }
+
+        if (data.stress > 0) {
+            $(".stress").css("display", "block");
+            $(".stress").find(".progressBar")
+            .attr("style", "width: " + data.stress + "%");
+            SetProgressBar(data.stress, '.progress-stress')
+        } else {
+            $(".stress").css("display", "none");
+        }
+
+        $(".voice")
+            switch(data.voice) {
+                case 1.0:
+                data.voice = 33;
+                break;
+                case 2.3:
+                data.voice = 66;
+                break;
+                case 5.0:
+                data.voice = 100;
+                break;
+            }
+            $(".voice").find(".progressBar")
+            .attr("style", "width: " + data.voice + "%");
+            SetProgressBar(data.voice, '.progress-voice')
+
+        if (data.talking == 1) {
+            $("#voice-icon").css("color", "#39FF14");
+        } else {
+            $("#voice-icon").css("color", "white");
+        }
+
         $(".fuel-text").html((data.fuel).toFixed(0));
         $(".speed-text").html(data.speed);
 
@@ -160,3 +221,24 @@ var moneyTimeout = null;
     }
 
 })();
+
+function SetProgressBar(value, element){
+    var circle = document.querySelector(element);
+    var radius = circle.r.baseVal.value;
+    var circumference = radius * 2 * Math.PI;
+    var html = $(element).parent().parent().find('span');
+    var percent = value*100/100;
+  
+    circle.style.strokeDasharray = `${circumference} ${circumference}`;
+    circle.style.strokeDashoffset = `${circumference}`;
+  
+    const offset = circumference - ((-percent*99)/100) / 100 * circumference;
+    circle.style.strokeDashoffset = -offset;
+  
+    var speed = Math.floor(value * 1.8)
+    if (speed == 81 || speed == 131) {
+        speed = speed - 1
+    }
+  
+    html.text(speed);
+}

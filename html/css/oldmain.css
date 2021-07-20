@@ -2,9 +2,11 @@
 
 @font-face {
     font-family: 'pricedownblack';
-    src: url('pricedown_bl-webfont.woff2') format('woff2'), url('pricedown_bl-webfont.woff') format('woff');
+    src: url('pricedown_bl-webfont.woff2') format('woff2'),
+         url('pricedown_bl-webfont.woff') format('woff');
     font-weight: normal;
     font-style: normal;
+
 }
 
 @font-face {
@@ -35,9 +37,9 @@ p {
     color: white;
 }
 
-.money-cash, .money-bank {
+.money-cash,.money-bank {
     display: none;
-    float: right;
+    float:right;
     font-family: 'pdown';
     font-weight: 400;
     font-size: 29px;
@@ -66,19 +68,19 @@ p {
 #plus-changeamount {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
-    color: #F0F0F0;
+    color: #f0f0f0;
 }
 
 #minus-changeamount {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
-    color: #F0F0F0;
+    color: #f0f0f0;
 }
 
 .minus {
     text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
-    color: #801E1F;
+    color: #801e1f;
 }
 
 .munnie {
@@ -98,103 +100,65 @@ p {
     color: #277418;
 }
 
-/* Player Hud Styling */
-
 .ui-container {
-    display: none;
+    display: block;
     font-size: 40px;
     overflow: hidden;
     font-family: 'Quicksand';
 }
 
-.health {
-    left: 2.55vw;
+.fas {
     position: absolute;
-    bottom: 0vh;
+    height: 2vh;
+    bottom: -1.7vh;
+    left: 0.9vh;
+    z-index: -1;
+    font-size: 2rem;
 }
 
-#health-icon {
-    position: absolute;
-    left: 1.95vw;
-    bottom: 1.4vh;
-    font-size: 19px;
-    color: white;
-    z-index: 1;
+.health, .armor {
+    height: 1.3vh;
+    bottom: 3vh;
+    width: 7.2vw;
+}
+
+.health {
+    position:absolute;
+    left: 1.1vw;
+    padding: 0;
+    float: left;
 }
 
 .armor {
-    left: 6.3vw;
-    position: absolute;
-    bottom: 0vh;
+    position:absolute;
+    left: 2.3vw;
+    padding: 0;
+    float: left;
 }
 
-#armor-icon {
+.hunger, .thirst, .bleeding, .oxygen, .voice {
     position: absolute;
-    left: 5.35vw;
-    bottom: 1.4vh;
-    font-size: 19px;
-    color: white;
-    z-index: 1;
+    bottom: 3vh;
+    width: 3.65vw;
+    height: 1.3vh;
+    padding: 0;
+    float:left;
 }
 
 .hunger {
-    left: 3.75vw;
-    position: absolute;
-    bottom: 0vh;
-}
-
-#hunger-icon {
-    position: absolute;
-    left: 3.15vw;
-    bottom: 1.5vh;
-    font-size: 19px;
-    color: white;
-    z-index: 1;
+    left: 3.6vw;
 }
 
 .thirst {
-    left: 5.0vw;
-    position: absolute;
-    bottom: 0vh;
+    left: 4.9vw;
 }
 
-#thirst-icon {
-    position: absolute;
-    left: 4.4vw;
-    bottom: 1.4vh;
-    font-size: 19px;
-    color: white;
-    z-index: 1;
-}
-
-.stress {
-    left: 7.5vw;
-    position: absolute;
-    bottom: 0vh;
-}
-
-#stress-icon {
-    position: absolute;
-    left: 6.5vw;
-    bottom: 1.4vh;
-    font-size: 19px;
-    color: white;
-    z-index: 1;
+.bleeding {
+    left: 6.25vw;
 }
 
 .voice {
-    position: absolute;
-    left: 1.3vw;
-    bottom: 0vh;
-}
-
-#voice-icon {
-    position: absolute;
-    left: 0.95vw;
-    bottom: 1.4vh;
-    font-size: 19px;
-    color: white;
-    z-index: 1;
+    left: 7.5vw;
 }
 
 .oxygen {
@@ -202,30 +166,37 @@ p {
 }
 
 .progress {
-    -webkit-transition: 0.35s stroke-dashoffset;
-    -o-transition: 0.35s stroke-dashoffset;
-    transition: 0.35s stroke-dashoffset;
-    -webkit-transform: rotate(140deg);
-    -ms-transform: rotate(140deg);
-    transform: rotate(140deg);
-    -webkit-transform-origin: 50% 50%;
-    -ms-transform-origin: 50% 50%;
-    transform-origin: 50% 50%;
+	-webkit-transition: 0.35s stroke-dashoffset;
+	-o-transition: 0.35s stroke-dashoffset;
+	transition: 0.35s stroke-dashoffset;
+	-webkit-transform: rotate(140deg);
+	-ms-transform: rotate(140deg);
+	transform: rotate(140deg);
+	-webkit-transform-origin: 50% 50%;
+	-ms-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
 }
 
-/* Carhud Styling */
+.hungerBar, .thirstBar, .bleedingBar, .oxygenBar, .voiceBar {
+    width: 100%;
+    height: 100%;
+    max-width: 100%;
+    transition: 0.2s ease-in-out;
+}
 
 .ui-car-container {
     display: none;
 }
 
+/* Carhud Styling */
+
 .ui-car-speed, .ui-car-fuel {
-    font-family: 'Quicksand', sans-serif;
+    font-size: 'Quicksand', sans-serif;
     font-size: 17px;
     position: absolute;
     text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
-    color: #FFFFFF;
-    bottom: 3.8vh;
+    color: #ffffff;
+    bottom:  3.8vh;
 }
 
 .ui-car-speed {
@@ -241,7 +212,7 @@ p {
 }
 
 .ui-car-fuel {
-    left: 20.5vw;
+    left: 21.2vw;
 }
 
 .fuel-label {
@@ -263,7 +234,7 @@ p {
     bottom: 1.15vh;
     left: 17vw;
     text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
-    color: #FFFFFF;
+    color: #ffffff;
 }
 
 .sep {
@@ -273,15 +244,24 @@ p {
 .ui-car-seatbelt, .ui-car-cruise {
     font-size: 14px;
     position: absolute;
-    color: red;
+    color: #c92222;
 }
 
 .ui-car-seatbelt {
-    left: 17vw;
-    bottom: 7vh;
+    left: 25vw;
+    bottom: 4.2vh;
 }
 
 .ui-car-cruise {
-    left: 20.4vw;
+    left: 28.5vw;
+    bottom: 4.2vh;
+}
+
+.ui-car-time {
+    font-size: 16px;
+    position: absolute;
     bottom: 7vh;
+    left: 17vw;
+    color: #ffffff;
+    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
 }

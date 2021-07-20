@@ -9,13 +9,8 @@ shared_scripts {
 	'config.lua'
 }
 
-server_script 'server/money.lua'
-
-client_scripts {
-	'client/money.lua',
-	'client/main.lua',
-	'client/ui.lua'
-}
+client_script 'client/main.lua'
+server_script 'server/main.lua'
 
 ui_page 'html/ui.html'
 
