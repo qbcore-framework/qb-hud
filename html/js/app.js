@@ -175,6 +175,7 @@ var moneyTimeout = null;
                 }, 3500)
             }
         }
+        if(data.type == "bank") {
             $(".money-bank").css("display", "block");
             $("#bank").html(data.bank);
             if (data.minus) {
@@ -196,6 +197,7 @@ var moneyTimeout = null;
                     });
                 }, 3500)
             }
+        }
     };
 
     window.onload = function(e) {
