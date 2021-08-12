@@ -310,3 +310,7 @@ function GetEffectInterval(stresslevel)
     end
     return retval
 end
+
+CreateThread(function()
+    SetBlipAlpha(GetNorthRadarBlip(), 0)
+end)
