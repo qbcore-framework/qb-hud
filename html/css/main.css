@@ -1,21 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=Quicksand:700&display=swap');
-
-@font-face {
-    font-family: 'pricedownblack';
-    src: url('pricedown_bl-webfont.woff2') format('woff2'), url('pricedown_bl-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
-
-@font-face {
-    font-family: 'gta-ui';
-    src: url('gta-ui.ttf');
-}
-
-@font-face {
-    font-family: 'pdown';
-    src: url('pdown.ttf');
-}
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
 
 html {
     overflow: hidden;
@@ -32,18 +15,18 @@ p {
 }
 
 #cash {
-    color: white;
+    color: #ededed;
 }
 
 .money-cash, .money-bank {
     display: none;
     float: right;
-    font-family: 'pdown';
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
     font-weight: 400;
     font-size: 29px;
-    color: white;
+    color: #ededed;
     padding: 4px;
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     margin: 0;
     margin-right: 6px;
     margin-top: 6px;
@@ -52,39 +35,33 @@ p {
 
 .money-cash {
     color: rgb(210, 210, 210);
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
 }
 
 .money-bank {
     color: rgb(167, 167, 167);
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
     top: 55px;
 }
 
 #plus-changeamount {
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
-    color: #F0F0F0;
+    color: #ededed;
 }
 
 #minus-changeamount {
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
-    color: #F0F0F0;
+    color: #ededed;
 }
 
 .minus {
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
-    color: #801E1F;
+    color: #dc143c;
 }
 
 .munnie {
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
-    color: #277418;
+    color: #28a745;
 }
 
 .moneyupdate {
@@ -93,9 +70,8 @@ p {
 }
 
 .plus {
-    text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     text-align: right;
-    color: #277418;
+    color: #28a745;
 }
 
 /* Player Hud Styling */
@@ -104,7 +80,8 @@ p {
     display: none;
     font-size: 40px;
     overflow: hidden;
-    font-family: 'Quicksand';
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
 }
 
 .health {
@@ -118,7 +95,7 @@ p {
     left: 1.95vw;
     bottom: 1.4vh;
     font-size: 19px;
-    color: white;
+    color: #ededed;
     z-index: 1;
 }
 
@@ -133,7 +110,7 @@ p {
     left: 5.35vw;
     bottom: 1.4vh;
     font-size: 19px;
-    color: white;
+    color: #ededed;
     z-index: 1;
 }
 
@@ -148,7 +125,7 @@ p {
     left: 3.15vw;
     bottom: 1.5vh;
     font-size: 19px;
-    color: white;
+    color: #ededed;
     z-index: 1;
 }
 
@@ -163,7 +140,7 @@ p {
     left: 4.4vw;
     bottom: 1.4vh;
     font-size: 19px;
-    color: white;
+    color: #ededed;
     z-index: 1;
 }
 
@@ -178,7 +155,7 @@ p {
     left: 6.5vw;
     bottom: 1.4vh;
     font-size: 19px;
-    color: white;
+    color: #ededed;
     z-index: 1;
 }
 
@@ -193,7 +170,7 @@ p {
     left: 0.95vw;
     bottom: 1.4vh;
     font-size: 19px;
-    color: white;
+    color: #ededed;
     z-index: 1;
 }
 
@@ -220,11 +197,11 @@ p {
 }
 
 .ui-car-speed, .ui-car-fuel, .ui-car-nos {
-    font-family: 'Quicksand', sans-serif;
+    font-family: 'Poppins', sans-serif;
+    text-transform: uppercase;
     font-size: 17px;
     position: absolute;
-    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
-    color: #FFFFFF;
+    color: #ededed;
     bottom: 3.8vh;
 }
 
@@ -237,7 +214,6 @@ p {
     left: 0.3vw;
     bottom: 0.6vh;
     font-size: 10px;
-    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
 }
 
 .ui-car-fuel {
@@ -249,11 +225,10 @@ p {
     left: 0.2vw;
     bottom: 0.6vh;
     font-size: 10px;
-    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
 }
 
 .speed-text, .fuel-text {
-    color: rgba(255, 255, 255, 1.0);
+    color: #ededed;
     font-size: 18px;
 }
 
@@ -266,12 +241,11 @@ p {
     left: 1.9vw;
     bottom: 0.8vh;
     font-size: 10px;
-    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
 }
 
 .nos-text {
     height: 12px;
-    color: rgba(255, 255, 255, 1.0);
+    color: #ededed;
     font-size: 18px;
 }
 
@@ -280,8 +254,7 @@ p {
     position: absolute;
     bottom: 1.15vh;
     left: 17vw;
-    text-shadow: -1px 1px 2px rgba(0, 0, 0, 0.548), 1px 1px 2px rgba(0, 0, 0, 0.548), 1px -1px 0 rgba(0, 0, 0, 0.548), -1px -1px 0 rgba(0, 0, 0, 0.548);
-    color: #FFFFFF;
+    color: #ededed;
 }
 
 .sep {
@@ -289,9 +262,10 @@ p {
 }
 
 .ui-car-seatbelt, .ui-car-cruise {
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: bold;
     position: absolute;
-    color: red;
+    color: #dc143c;
 }
 
 .ui-car-seatbelt {
@@ -300,6 +274,6 @@ p {
 }
 
 .ui-car-cruise {
-    left: 20.4vw;
+    left: 21.4vw;
     bottom: 7vh;
 }
