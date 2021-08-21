@@ -269,6 +269,27 @@ Citizen.CreateThread(function() -- Shooting
     end
 end)
 
+Citizen.CreateThread(function() -- HEADLIGHTS
+	while true do
+		Citizen.Wait(500)
+		local player = PlayerPedId()
+
+		if IsPedInAnyVehicle(player, false) then
+			local vehicle = GetVehiclePedIsIn(player, false)
+			local vehicleVal,vehicleLights,vehicleHighlights  = GetVehicleLightsState(vehicle)
+			local vehicleIsLightsOn
+
+			if vehicleLights == 1 and vehicleHighlights == 0 then
+				vehicleIsLightsOn = 'normal'
+			elseif (vehicleLights == 1 and vehicleHighlights == 1) or (vehicleLights == 0 and vehicleHighlights == 1) then
+				vehicleIsLightsOn = 'high'
+			else
+				vehicleIsLightsOn = 'off'
+			end
+		end
+	end
+end)
+
 -- Stress Screen Effects
 
 Citizen.CreateThread(function()
@@ -344,4 +365,3 @@ AddEventHandler("hud:client:CarFuelAlarm",function()
         alarmset = false
     end
 end)
-
