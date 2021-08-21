@@ -237,6 +237,22 @@ Citizen.CreateThread(function() -- Speeding
     end
 end)
 
+Fuel = 45
+Citizen.CreateThread(function() -- Low Fuel
+    while true do
+        if QBCore ~= nil and isLoggedIn then
+                local player = PlayerPedId()
+                local veh = GetVehiclePedIsIn(player,false)
+                if Fuel < 15 then
+                    if not IsThisModelABike(GetEntityModel(veh)) then
+                        TriggerEvent('hud:client:CarFuelAlarm')
+                    end
+                end                
+        end
+        Citizen.Wait(6)
+    end
+end)
+
 Citizen.CreateThread(function() -- Shooting
     while true do
         if QBCore ~= nil and isLoggedIn then
@@ -310,3 +326,22 @@ function GetEffectInterval(stresslevel)
     end
     return retval
 end
+
+alarmset = false
+
+RegisterNetEvent("hud:client:CarFuelAlarm")
+AddEventHandler("hud:client:CarFuelAlarm",function()
+    if not alarmset then
+        alarmset = true
+        local i = 5
+        TriggerEvent('QBCore:Notify', "Low fuel.", "error")
+        while i > 0 do
+            PlaySound(-1, "5_SEC_WARNING", "HUD_MINI_GAME_SOUNDSET", 0, 0, 1)
+            i = i - 1
+            Citizen.Wait(300)
+        end
+        Citizen.Wait(60000)
+        alarmset = false
+    end
+end)
+
