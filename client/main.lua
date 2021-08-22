@@ -77,6 +77,8 @@ Citizen.CreateThread(function()
             local talking = NetworkIsPlayerTalking(PlayerId())
             local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
             local fuel = exports['LegacyFuel']:GetFuel(GetVehiclePedIsIn(player))
+            local voice = 0
+            if LocalPlayer.state['proximity'] ~= nil then voice = LocalPlayer.state['proximity'].distance end
             SendNUIMessage({
                 action = 'hudtick',
                 show = IsPauseMenuActive(),
@@ -85,7 +87,7 @@ Citizen.CreateThread(function()
                 thirst = thirst,
                 hunger = hunger,
                 stress = stress,
-                voice = LocalPlayer.state['proximity'].distance,
+                voice = voice,
                 talking = talking,
                 direction = GetDirectionText(GetEntityHeading(player)),
                 street1 = GetStreetNameFromHashKey(street1),
