@@ -1,0 +1,101 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+
+* {
+    font-family: 'Poppins', sans-serif;
+}
+
+#main-container {
+    width: 100%;
+    height: 100%;
+}
+
+/* Money */
+#money-container {
+    position: absolute;
+    right: 2vw;
+    top: 2vh;
+    font-weight: 400;
+    font-size: 29px;
+}
+
+#money {
+    text-align: right;
+    color: #28a745;
+}
+
+#cash, #bank, #plus {
+    color: #ededed;
+}
+
+#minus {
+    color: red;
+}
+
+/* Player HUD */
+
+#playerhud {
+    display: flex;
+    position: absolute;
+    bottom: 0vw;
+    left: 2.5vh;
+}
+
+/* Vehicle HUD */
+
+.ui-car-fuel, .ui-car-nos {
+    position: absolute;
+}
+
+.ui-car-seatbelt, .ui-car-cruise {
+    position: absolute;
+}
+
+.ui-car-speed {
+  position: absolute;
+  bottom: 4vh;
+  left: 16vw;
+}
+
+.ui-car-fuel {
+    left: 18.9vw;
+    bottom: 1.9vw;
+}
+
+.ui-car-nos {
+    left: 16.7vw;
+    bottom: 5.4vw;
+}
+
+.ui-car-seatbelt {
+    left: 19.1vw;
+    bottom: 3.56vw;
+}
+
+.ui-car-cruise {
+    left: 18.3vw;
+    bottom: 8.7vh;
+}
+
+.ui-car-street {
+    font-size: 15px;
+    text-transform: uppercase;
+    position: absolute;
+    bottom: 0vh;
+    left: 16vw;
+    color: #ededed;
+}
+
+/* Animation */
+.slide-fade-enter-active {
+  transition: all .3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  transform: translateX(20px);
+  opacity: 0;
+}

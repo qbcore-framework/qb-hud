@@ -1,0 +1,74 @@
+<html>
+    <head>
+        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <link href="https://cdn.jsdelivr.net/npm/quasar@2.0.4/dist/quasar.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <script src="https://unpkg.com/vue@next" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/quasar@2.0.4/dist/quasar.umd.js" defer></script>
+        <script src="app.js" defer></script>
+    </head>
+    <body>
+        <div id="main-container">
+            <div id="money-container">
+                <div id="money-cash">
+                    <transition name="slide-fade">
+                        <p v-if="showCash">💰&nbsp;<span id="money">{{formatMoney(cash)}}</span></p>
+                    </transition>
+                </div>
+                <div id="money-bank">
+                    <transition name="slide-fade">
+                        <p v-if="showBank">🏦&nbsp;<span id="money">{{formatMoney(bank)}}</span></p>
+                    </transition>
+                </div>
+                <div id="money-change" v-if="showUpdate">
+                    <p v-if="plus" id="money">+&nbsp;<span id="money">{{formatMoney(amount)}}</span></p>
+                    <p v-else-if="minus" id="minus">-&nbsp;<span id="money">{{formatMoney(amount)}}</span></p>
+                </div>
+            </div>
+            <div id="ui-container">
+                <div id="playerHud" v-show="show">
+                    <div v-if="showVoice">
+                        <q-circular-progress show-value :value="voice" size="45px" :thickness="0.2" color="white" track-color="grey-9" center-color="grey-8" :min="0" :max="5"><q-icon name="fas fa-microphone" size="19px" color="white"/>
+                    </div>
+                    <div v-if="showHealth">
+                        <q-circular-progress show-value :value="health" size="45px" :thickness="0.2" color="green" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-heart" size="19px" color="white"/>
+                    </div>
+                    <div v-if="showArmor">
+                        <q-circular-progress show-value :value="armor" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-shield-alt" size="19px" color="white"/>
+                    </div>
+                    <div v-if="showHunger">
+                        <q-circular-progress show-value :value="hunger" size="45px" :thickness="0.2" color="orange" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-hamburger" size="19px" color="white"/>
+                    </div>
+                    <div v-if="showThirst">
+                        <q-circular-progress show-value :value="thirst" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-tint" size="19px" color="white"/>
+                    </div>
+                    <div v-if="showStress">
+                        <q-circular-progress show-value :value="stress" size="45px" :thickness="0.2" color="red" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-brain" size="19px" color="white"/>
+                    </div>
+                </div>
+            </div>
+            <div id="veh-container">
+                <div v-show="show">
+                    <div class="ui-car-seatbelt">
+                        <q-circular-progress show-value :value="seatbelt" size="30px" :thickness="0" color="white" track-color="grey-9" center-color="grey-8" :min="0" :max="1"><q-icon name="fas fa-user-slash" size="11px" :style="{color: seatbeltColor}"/>
+                    </div>
+                    <div class="ui-car-cruise">
+                        <q-circular-progress show-value :value="cruise" size="30px" :thickness="0" color="white" track-color="grey-9" center-color="grey-8" :min="0" :max="1"><q-icon name="fas fa-tachometer-alt" size="11px" :style="{color: cruiseColor}"/>
+                    </div>
+                    <div class="ui-car-speed">
+                        <q-circular-progress show-value :value="speed" class="text-white" size="60px" :thickness="0.15" color="white" track-color="grey-9" center-color="grey-8" :max="250"/>
+                    </div>
+                    <div class="ui-car-fuel">
+                        <q-circular-progress show-value :value="fuel" size="30px" :thickness="0.1" color="orange" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-gas-pump" size="11px" color="orange"/>
+                    </div>
+                    <div class="ui-car-nos" v-if="showNos">
+                        <q-circular-progress show-value :value="nos" size="30px" :thickness="0.1" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-fire-alt" size="12px" color="blue"/>
+                    </div>
+                    <div class="ui-car-street">
+                        <p>{{direction}} | {{street1}} | {{street2}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

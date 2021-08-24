@@ -1,25 +1,11 @@
-QBHud = {}
-QBHud.Show = false
-QBHud.MinimumStress = 50
-QBHud.MinimumSpeed = 100
-
-QBHud.Money = {}
-QBHud.Money.ShowConstant = false -- Show money constantly
-
-QBHud.Radar = {}
-QBHud.Radar.NoRadarVehicles = {
-    "bmx",
-    "cruiser",
-    "fixter",
-    "scorcher",
-    "tribike",
-    "tribike2",
-    "tribike3",
-}
+Config = {}
+Config.StressChance = .1 -- Default: 10% -- Percentage Stress Chance When Shooting (0-1)
+Config.MinimumStress = 50 -- Minimum Stress Level For Screen Shaking
+Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
 
 -- Stress
 
-QBHud.Intensity = {
+Config.Intensity = {
     ["shake"] = {
         [1] = {
             min = 50,
@@ -49,7 +35,7 @@ QBHud.Intensity = {
     }
 }
 
-QBHud.EffectInterval = {
+Config.EffectInterval = {
     [1] = {
         min = 50,
         max = 60,

@@ -1,11 +1,15 @@
 local ResetStress = false
 
 QBCore.Commands.Add('cash', 'Check Cash Balance', {}, false, function(source, args)
-	TriggerClientEvent('hud:client:ShowMoney', source, 'cash')
+    local Player = QBCore.Functions.GetPlayer(source)
+    local cashamount = Player.PlayerData.money.cash
+	TriggerClientEvent('hud:client:ShowAccounts', source, 'cash', cashamount)
 end)
 
 QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, args)
-	TriggerClientEvent('hud:client:ShowMoney', source, 'bank')
+    local Player = QBCore.Functions.GetPlayer(source)
+    local bankamount = Player.PlayerData.money.bank
+	TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 end)
 
 RegisterServerEvent('hud:server:GainStress')
