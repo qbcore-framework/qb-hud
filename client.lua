@@ -256,7 +256,7 @@ end)
 function GetShakeIntensity(stresslevel)
     local retval = 0.05
     for k, v in pairs(Config.Intensity['shake']) do
-        if stresslevel >= v.min and stresslevel < v.max then
+        if stresslevel >= v.min and stresslevel <= v.max then
             retval = v.intensity
             break
         end
@@ -267,7 +267,7 @@ end
 function GetEffectInterval(stresslevel)
     local retval = 60000
     for k, v in pairs(Config.EffectInterval) do
-        if stresslevel >= v.min and stresslevel < v.max then
+        if stresslevel >= v.min and stresslevel <= v.max then
             retval = v.timeout
             break
         end
