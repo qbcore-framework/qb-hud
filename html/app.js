@@ -167,6 +167,9 @@ app.use(Quasar)
 app.mount('#ui-container');
 
 // VEHICLE HUD
+const healthyColor = '#28a745';
+const warningColor = '#c08700';
+const dangerColor = '#DC143C';
 
 const vehHud = {
     data() {
@@ -182,7 +185,9 @@ const vehHud = {
             seatbelt: 0,
             direction: '',
             cruiseColor: '',
-            seatbeltColor: ''
+            seatbeltColor: '',
+            engineHealth: 0,
+            engineColor: ''
         }
     },
     destroyed() {
@@ -206,17 +211,17 @@ const vehHud = {
             this.nos = data.nos;
             if (data.seatbelt === true) {
                 this.seatbelt = 1;
-                this.seatbeltColor = '#28a745';
+                this.seatbeltColor = healthyColor;
             } else {
                 this.seatbelt = 0;
-                this.seatbeltColor = '#DC143C';
+                this.seatbeltColor = dangerColor;
             }
             if (data.cruise === true) {
                 this.cruise = 1;
-                this.cruiseColor = '#28a745';
+                this.cruiseColor = healthyColor;
             } else {
                 this.cruise = 0;
-                this.cruiseColor = '#DC143C';
+                this.cruiseColor = warningColor;
             }
             if (data.nos === 0 || data.nos === undefined) {
                 this.showNos = false;
@@ -226,6 +231,10 @@ const vehHud = {
             if (data.isPaused === 1) {
                 this.show = false;
             }
+            this.engineHealth = data.engineHealth / 1000
+            if (this.engineHealth >= 0.7 ) this.engineColor = healthyColor;
+            else if (this.engineHealth >= 0.4 && this.engineHealth < 0.7) this.engineColor = warningColor;
+            else this.engineColor = dangerColor;
         },
     }
 }

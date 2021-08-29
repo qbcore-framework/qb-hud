@@ -61,6 +61,9 @@
                     <div class="ui-car-fuel">
                         <q-circular-progress show-value :value="fuel" size="30px" :thickness="0.1" color="orange" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-gas-pump" size="11px" color="orange"/>
                     </div>
+                    <div class="ui-car-engine">
+                        <q-circular-progress show-value :value="engineHealth" size="30px" :thickness="0" color="white" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-exclamation" size="11px" :style="{color: engineColor}"/>
+                    </div>
                     <div class="ui-car-nos" v-if="showNos">
                         <q-circular-progress show-value :value="nos" size="30px" :thickness="0.1" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-fire-alt" size="12px" color="blue"/>
                     </div>

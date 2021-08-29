@@ -42,7 +42,7 @@
 
 /* Vehicle HUD */
 
-.ui-car-fuel, .ui-car-nos {
+.ui-car-fuel, .ui-car-nos, .ui-car-engine {
     position: absolute;
 }
 
@@ -69,6 +69,11 @@
 .ui-car-seatbelt {
     left: 19.1vw;
     bottom: 3.56vw;
+}
+
+.ui-car-engine {
+    left: 16.8vw;
+    bottom: 5.3vw;
 }
 
 .ui-car-cruise {

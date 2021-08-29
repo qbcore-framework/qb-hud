@@ -9,6 +9,7 @@ local thirst = 100
 local cashAmount = 0
 local bankAmount = 0
 local isLoggedIn = false
+local engineHealth = 0
 
 -- Events
 
@@ -56,6 +57,8 @@ Citizen.CreateThread(function()
             local show = true
             local player = PlayerPedId()
             local talking = NetworkIsPlayerTalking(PlayerId())
+            local voice = 0
+            if LocalPlayer.state['proximity'] ~= nil then voice = LocalPlayer.state['proximity'].distance end
             if IsPauseMenuActive() then
                 show = false
             end
@@ -67,7 +70,7 @@ Citizen.CreateThread(function()
                 thirst = thirst,
                 hunger = hunger,
                 stress = stress,
-                voice = LocalPlayer.state['proximity'].distance,
+                voice = voice,
                 talking = talking,
             })
         else
@@ -95,6 +98,7 @@ Citizen.CreateThread(function()
                 local speed = GetEntitySpeed(vehicle) * 2.23694
                 local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
                 local fuel = exports['LegacyFuel']:GetFuel(vehicle)
+                local engineHealth = Round(GetVehicleEngineHealth(vehicle), 1)
                 SendNUIMessage({
                     action = 'car',
                     show = true,
@@ -107,6 +111,7 @@ Citizen.CreateThread(function()
                     speed = math.ceil(speed),
                     nos = nos,
                     fuel = fuel,
+                    engineHealth = engineHealth
                 })
             else
                 SendNUIMessage({
