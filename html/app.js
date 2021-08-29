@@ -221,7 +221,7 @@ const vehHud = {
                 this.cruiseColor = healthyColor;
             } else {
                 this.cruise = 0;
-                this.cruiseColor = warningColor;
+                this.cruiseColor = dangerColor;
             }
             if (data.nos === 0 || data.nos === undefined) {
                 this.showNos = false;
