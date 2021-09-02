@@ -40,19 +40,6 @@
     left: 2.5vh;
 }
 
-#playerhud div {
-    margin-left: 0.5vh;
-}
-
-.fa-heart,
-.fa-shield-alt,
-.fa-hamburger,
-.fa-tint,
-.fa-brain,
-.fa-microphone {
-    padding-right: 0.45vh;
-}
-
 /* Vehicle HUD */
 
 .ui-car-fuel, .ui-car-nos {
