@@ -67,7 +67,7 @@ Citizen.CreateThread(function()
                 thirst = thirst,
                 hunger = hunger,
                 stress = stress,
-                voice = LocalPlayer.state['proximity'].distance,
+                voice = LocalPlayer.state['proximity'] ~= nil and LocalPlayer.state['proximity'].distance or 1.0,
                 talking = talking,
             })
         else
