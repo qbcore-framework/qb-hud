@@ -48,10 +48,10 @@
                 </div>
             </div>
             <div id="veh-container">
-                    <div class="ui-car-seatbelt">
-                        <q-circular-progress show-value :value="seatbelt" size="30px" :thickness="0" color="white" track-color="grey-9" center-color="grey-8" :min="0" :max="1" class="q-ml-xs"><q-icon name="fas fa-user-slash" size="11px" :style="{color: seatbeltColor}"/>
-                    </div>
                 <div v-show="show">
+                    <!-- <div class="ui-car-seatbelt">
+                        <q-circular-progress show-value :value="seatbelt" size="30px" :thickness="0" color="white" track-color="grey-9" center-color="grey-9" :min="0" :max="1"><q-icon name="fas fa-user-slash" size="11px" :style="{color: seatbeltColor}"/>
+                    </div> -->
                     <div class="ui-car-cruise">
                         <q-circular-progress show-value :value="cruise" size="30px" :thickness="0" color="white" track-color="grey-9" center-color="grey-8" :min="0" :max="1" class="q-ml-xs"><q-icon name="fas fa-tachometer-alt" size="11px" :style="{color: cruiseColor}"/>
                     </div>
