@@ -23,6 +23,11 @@
     color: #28a745;
 }
 
+#money-minus{
+    text-align: right;
+    color: red;
+}
+
 #cash, #bank, #plus {
     color: #ededed;
 }
