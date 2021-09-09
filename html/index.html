@@ -22,7 +22,7 @@
                 </div>
                 <div id="money-change" v-if="showUpdate">
                     <p v-if="plus" id="money">+&nbsp;<span id="money">{{formatMoney(amount)}}</span></p>
-                    <p v-else-if="minus" id="minus">-&nbsp;<span id="money">{{formatMoney(amount)}}</span></p>
+                    <p v-else-if="minus" id="minus">-&nbsp;<span id="money-minus">{{formatMoney(amount)}}</span></p>
                 </div>
             </div>
             <div id="ui-container">
