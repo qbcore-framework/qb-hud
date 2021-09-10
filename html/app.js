@@ -173,9 +173,9 @@ const playerHud = {
         this.talkingColor = "#FFFFFF";
       }
       if (data.radio != 0) {
-        this.voiceIcon = "fas fa-headset";
-      } else {
-        this.voiceIcon = "fas fa-microphone";
+        this.voiceIcon = 'fas fa-headset';
+      } else if (data.radio == 0 || data.radio == undefined) {
+        this.voiceIcon = 'fas fa-microphone';
       }
     },
   },
