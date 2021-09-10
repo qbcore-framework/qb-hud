@@ -1,102 +1,103 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@500&display=swap");
 
 * {
-    font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
 }
 
 #main-container {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 /* Money */
 #money-container {
-    position: absolute;
-    right: 2vw;
-    top: 2vh;
-    font-weight: 400;
-    font-size: 29px;
+  position: absolute;
+  right: 2vw;
+  top: 2vh;
+  font-weight: 400;
+  font-size: 29px;
 }
 
 #money {
-    text-align: right;
-    color: #28a745;
+  text-align: right;
+  color: #28a745;
 }
 
-#money-minus{
-    text-align: right;
-    color: red;
+#money-minus {
+  text-align: right;
+  color: red;
 }
 
-#cash, #bank, #plus {
-    color: #ededed;
+#cash,
+#bank,
+#plus {
+  color: #ededed;
 }
 
 #minus {
-    color: red;
+  color: red;
 }
 
 /* Player HUD */
 
 #playerhud {
-    display: flex;
-    position: absolute;
-    bottom: 0vw;
-    left: 2.5vh;
+  display: flex;
+  position: absolute;
+  bottom: 0vw;
+  left: 1.5vh;
 }
 
 /* Vehicle HUD */
 
-.ui-car-fuel, .ui-car-nos {
-    position: absolute;
-}
-
-.ui-car-seatbelt, .ui-car-cruise {
-    position: absolute;
+.ui-car-fuel,
+.ui-car-nos,
+.ui-car-seatbelt,
+.ui-car-cruise,
+.ui-car-speed,
+.ui-car-street {
+  position: absolute;
 }
 
 .ui-car-speed {
-  position: absolute;
   bottom: 4vh;
   left: 16vw;
 }
 
 .ui-car-fuel {
-    left: 18.9vw;
-    bottom: 1.9vw;
+  left: 18.9vw;
+  bottom: 1.9vw;
 }
 
 .ui-car-nos {
-    left: 16.7vw;
-    bottom: 5.4vw;
+  left: 16.7vw;
+  bottom: 5.4vw;
 }
 
 .ui-car-seatbelt {
-    left: 19.1vw;
-    bottom: 3.56vw;
+  left: 19.1vw;
+  bottom: 3.56vw;
 }
 
 .ui-car-cruise {
-    left: 18.3vw;
-    bottom: 8.7vh;
+  left: 18.3vw;
+  bottom: 8.7vh;
 }
 
 .ui-car-street {
-    font-size: 15px;
-    text-transform: uppercase;
-    position: absolute;
-    bottom: 0vh;
-    left: 16vw;
-    color: #ededed;
+  font-size: 15px;
+  text-transform: uppercase;
+  bottom: 0vh;
+  left: 16.5vw;
+  color: #ededed;
 }
 
 /* Animation */
 .slide-fade-enter-active {
-  transition: all .3s ease-out;
+  transition: all 0.3s ease-out;
 }
 
 .slide-fade-leave-active {
-  transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
 }
 
 .slide-fade-enter-from,

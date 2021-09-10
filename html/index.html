@@ -28,22 +28,22 @@
             <div id="ui-container">
                 <div id="playerHud" v-show="show">
                     <div v-if="showVoice">
-                        <q-circular-progress show-value :value="voice" size="45px" :thickness="0.2" color="white" track-color="grey-9" center-color="grey-8" :min="0" :max="5"><q-icon name="fas fa-microphone" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xs" show-value :value="voice" size="45px" :thickness="0.2" :style="{color: talkingColor}" track-color="grey-9" center-color="grey-8" :min="0" :max="5"><q-icon :name="voiceIcon" size="19px" color="white"/>
                     </div>
                     <div v-if="showHealth">
-                        <q-circular-progress show-value :value="health" size="45px" :thickness="0.2" color="green" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-heart" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xs" show-value :value="health" size="45px" :thickness="0.2" color="green" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-heart" size="19px" color="white"/>
                     </div>
                     <div v-if="showArmor">
-                        <q-circular-progress show-value :value="armor" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-shield-alt" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xs" show-value :value="armor" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-shield-alt" size="19px" color="white"/>
                     </div>
                     <div v-if="showHunger">
-                        <q-circular-progress show-value :value="hunger" size="45px" :thickness="0.2" color="orange" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-hamburger" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xs" show-value :value="hunger" size="45px" :thickness="0.2" color="orange" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-hamburger" size="19px" color="white"/>
                     </div>
                     <div v-if="showThirst">
-                        <q-circular-progress show-value :value="thirst" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-tint" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xs" show-value :value="thirst" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-tint" size="19px" color="white"/>
                     </div>
                     <div v-if="showStress">
-                        <q-circular-progress show-value :value="stress" size="45px" :thickness="0.2" color="red" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-brain" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xs" show-value :value="stress" size="45px" :thickness="0.2" color="red" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-brain" size="19px" color="white"/>
                     </div>
                 </div>
             </div>

@@ -68,12 +68,13 @@ Citizen.CreateThread(function()
                 hunger = hunger,
                 stress = stress,
                 voice = LocalPlayer.state['proximity'].distance,
-                talking = talking,
+                radio = LocalPlayer.state['radioChannel'],
+                talking = talking
             })
         else
             SendNUIMessage({
                 action = 'hudtick',
-                show = false,
+                show = false
             })
         end
     end
@@ -93,7 +94,8 @@ Citizen.CreateThread(function()
                 radarActive = true
                 local pos = GetEntityCoords(player)
                 local speed = GetEntitySpeed(vehicle) * 2.23694
-                local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(), Citizen.ResultAsInteger())
+                local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(),
+                    Citizen.ResultAsInteger())
                 local fuel = exports['LegacyFuel']:GetFuel(vehicle)
                 SendNUIMessage({
                     action = 'car',
@@ -106,13 +108,13 @@ Citizen.CreateThread(function()
                     cruise = cruiseOn,
                     speed = math.ceil(speed),
                     nos = nos,
-                    fuel = fuel,
+                    fuel = fuel
                 })
             else
                 SendNUIMessage({
                     action = 'car',
                     show = false,
-                    seatbelt = false,
+                    seatbelt = false
                 })
                 DisplayRadar(false)
                 radarActive = false
@@ -128,7 +130,7 @@ function GetDirectionText(heading)
         return 'North'
     elseif (heading >= 45 and heading < 135) then
         return 'South'
-    elseif (heading >=135 and heading < 225) then
+    elseif (heading >= 135 and heading < 225) then
         return 'East'
     elseif (heading >= 225 and heading < 315) then
         return 'West'
@@ -140,7 +142,7 @@ end
 Citizen.CreateThread(function()
     local minimap = RequestScaleformMovie('minimap')
     while not HasScaleformMovieLoaded(minimap) do
-      Wait(0)
+        Wait(0)
     end
 
     SetMinimapComponentPosition('minimap', 'L', 'B', -0.0045, -0.012, 0.150, 0.188888)
@@ -160,13 +162,13 @@ AddEventHandler('hud:client:ShowAccounts', function(type, amount)
         SendNUIMessage({
             action = 'show',
             type = 'cash',
-            cash = amount,
+            cash = amount
         })
     else
         SendNUIMessage({
             action = 'show',
             type = 'bank',
-            bank = amount,
+            bank = amount
         })
     end
 end)
@@ -183,7 +185,7 @@ AddEventHandler('hud:client:OnMoneyChange', function(type, amount, isMinus)
         bank = bankAmount,
         amount = amount,
         minus = isMinus,
-        type = type,
+        type = type
     })
 end)
 
@@ -194,7 +196,7 @@ Citizen.CreateThread(function() -- Speeding
         if QBCore ~= nil --[[ and isLoggedIn ]] then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
-                speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * 2.237 --mph
+                speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * 2.237 -- mph
                 if speed >= Config.MinimumSpeed then
                     TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
                 end
@@ -232,7 +234,8 @@ Citizen.CreateThread(function()
 
             if not IsPedRagdoll(ped) and IsPedOnFoot(ped) and not IsPedSwimming(ped) then
                 local player = PlayerPedId()
-                SetPedToRagdollWithFall(player, RagdollTimeout, RagdollTimeout, 1, GetEntityForwardVector(player), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+                SetPedToRagdollWithFall(player, RagdollTimeout, RagdollTimeout, 1, GetEntityForwardVector(player), 1.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             end
 
             Citizen.Wait(500)
