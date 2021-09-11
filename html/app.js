@@ -172,7 +172,7 @@ const playerHud = {
       } else {
         this.talkingColor = "#FFFFFF";
       }
-      if (data.radio != 0) {
+      if (data.radio != 0 && data.radio != undefined) {
         this.voiceIcon = 'fas fa-headset';
       } else if (data.radio == 0 || data.radio == undefined) {
         this.voiceIcon = 'fas fa-microphone';
