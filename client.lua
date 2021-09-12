@@ -56,6 +56,10 @@ Citizen.CreateThread(function()
             local show = true
             local player = PlayerPedId()
             local talking = NetworkIsPlayerTalking(PlayerId())
+            local voice = 0
+            if LocalPlayer.state['proximity'] ~= nil then
+                voice = LocalPlayer.state['proximity'].distance
+            end
             if IsPauseMenuActive() then
                 show = false
             end
@@ -67,7 +71,7 @@ Citizen.CreateThread(function()
                 thirst = thirst,
                 hunger = hunger,
                 stress = stress,
-                voice = LocalPlayer.state['proximity'].distance,
+                voice = voice,
                 radio = LocalPlayer.state['radioChannel'],
                 talking = talking
             })
