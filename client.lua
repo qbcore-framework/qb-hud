@@ -213,7 +213,7 @@ end)
 Citizen.CreateThread(function() -- Shooting
     while true do
         if QBCore ~= nil --[[ and isLoggedIn ]] then
-            if IsPedShooting(PlayerPedId()) then
+            if IsPedShooting(PlayerPedId()) and not IsWhitelistedWeapon() then
                 if math.random() < Config.StressChance then
                     TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
                 end
@@ -222,6 +222,18 @@ Citizen.CreateThread(function() -- Shooting
         Citizen.Wait(6)
     end
 end)
+
+function IsWhitelistedWeapon()
+    local weapon = GetSelectedPedWeapon(PlayerPedId())
+    if weapon ~= nil then
+        for _, v in pairs(Config.WhitelistedWeapons) do
+            if weapon == GetHashKey(v) then
+                return true
+            end
+        end
+    end
+    return false
+end
 
 -- Stress Screen Effects
 

@@ -5,6 +5,12 @@ Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
 
 -- Stress
 
+Config.WhitelistedWeapons = {
+    'weapon_petrolcan',
+    'weapon_hazardcan',
+    'weapon_fireextinguisher'
+}
+
 Config.Intensity = {
     ["shake"] = {
         [1] = {
