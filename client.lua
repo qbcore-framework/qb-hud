@@ -57,6 +57,7 @@ Citizen.CreateThread(function()
             local player = PlayerPedId()
             local talking = NetworkIsPlayerTalking(PlayerId())
             local oxy = GetPlayerUnderwaterTimeRemaining(PlayerId()) * 10
+            local engine = GetVehicleEngineHealth(GetVehiclePedIsIn(player))    
             local voice = 0
             if LocalPlayer.state['proximity'] ~= nil then
                 voice = LocalPlayer.state['proximity'].distance
@@ -73,7 +74,8 @@ Citizen.CreateThread(function()
                 hunger = hunger,
                 stress = stress,
                 voice = voice,
-                oxygen = oxygen,        
+                oxygen = oxygen, 
+                engine = engine,        
                 radio = LocalPlayer.state['radioChannel'],
                 talking = talking
             })
