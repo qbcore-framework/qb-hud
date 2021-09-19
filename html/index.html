@@ -28,7 +28,7 @@
             <div id="ui-container">
                 <div id="playerHud" v-show="show">
                     <div v-if="showVoice">
-                        <q-circular-progress class="q-ml-xs" show-value :value="voice" size="45px" :thickness="0.2" :style="{color: talkingColor}" track-color="grey-9" center-color="grey-8" :min="0" :max="5"><q-icon :name="voiceIcon" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xs" show-value :value="voice" size="45px" :thickness="0.2" :style="{color: talkingColor}" track-color="grey-9" center-color="grey-8" :min="0" :max="5"><q-icon :name="voiceIcon" size="19px" :style="{color: talkingColor}"/>
                     </div>
                     <div v-if="showHealth">
                         <q-circular-progress class="q-ml-xs" show-value :value="health" size="45px" :thickness="0.2" color="green" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-heart" size="19px" color="white"/>
