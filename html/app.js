@@ -173,12 +173,12 @@ const playerHud = {
       } else {
         this.showStress = true;
       }
-      if (data.oxygen >= 100) {
+      if (data.oxygen >= 0) {
         this.showOxygen = false;
       } else {
         this.showOxygen = true;
       }
-      if (data.stamina <= 0) {
+      if (data.stamina >= 0) {
         this.showStamina = false;
       } else {
         this.showStamina = true;
