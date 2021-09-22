@@ -9,6 +9,7 @@ local thirst = 100
 local cashAmount = 0
 local bankAmount = 0
 local isLoggedIn = false
+local stamina = 0.0
 
 -- Events
 
@@ -56,8 +57,8 @@ Citizen.CreateThread(function()
             local show = true
             local player = PlayerPedId()
             local talking = NetworkIsPlayerTalking(PlayerId())
-            local oxy = GetPlayerUnderwaterTimeRemaining(PlayerId()) * 10
-            local engine = GetVehicleEngineHealth(GetVehiclePedIsIn(player))    
+            local stamina = 100 - GetPlayerSprintStaminaRemaining(player)
+            local oxygen = GetPlayerUnderwaterTimeRemaining(player) * 10
             local voice = 0
             if LocalPlayer.state['proximity'] ~= nil then
                 voice = LocalPlayer.state['proximity'].distance
@@ -72,10 +73,10 @@ Citizen.CreateThread(function()
                 armor = GetPedArmour(player),
                 thirst = thirst,
                 hunger = hunger,
+                stamina = stamina,
+                oxygen = oxygen,
                 stress = stress,
                 voice = voice,
-                oxygen = oxygen, 
-                engine = engine,        
                 radio = LocalPlayer.state['radioChannel'],
                 talking = talking
             })
