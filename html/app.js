@@ -103,20 +103,24 @@ const playerHud = {
   data() {
     return {
       health: 0,
+      oxygen: 0,
       armor: 0,
       hunger: 0,
       thirst: 0,
       stress: 0,
+      stamina: 0,
       voice: 0,
       radio: 0,
       show: false,
       talking: false,
       showVoice: true,
       showHealth: true,
+      showOxygen: true,
       showArmor: true,
       showHunger: true,
       showThirst: true,
       showStress: true,
+      showStamina: true,
       voiceIcon: "fas fa-microphone",
       talkingColor: "#FFFFFF",
     };
@@ -135,10 +139,12 @@ const playerHud = {
     hudTick(data) {
       this.show = data.show;
       this.health = data.health;
+      this.oxygen = data.oxygen;
       this.armor = data.armor;
       this.hunger = data.hunger;
       this.thirst = data.thirst;
       this.stress = data.stress;
+      this.stamina = data.stamina;
       this.voice = data.voice;
       this.talking = data.talking;
       this.radio = data.radio;
@@ -167,6 +173,16 @@ const playerHud = {
       } else {
         this.showStress = true;
       }
+      if (data.oxygen >= 100) {
+        this.showOxygen = false;
+      } else {
+        this.showOxygen = true;
+      }
+      if (data.stamina <= 0) {
+        this.showStamina = false;
+      } else {
+        this.showStamina = true;
+      }      
       if (data.talking) {
         this.talkingColor = "#FFFF00";
       } else {
