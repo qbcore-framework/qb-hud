@@ -118,7 +118,18 @@ Citizen.CreateThread(function()
                 SendNUIMessage({
                     action = 'car',
                     show = false,
-                    seatbelt = false
+                })
+                seatbeltOn = false
+                cruiseOn = false
+
+                SendNUIMessage({
+                    action = 'seatbelt',
+                    seatbelt = seatbeltOn,
+                })
+
+                SendNUIMessage({
+                    action = 'cruise',
+                    cruise = cruiseOn,
                 })
                 DisplayRadar(false)
                 radarActive = false
