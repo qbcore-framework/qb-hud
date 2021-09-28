@@ -42,6 +42,9 @@
                     <div v-if="showThirst">
                         <q-circular-progress class="q-ml-xs" show-value :value="thirst" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-tint" size="19px" color="white"/>
                     </div>
+                    <div v-if="showStamina">
+                        <q-circular-progress class="q-ml-xs" show-value :value="stamina" size="45px" :thickness="0.2" color="purple" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-lungs" size="19px" color="white"/>
+                    </div>
                     <div v-if="showStress">
                         <q-circular-progress class="q-ml-xs" show-value :value="stress" size="45px" :thickness="0.2" color="red" track-color="grey-9" center-color="grey-8"><q-icon name="fas fa-brain" size="19px" color="white"/>
                     </div>

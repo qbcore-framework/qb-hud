@@ -6,6 +6,7 @@ local nos = 0
 local stress = 0
 local hunger = 100
 local thirst = 100
+local stamina = 100
 local cashAmount = 0
 local bankAmount = 0
 local isLoggedIn = false
@@ -55,6 +56,7 @@ Citizen.CreateThread(function()
         if isLoggedIn then
             local show = true
             local player = PlayerPedId()
+            local stamina = 100 - GetPlayerSprintStaminaRemaining(PlayerId())
             local talking = NetworkIsPlayerTalking(PlayerId())
             local voice = 0
             if LocalPlayer.state['proximity'] ~= nil then
@@ -70,6 +72,7 @@ Citizen.CreateThread(function()
                 armor = GetPedArmour(player),
                 thirst = thirst,
                 hunger = hunger,
+                stamina = stamina,
                 stress = stress,
                 voice = voice,
                 radio = LocalPlayer.state['radioChannel'],

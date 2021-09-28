@@ -106,6 +106,7 @@ const playerHud = {
       armor: 0,
       hunger: 0,
       thirst: 0,
+      stamina: 0,
       stress: 0,
       voice: 0,
       radio: 0,
@@ -116,6 +117,7 @@ const playerHud = {
       showArmor: true,
       showHunger: true,
       showThirst: true,
+      showStamina: true,
       showStress: true,
       voiceIcon: "fas fa-microphone",
       talkingColor: "#FFFFFF",
@@ -138,6 +140,7 @@ const playerHud = {
       this.armor = data.armor;
       this.hunger = data.hunger;
       this.thirst = data.thirst;
+      this.stamina = data.stamina;
       this.stress = data.stress;
       this.voice = data.voice;
       this.talking = data.talking;
@@ -156,6 +159,11 @@ const playerHud = {
         this.showHunger = false;
       } else {
         this.showHunger = true;
+      }
+      if (data.stamina >= 100) {
+        this.showStamina = false;
+      } else {
+        this.showStamina = true;
       }
       if (data.thirst >= 100) {
         this.showThirst = false;
