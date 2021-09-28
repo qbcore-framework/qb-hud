@@ -5,6 +5,7 @@ local radarActive = false
 local nos = 0
 local stress = 0
 local hunger = 100
+local oxygen = 100
 local thirst = 100
 local stamina = 100
 local cashAmount = 0
@@ -56,6 +57,7 @@ Citizen.CreateThread(function()
         if isLoggedIn then
             local show = true
             local player = PlayerPedId()
+            local oxygen = GetPlayerUnderwaterTimeRemaining(PlayerId()) * 10
             local stamina = 100 - GetPlayerSprintStaminaRemaining(PlayerId())
             local talking = NetworkIsPlayerTalking(PlayerId())
             local voice = 0
@@ -73,6 +75,7 @@ Citizen.CreateThread(function()
                 thirst = thirst,
                 hunger = hunger,
                 stamina = stamina,
+                oxygen = oxygen,
                 stress = stress,
                 voice = voice,
                 radio = LocalPlayer.state['radioChannel'],

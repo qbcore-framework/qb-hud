@@ -107,6 +107,7 @@ const playerHud = {
       hunger: 0,
       thirst: 0,
       stamina: 0,
+      oxygen: 0,
       stress: 0,
       voice: 0,
       radio: 0,
@@ -141,6 +142,7 @@ const playerHud = {
       this.hunger = data.hunger;
       this.thirst = data.thirst;
       this.stamina = data.stamina;
+      this.oxygen = data.oxygen;
       this.stress = data.stress;
       this.voice = data.voice;
       this.talking = data.talking;
@@ -164,6 +166,11 @@ const playerHud = {
         this.showStamina = false;
       } else {
         this.showStamina = true;
+      }
+      if (data.oxygen >= 100) {
+        this.showOxygen = false;
+      } else {
+        this.showOxygen = true;
       }
       if (data.thirst >= 100) {
         this.showThirst = false;
