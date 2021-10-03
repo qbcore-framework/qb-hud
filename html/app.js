@@ -193,6 +193,7 @@ const vehHud = {
       fuel: 0,
       show: false,
       speed: 0,
+      engine: 0,
       cruise: 0,
       street1: "",
       street2: "",
@@ -221,6 +222,7 @@ const vehHud = {
       this.street1 = data.street1;
       this.street2 = data.street2;
       this.fuel = data.fuel;
+      this.engine = data.engine;
       this.nos = data.nos;
       if (data.seatbelt === true) {
         this.seatbelt = 1;
