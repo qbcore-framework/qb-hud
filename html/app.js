@@ -5,11 +5,13 @@ const moneyHud = Vue.createApp({
     return {
       cash: 0,
       bank: 0,
+      rep: 0,
       amount: 0,
       plus: false,
       minus: false,
       showCash: false,
       showBank: false,
+	    showRep: false,
       showUpdate: false,
     };
   },
@@ -48,12 +50,14 @@ const moneyHud = Vue.createApp({
       this.showBank = true;
       this.cash = data.cash;
       this.bank = data.bank;
+      this.rep = data.rep;
     },
     update(data) {
       this.showUpdate = true;
       this.amount = data.amount;
       this.bank = data.bank;
       this.cash = data.cash;
+      this.rep = data.rep;
       this.minus = data.minus;
       this.plus = data.plus;
       if (data.type === "cash") {
@@ -82,6 +86,19 @@ const moneyHud = Vue.createApp({
           setTimeout(() => (this.showBank = false), 2000);
         }
       }
+      if (data.type === "rep") {
+        if (data.minus) {
+          this.showRep = true;
+          this.minus = true;
+          setTimeout(() => (this.showUpdate = false), 1000);
+          setTimeout(() => (this.showRep = false), 2000);
+        } else {
+          this.showRep = true;
+          this.plus = true;
+          setTimeout(() => (this.showUpdate = false), 1000);
+          setTimeout(() => (this.showRep = false), 2000);
+        }
+      }
     },
     showAccounts(data) {
       if (data.type === "cash" && !this.showCash) {
@@ -92,6 +109,10 @@ const moneyHud = Vue.createApp({
         this.showBank = true;
         this.bank = data.bank;
         setTimeout(() => (this.showBank = false), 3500);
+      } else if (data.type === "rep" && !this.showRep) {
+        this.showRep = true;
+        this.rep = data.rep;
+        setTimeout(() => (this.showRep = false), 3500);
       }
     },
   },
