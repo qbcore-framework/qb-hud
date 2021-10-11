@@ -8,6 +8,7 @@ local hunger = 100
 local thirst = 100
 local cashAmount = 0
 local bankAmount = 0
+local repAmount = 0
 local isLoggedIn = false
 
 -- Events
@@ -177,16 +178,30 @@ AddEventHandler('hud:client:ShowAccounts', function(type, amount)
     end
 end)
 
+-- Rep HUD
+RegisterNetEvent('hud:client:ShowRep')
+AddEventHandler('hud:client:ShowRep', function(type, amount)
+    if type == 'rep' then
+	    SendNUIMessage({
+            action = 'show',
+            type = 'rep',
+            rep = amount
+        })
+	end
+end)
+
 RegisterNetEvent('hud:client:OnMoneyChange')
 AddEventHandler('hud:client:OnMoneyChange', function(type, amount, isMinus)
     QBCore.Functions.GetPlayerData(function(PlayerData)
         cashAmount = PlayerData.money['cash']
         bankAmount = PlayerData.money['bank']
+        repAmount = PlayerData.metadata['dealerrep']
     end)
     SendNUIMessage({
         action = 'update',
         cash = cashAmount,
         bank = bankAmount,
+        rep = repAmount,
         amount = amount,
         minus = isMinus,
         type = type
