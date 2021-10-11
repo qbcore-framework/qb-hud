@@ -23,6 +23,11 @@
   color: #28a745;
 }
 
+#rep {
+  text-align: right;
+  color: #00bbff;
+}
+
 #money-minus {
   text-align: right;
   color: red;
