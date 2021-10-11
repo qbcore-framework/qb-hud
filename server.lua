@@ -12,6 +12,12 @@ QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, ar
 	TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 end)
 
+QBCore.Commands.Add('rep', 'Check Drug Rep', {}, false, function(source, args)
+    local Player = QBCore.Functions.GetPlayer(source)
+    local repamount = Player.PlayerData.metadata.dealerrep
+	TriggerClientEvent('hud:client:ShowRep', source, 'rep', repamount)
+end)
+
 RegisterServerEvent('hud:server:GainStress')
 AddEventHandler('hud:server:GainStress', function(amount)
     local src = source
