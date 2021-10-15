@@ -97,7 +97,12 @@ Citizen.CreateThread(function()
                 DisplayRadar(true)
                 radarActive = true
                 local pos = GetEntityCoords(player)
-                local speed = GetEntitySpeed(vehicle) * 2.23694
+                local speed
+                if Config.speedUnit == 'MPH' then
+				    speed = math.ceil(GetEntitySpeed(vehicle) * 2.23694)
+			    else
+				    speed = math.ceil(GetEntitySpeed(vehicle) * 3.6)
+			    end
                 local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(),
                     Citizen.ResultAsInteger())
                 local fuel = exports['LegacyFuel']:GetFuel(vehicle)
