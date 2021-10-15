@@ -5,6 +5,8 @@ Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
 
 -- Stress
 
+Config.speedUnit = 'KMH' -- MPH or KMH
+
 Config.WhitelistedWeapons = {
     'weapon_petrolcan',
     'weapon_hazardcan',
