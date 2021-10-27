@@ -1,26 +1,17 @@
-local speed = 0.0
+local QBCore = exports['qb-core']:GetCoreObject()
+
+local config = Config
+local speedMultiplier = config.UseMPH and 2.23694 or 3.6
 local seatbeltOn = false
 local cruiseOn = false
-local radarActive = false
 local nos = 0
 local stress = 0
 local hunger = 100
 local thirst = 100
 local cashAmount = 0
 local bankAmount = 0
-local isLoggedIn = false
 
 -- Events
-
-RegisterNetEvent('QBCore:Client:OnPlayerUnload')
-AddEventHandler('QBCore:Client:OnPlayerUnload', function()
-    isLoggedIn = false
-end)
-
-RegisterNetEvent('QBCore:Client:OnPlayerLoaded')
-AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
-    isLoggedIn = true
-end)
 
 RegisterNetEvent('hud:client:UpdateNeeds') -- Triggered in qb-core
 AddEventHandler('hud:client:UpdateNeeds', function(newHunger, newThirst)
@@ -48,13 +39,97 @@ AddEventHandler('hud:client:UpdateNitrous', function(hasNitro, nitroLevel, bool)
     nos = nitroLevel
 end)
 
--- Player HUD
+local prevPlayerStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil }
+local function updatePlayerHud(data)
+    local shouldUpdate = false
+    for k, v in pairs(data) do
+        if prevPlayerStats[k] ~= v then
+            shouldUpdate = true
+            break
+        end
+    end
+    prevPlayerStats = data
+    if shouldUpdate then
+        SendNUIMessage({
+            action = 'hudtick',
+            show = data[1],
+            health = data[2],
+            armor = data[3],
+            thirst = data[4],
+            hunger = data[5],
+            stress = data[6],
+            voice = data[7],
+            radio = data[8],
+            talking = data[9],
+        })
+    end
+end
+
+local prevVehicleStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil, nil }
+local function updateVehicleHud(data)
+    local shouldUpdate = false
+    for k, v in pairs(data) do
+        if prevVehicleStats[k] ~= v then shouldUpdate = true break end
+    end
+    prevVehicleStats = data
+    if shouldUpdate then
+        SendNUIMessage({
+            action = 'car',
+            show = data[1],
+            isPaused = data[2],
+            direction = data[3],
+            street1 = data[4],
+            street2 = data[5],
+            seatbelt = data[6],
+            cruise = data[7],
+            speed = data[8],
+            nos = data[9],
+            fuel = data[10],
+        })
+    end
+end
+
+local lastCrossroadUpdate = 0
+local lastCrossroadCheck = {}
+local function getCrossroads(player)
+    local updateTick = GetGameTimer()
+    if (updateTick - lastCrossroadUpdate) > 1500 then
+        local pos = GetEntityCoords(player)
+        local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+        lastCrossroadUpdate = updateTick
+        lastCrossroadCheck = { GetStreetNameFromHashKey(street1), GetStreetNameFromHashKey(street2) }
+    end
+    return lastCrossroadCheck
+end
+
+local lastFuelUpdate = 0
+local lastFuelCheck = {}
+local function getFuelLevel(vehicle)
+    local updateTick = GetGameTimer()
+    if (updateTick - lastFuelUpdate) > 2000 then
+        lastFuelUpdate = updateTick
+        lastFuelCheck = math.floor(exports['LegacyFuel']:GetFuel(vehicle))
+    end
+    return lastFuelCheck
+end
+
+local function GetDirectionText(head)
+    if ((head >= 0 and head < 45) or (head >= 315 and head < 360)) then return 'North'
+    elseif (head >= 45 and head < 135) then return 'West'
+    elseif (head >= 135 and head < 225) then return 'South'
+    elseif (head >= 225 and head < 315) then return 'East' end
+end
+
+-- HUD Update loop
+
 Citizen.CreateThread(function()
+    local wasInVehicle = false;
     while true do
-        Wait(500)
-        if isLoggedIn then
+        Wait(50)
+        if LocalPlayer.state.isLoggedIn then
             local show = true
             local player = PlayerPedId()
+            -- player hud
             local talking = NetworkIsPlayerTalking(PlayerId())
             local voice = 0
             if LocalPlayer.state['proximity'] ~= nil then
@@ -63,91 +138,69 @@ Citizen.CreateThread(function()
             if IsPauseMenuActive() then
                 show = false
             end
-            SendNUIMessage({
-                action = 'hudtick',
-                show = show,
-                health = GetEntityHealth(player) - 100,
-                armor = GetPedArmour(player),
-                thirst = thirst,
-                hunger = hunger,
-                stress = stress,
-                voice = voice,
-                radio = LocalPlayer.state['radioChannel'],
-                talking = talking
+            updatePlayerHud({
+                show,
+                GetEntityHealth(player) - 100,
+                GetPedArmour(player),
+                thirst,
+                hunger,
+                stress,
+                voice,
+                LocalPlayer.state['radioChannel'],
+                talking
             })
+            -- vehcle hud
+            local vehicle = GetVehiclePedIsIn(player)
+            if IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle) then
+                if not wasInVehicle then
+                    DisplayRadar(true)
+                end
+                wasInVehicle = true
+                local crossroads = getCrossroads(player)
+                updateVehicleHud({
+                    show,
+                    IsPauseMenuActive(),
+                    GetDirectionText(GetEntityHeading(player)),
+                    crossroads[1],
+                    crossroads[2],
+                    seatbeltOn,
+                    cruiseOn,
+                    math.ceil(GetEntitySpeed(vehicle) * speedMultiplier),
+                    nos,
+                    getFuelLevel(vehicle),
+                })
+            else
+                if wasInVehicle then
+                    wasInVehicle = false
+                    SendNUIMessage({
+                        action = 'car',
+                        show = false,
+                        seatbelt = false,
+                        cruise = false,
+                    })
+                    seatbeltOn = false
+                    cruiseOn = false
+                end
+                DisplayRadar(false)
+            end
         else
             SendNUIMessage({
                 action = 'hudtick',
                 show = false
             })
-        end
-    end
-end)
-
--- Vehicle HUD
-Citizen.CreateThread(function()
-    while true do
-        Wait(500)
-        if isLoggedIn then
-            local player = PlayerPedId()
-            local inVehicle = IsPedInAnyVehicle(player)
-            local vehicle = GetVehiclePedIsIn(player)
-            local isBicycle = IsThisModelABicycle(vehicle)
-            if inVehicle and not isBicycle then
-                DisplayRadar(true)
-                radarActive = true
-                local pos = GetEntityCoords(player)
-                local speed = GetEntitySpeed(vehicle) * 2.23694
-                local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z, Citizen.ResultAsInteger(),
-                    Citizen.ResultAsInteger())
-                local fuel = exports['LegacyFuel']:GetFuel(vehicle)
-                SendNUIMessage({
-                    action = 'car',
-                    show = true,
-                    isPaused = IsPauseMenuActive(),
-                    direction = GetDirectionText(GetEntityHeading(player)),
-                    street1 = GetStreetNameFromHashKey(street1),
-                    street2 = GetStreetNameFromHashKey(street2),
-                    seatbelt = seatbeltOn,
-                    cruise = cruiseOn,
-                    speed = math.ceil(speed),
-                    nos = nos,
-                    fuel = fuel
-                })
-            else
-                SendNUIMessage({
-                    action = 'car',
-                    show = false,
-                    seatbelt = false
-                })
-                DisplayRadar(false)
-                radarActive = false
-            end
-        else
             DisplayRadar(false)
+            Wait(500)
         end
     end
 end)
 
-function GetDirectionText(heading)
-    if ((heading >= 0 and heading < 45) or (heading >= 315 and heading < 360)) then
-        return 'North'
-    elseif (heading >= 45 and heading < 135) then
-        return 'South'
-    elseif (heading >= 135 and heading < 225) then
-        return 'East'
-    elseif (heading >= 225 and heading < 315) then
-        return 'West'
-    end
-end
+
 
 -- Raise Minimap
 
 Citizen.CreateThread(function()
     local minimap = RequestScaleformMovie('minimap')
-    while not HasScaleformMovieLoaded(minimap) do
-        Wait(0)
-    end
+    while not HasScaleformMovieLoaded(minimap) do Wait(1) end
 
     SetMinimapComponentPosition('minimap', 'L', 'B', -0.0045, -0.012, 0.150, 0.188888)
     SetMinimapComponentPosition('minimap_mask', 'L', 'B', 0.020, 0.022, 0.111, 0.159)
@@ -197,36 +250,23 @@ end)
 
 Citizen.CreateThread(function() -- Speeding
     while true do
-        if QBCore ~= nil --[[ and isLoggedIn ]] then
+        if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
-                speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * 2.237 -- mph
-                if speed >= Config.MinimumSpeed then
+                local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * speedMultiplier
+                local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
+                if speed >= stressSpeed then
                     TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
                 end
             end
         end
-        Citizen.Wait(20000)
+        Citizen.Wait(10000)
     end
 end)
 
-Citizen.CreateThread(function() -- Shooting
-    while true do
-        if QBCore ~= nil --[[ and isLoggedIn ]] then
-            if IsPedShooting(PlayerPedId()) and not IsWhitelistedWeapon() then
-                if math.random() < Config.StressChance then
-                    TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
-                end
-            end
-        end
-        Citizen.Wait(6)
-    end
-end)
-
-function IsWhitelistedWeapon()
-    local weapon = GetSelectedPedWeapon(PlayerPedId())
+local function IsWhitelistedWeapon(weapon)
     if weapon ~= nil then
-        for _, v in pairs(Config.WhitelistedWeapons) do
+        for _, v in pairs(config.WhitelistedWeapons) do
             if weapon == GetHashKey(v) then
                 return true
             end
@@ -234,6 +274,26 @@ function IsWhitelistedWeapon()
     end
     return false
 end
+
+Citizen.CreateThread(function() -- Shooting
+    while true do
+        if LocalPlayer.state.isLoggedIn then
+            local ped = PlayerPedId()
+            local weapon = GetSelectedPedWeapon(ped)
+            if weapon ~= GetHashKey("WEAPON_UNARMED") then
+                if IsPedShooting(ped) and not IsWhitelistedWeapon(weapon) then
+                    if math.random() < config.StressChance then
+                        TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                    end
+                end
+            else
+                Citizen.Wait(500)
+            end
+        end
+        Citizen.Wait(8)
+    end
+end)
+
 
 -- Stress Screen Effects
 
@@ -249,13 +309,11 @@ Citizen.CreateThread(function()
             SetFlash(0, 0, 500, 3000, 500)
 
             if not IsPedRagdoll(ped) and IsPedOnFoot(ped) and not IsPedSwimming(ped) then
-                local player = PlayerPedId()
-                SetPedToRagdollWithFall(player, RagdollTimeout, RagdollTimeout, 1, GetEntityForwardVector(player), 1.0,
-                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
+                SetPedToRagdollWithFall(ped, RagdollTimeout, RagdollTimeout, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             end
 
             Citizen.Wait(500)
-            for i = 1, FallRepeat, 1 do
+            for i=1, FallRepeat, 1 do
                 Citizen.Wait(750)
                 DoScreenFadeOut(200)
                 Citizen.Wait(1000)
@@ -263,7 +321,7 @@ Citizen.CreateThread(function()
                 ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
                 SetFlash(0, 0, 200, 750, 200)
             end
-        elseif stress >= Config.MinimumStress then
+        elseif stress >= config.MinimumStress then
             local ShakeIntensity = GetShakeIntensity(stress)
             ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
             SetFlash(0, 0, 500, 2500, 500)
@@ -274,7 +332,7 @@ end)
 
 function GetShakeIntensity(stresslevel)
     local retval = 0.05
-    for k, v in pairs(Config.Intensity['shake']) do
+    for k, v in pairs(config.Intensity['shake']) do
         if stresslevel >= v.min and stresslevel <= v.max then
             retval = v.intensity
             break
@@ -285,7 +343,7 @@ end
 
 function GetEffectInterval(stresslevel)
     local retval = 60000
-    for k, v in pairs(Config.EffectInterval) do
+    for k, v in pairs(config.EffectInterval) do
         if stresslevel >= v.min and stresslevel <= v.max then
             retval = v.timeout
             break
