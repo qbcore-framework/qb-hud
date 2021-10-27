@@ -227,14 +227,14 @@ const vehHud = {
         this.seatbeltColor = "#28a745";
       } else {
         this.seatbelt = 0;
-        this.seatbeltColor = "#DC143C";
+        this.seatbeltColor = "#D64763";
       }
       if (data.cruise === true) {
         this.cruise = 1;
         this.cruiseColor = "#28a745";
       } else {
         this.cruise = 0;
-        this.cruiseColor = "#DC143C";
+        this.cruiseColor = "#D64763";
       }
       if (data.nos === 0 || data.nos === undefined) {
         this.showNos = false;
