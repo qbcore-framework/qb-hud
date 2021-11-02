@@ -280,7 +280,7 @@ Citizen.CreateThread(function() -- Shooting
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             local weapon = GetSelectedPedWeapon(ped)
-            if weapon ~= GetHashKey("WEAPON_UNARMED") then
+            if weapon ~= `WEAPON_UNARMED` then
                 if IsPedShooting(ped) and not IsWhitelistedWeapon(weapon) then
                     if math.random() < config.StressChance then
                         TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
