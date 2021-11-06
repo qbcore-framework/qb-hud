@@ -13,33 +13,29 @@ local bankAmount = 0
 
 -- Events
 
-RegisterNetEvent('hud:client:UpdateNeeds') -- Triggered in qb-core
-AddEventHandler('hud:client:UpdateNeeds', function(newHunger, newThirst)
+RegisterNetEvent('hud:client:UpdateNeeds', function(newHunger, newThirst) -- Triggered in qb-core
     hunger = newHunger
     thirst = newThirst
 end)
 
-RegisterNetEvent('hud:client:UpdateStress') -- Add this event with adding stress elsewhere
-AddEventHandler('hud:client:UpdateStress', function(newStress)
+RegisterNetEvent('hud:client:UpdateStress', function(newStress) -- Add this event with adding stress elsewhere
     stress = newStress
 end)
 
-RegisterNetEvent('seatbelt:client:ToggleSeatbelt') -- Triggered in smallresources
-AddEventHandler('seatbelt:client:ToggleSeatbelt', function()
+RegisterNetEvent('seatbelt:client:ToggleSeatbelt', function() -- Triggered in smallresources
     seatbeltOn = not seatbeltOn
 end)
 
-RegisterNetEvent('seatbelt:client:ToggleCruise') -- Triggered in smallresources
-AddEventHandler('seatbelt:client:ToggleCruise', function()
+RegisterNetEvent('seatbelt:client:ToggleCruise', function() -- Triggered in smallresources
     cruiseOn = not cruiseOn
 end)
 
-RegisterNetEvent('hud:client:UpdateNitrous')
-AddEventHandler('hud:client:UpdateNitrous', function(hasNitro, nitroLevel, bool)
+RegisterNetEvent('hud:client:UpdateNitrous', function(hasNitro, nitroLevel, bool)
     nos = nitroLevel
 end)
 
 local prevPlayerStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil }
+
 local function updatePlayerHud(data)
     local shouldUpdate = false
     for k, v in pairs(data) do
@@ -66,6 +62,7 @@ local function updatePlayerHud(data)
 end
 
 local prevVehicleStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil, nil }
+
 local function updateVehicleHud(data)
     local shouldUpdate = false
     for k, v in pairs(data) do
@@ -91,6 +88,7 @@ end
 
 local lastCrossroadUpdate = 0
 local lastCrossroadCheck = {}
+
 local function getCrossroads(player)
     local updateTick = GetGameTimer()
     if (updateTick - lastCrossroadUpdate) > 1500 then
@@ -104,6 +102,7 @@ end
 
 local lastFuelUpdate = 0
 local lastFuelCheck = {}
+
 local function getFuelLevel(vehicle)
     local updateTick = GetGameTimer()
     if (updateTick - lastFuelUpdate) > 2000 then
@@ -122,7 +121,7 @@ end
 
 -- HUD Update loop
 
-Citizen.CreateThread(function()
+CreateThread(function()
     local wasInVehicle = false;
     while true do
         Wait(50)
@@ -198,7 +197,7 @@ end)
 
 -- Raise Minimap
 
-Citizen.CreateThread(function()
+CreateThread(function()
     local minimap = RequestScaleformMovie('minimap')
     while not HasScaleformMovieLoaded(minimap) do Wait(1) end
 
@@ -248,7 +247,7 @@ end)
 
 -- Stress Gain
 
-Citizen.CreateThread(function() -- Speeding
+CreateThread(function() -- Speeding
     while true do
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
@@ -260,7 +259,7 @@ Citizen.CreateThread(function() -- Speeding
                 end
             end
         end
-        Citizen.Wait(10000)
+        Wait(10000)
     end
 end)
 
@@ -275,7 +274,7 @@ local function IsWhitelistedWeapon(weapon)
     return false
 end
 
-Citizen.CreateThread(function() -- Shooting
+CreateThread(function() -- Shooting
     while true do
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
@@ -287,17 +286,17 @@ Citizen.CreateThread(function() -- Shooting
                     end
                 end
             else
-                Citizen.Wait(500)
+                Wait(500)
             end
         end
-        Citizen.Wait(8)
+        Wait(8)
     end
 end)
 
 
 -- Stress Screen Effects
 
-Citizen.CreateThread(function()
+CreateThread(function()
     while true do
         local ped = PlayerPedId()
         local Wait = GetEffectInterval(stress)
@@ -312,11 +311,11 @@ Citizen.CreateThread(function()
                 SetPedToRagdollWithFall(ped, RagdollTimeout, RagdollTimeout, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             end
 
-            Citizen.Wait(500)
+            Wait(500)
             for i=1, FallRepeat, 1 do
-                Citizen.Wait(750)
+                Wait(750)
                 DoScreenFadeOut(200)
-                Citizen.Wait(1000)
+                Wait(1000)
                 DoScreenFadeIn(200)
                 ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
                 SetFlash(0, 0, 200, 750, 200)
@@ -326,7 +325,7 @@ Citizen.CreateThread(function()
             ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
             SetFlash(0, 0, 500, 2500, 500)
         end
-        Citizen.Wait(Wait)
+        Wait(Wait)
     end
 end)
 
