@@ -14,8 +14,7 @@ QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, ar
 	TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 end)
 
-RegisterServerEvent('hud:server:GainStress')
-AddEventHandler('hud:server:GainStress', function(amount)
+RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
@@ -38,8 +37,8 @@ AddEventHandler('hud:server:GainStress', function(amount)
 	end
 end)
 
-RegisterServerEvent('hud:server:RelieveStress')
-AddEventHandler('hud:server:RelieveStress', function(amount)
+
+RegisterNetEvent('hud:server:RelieveStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
