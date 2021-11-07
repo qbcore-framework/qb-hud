@@ -193,18 +193,13 @@ CreateThread(function()
     end
 end)
 
-
-
--- Raise Minimap
-
-CreateThread(function()
+CreateThread(function() -- Raise Minimap
     local minimap = RequestScaleformMovie('minimap')
     while not HasScaleformMovieLoaded(minimap) do Wait(1) end
 
     SetMinimapComponentPosition('minimap', 'L', 'B', -0.0045, -0.012, 0.150, 0.188888)
     SetMinimapComponentPosition('minimap_mask', 'L', 'B', 0.020, 0.022, 0.111, 0.159)
     SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.03, 0.012, 0.266, 0.237)
-
     SetRadarBigmapEnabled(true, false)
     Wait(500)
     SetRadarBigmapEnabled(false, false)
@@ -293,7 +288,6 @@ CreateThread(function() -- Shooting
     end
 end)
 
-
 -- Stress Screen Effects
 
 CreateThread(function()
@@ -325,7 +319,7 @@ CreateThread(function()
             ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
             SetFlash(0, 0, 500, 2500, 500)
         end
-        Wait(Wait)
+        Citizen.Wait(Wait)
     end
 end)
 
