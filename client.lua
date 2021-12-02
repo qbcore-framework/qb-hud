@@ -200,8 +200,9 @@ CreateThread(function() -- Raise Minimap
     SetMinimapComponentPosition('minimap', 'L', 'B', -0.0045, -0.012, 0.150, 0.188888)
     SetMinimapComponentPosition('minimap_mask', 'L', 'B', 0.020, 0.022, 0.111, 0.159)
     SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.03, 0.012, 0.266, 0.237)
+    Wait(5000)
     SetRadarBigmapEnabled(true, false)
-    Wait(500)
+    Wait(0)
     SetRadarBigmapEnabled(false, false)
 end)
 
