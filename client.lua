@@ -200,7 +200,7 @@ CreateThread(function() -- Raise Minimap
     local defaultAspectRatio = 1920/1080 -- Don't change this.
     local resolutionX, resolutionY = GetActiveScreenResolution()
     local aspectRatio = resolutionX/resolutionY
-    local minimapXOffset,minimapYOffset = 0,0
+    local minimapXOffset,minimapYOffset = 0,-0.03
     if aspectRatio > defaultAspectRatio then
         local aspectDifference = defaultAspectRatio-aspectRatio
         minimapXOffset = aspectDifference/3.6
