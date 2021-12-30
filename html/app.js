@@ -107,6 +107,8 @@ const playerHud = {
       hunger: 0,
       thirst: 0,
       stress: 0,
+      oxygen: 0,
+      stamina: 0,
       voice: 0,
       radio: 0,
       show: false,
@@ -117,6 +119,8 @@ const playerHud = {
       showHunger: true,
       showThirst: true,
       showStress: true,
+      showOxygen: true,
+      showStamina: true,
       voiceIcon: "fas fa-microphone",
       talkingColor: "#FFFFFF",
     };
@@ -139,6 +143,8 @@ const playerHud = {
       this.hunger = data.hunger;
       this.thirst = data.thirst;
       this.stress = data.stress;
+      this.oxygen = data.oxygen;
+      this.stamina = data.stamina;
       this.voice = data.voice;
       this.talking = data.talking;
       this.radio = data.radio;
@@ -166,6 +172,16 @@ const playerHud = {
         this.showStress = false;
       } else {
         this.showStress = true;
+      }
+      if (data.oxygen >= 100) {
+        this.showOxygen = false;
+      } else {
+        this.showOxygen = true;
+      }
+      if (data.stamina == 0) {
+        this.showStamina = false;
+      } else {
+        this.showStamina = true;
       }
       if (data.talking) {
         this.talkingColor = "#FFFF00";
