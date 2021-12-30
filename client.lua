@@ -1,5 +1,5 @@
 local QBCore = exports['qb-core']:GetCoreObject()
-
+local PlayerData = QBCore.Functions.GetPlayerData()
 local config = Config
 local speedMultiplier = config.UseMPH and 2.23694 or 3.6
 local seatbeltOn = false
@@ -10,31 +10,14 @@ local hunger = 100
 local thirst = 100
 local cashAmount = 0
 local bankAmount = 0
-
--- Events
-
-RegisterNetEvent('hud:client:UpdateNeeds', function(newHunger, newThirst) -- Triggered in qb-core
-    hunger = newHunger
-    thirst = newThirst
-end)
-
-RegisterNetEvent('hud:client:UpdateStress', function(newStress) -- Add this event with adding stress elsewhere
-    stress = newStress
-end)
-
-RegisterNetEvent('seatbelt:client:ToggleSeatbelt', function() -- Triggered in smallresources
-    seatbeltOn = not seatbeltOn
-end)
-
-RegisterNetEvent('seatbelt:client:ToggleCruise', function() -- Triggered in smallresources
-    cruiseOn = not cruiseOn
-end)
-
-RegisterNetEvent('hud:client:UpdateNitrous', function(hasNitro, nitroLevel, bool)
-    nos = nitroLevel
-end)
-
 local prevPlayerStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil }
+local prevVehicleStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil, nil }
+local lastCrossroadUpdate = 0
+local lastCrossroadCheck = {}
+local lastFuelUpdate = 0
+local lastFuelCheck = {}
+
+-- Functions
 
 local function updatePlayerHud(data)
     local shouldUpdate = false
@@ -61,8 +44,6 @@ local function updatePlayerHud(data)
     end
 end
 
-local prevVehicleStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil, nil }
-
 local function updateVehicleHud(data)
     local shouldUpdate = false
     for k, v in pairs(data) do
@@ -86,9 +67,6 @@ local function updateVehicleHud(data)
     end
 end
 
-local lastCrossroadUpdate = 0
-local lastCrossroadCheck = {}
-
 local function getCrossroads(player)
     local updateTick = GetGameTimer()
     if (updateTick - lastCrossroadUpdate) > 1500 then
@@ -99,9 +77,6 @@ local function getCrossroads(player)
     end
     return lastCrossroadCheck
 end
-
-local lastFuelUpdate = 0
-local lastFuelCheck = {}
 
 local function getFuelLevel(vehicle)
     local updateTick = GetGameTimer()
@@ -119,7 +94,104 @@ local function GetDirectionText(head)
     elseif (head >= 225 and head < 315) then return 'East' end
 end
 
--- HUD Update loop
+local function IsWhitelistedWeapon(weapon)
+    if weapon ~= nil then
+        for _, v in pairs(config.WhitelistedWeapons) do
+            if weapon == GetHashKey(v) then
+                return true
+            end
+        end
+    end
+    return false
+end
+
+local function GetShakeIntensity(stresslevel)
+    local retval = 0.05
+    for k, v in pairs(config.Intensity['shake']) do
+        if stresslevel >= v.min and stresslevel <= v.max then
+            retval = v.intensity
+            break
+        end
+    end
+    return retval
+end
+
+local function GetEffectInterval(stresslevel)
+    local retval = 60000
+    for k, v in pairs(config.EffectInterval) do
+        if stresslevel >= v.min and stresslevel <= v.max then
+            retval = v.timeout
+            break
+        end
+    end
+    return retval
+end
+
+-- Events
+
+AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+    PlayerData = QBCore.Functions.GetPlayerData()
+end)
+
+RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
+    PlayerData = {}
+end)
+
+RegisterNetEvent('QBCore:Player:SetPlayerData', function(val)
+    PlayerData = val
+end)
+
+RegisterNetEvent('hud:client:UpdateNeeds', function(newHunger, newThirst) -- Triggered in qb-core
+    hunger = newHunger
+    thirst = newThirst
+end)
+
+RegisterNetEvent('hud:client:UpdateStress', function(newStress) -- Add this event with adding stress elsewhere
+    stress = newStress
+end)
+
+RegisterNetEvent('seatbelt:client:ToggleSeatbelt', function() -- Triggered in smallresources
+    seatbeltOn = not seatbeltOn
+end)
+
+RegisterNetEvent('seatbelt:client:ToggleCruise', function() -- Triggered in smallresources
+    cruiseOn = not cruiseOn
+end)
+
+RegisterNetEvent('hud:client:UpdateNitrous', function(hasNitro, nitroLevel, bool)
+    nos = nitroLevel
+end)
+
+RegisterNetEvent('hud:client:ShowAccounts', function(type, amount)
+    if type == 'cash' then
+        SendNUIMessage({
+            action = 'show',
+            type = 'cash',
+            cash = amount
+        })
+    else
+        SendNUIMessage({
+            action = 'show',
+            type = 'bank',
+            bank = amount
+        })
+    end
+end)
+
+RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
+	cashAmount = PlayerData.money['cash']
+	bankAmount = PlayerData.money['bank']
+    SendNUIMessage({
+        action = 'update',
+        cash = cashAmount,
+        bank = bankAmount,
+        amount = amount,
+        minus = isMinus,
+        type = type
+    })
+end)
+
+-- Thread
 
 CreateThread(function()
     local wasInVehicle = false;
@@ -196,8 +268,7 @@ end)
 CreateThread(function() -- Raise Minimap
     local minimap = RequestScaleformMovie('minimap')
     while not HasScaleformMovieLoaded(minimap) do Wait(1) end
-    -- Credit to Dalrae for the solve.
-    local defaultAspectRatio = 1920/1080 -- Don't change this.
+    local defaultAspectRatio = 1920/1080
     local resolutionX, resolutionY = GetActiveScreenResolution()
     local aspectRatio = resolutionX/resolutionY
     local minimapXOffset,minimapYOffset = 0,-0.03
@@ -214,43 +285,6 @@ CreateThread(function() -- Raise Minimap
     SetRadarBigmapEnabled(false, false)
 end)
 
--- Money HUD
-
-RegisterNetEvent('hud:client:ShowAccounts')
-AddEventHandler('hud:client:ShowAccounts', function(type, amount)
-    if type == 'cash' then
-        SendNUIMessage({
-            action = 'show',
-            type = 'cash',
-            cash = amount
-        })
-    else
-        SendNUIMessage({
-            action = 'show',
-            type = 'bank',
-            bank = amount
-        })
-    end
-end)
-
-RegisterNetEvent('hud:client:OnMoneyChange')
-AddEventHandler('hud:client:OnMoneyChange', function(type, amount, isMinus)
-    QBCore.Functions.GetPlayerData(function(PlayerData)
-        cashAmount = PlayerData.money['cash']
-        bankAmount = PlayerData.money['bank']
-    end)
-    SendNUIMessage({
-        action = 'update',
-        cash = cashAmount,
-        bank = bankAmount,
-        amount = amount,
-        minus = isMinus,
-        type = type
-    })
-end)
-
--- Stress Gain
-
 CreateThread(function() -- Speeding
     while true do
         if LocalPlayer.state.isLoggedIn then
@@ -266,17 +300,6 @@ CreateThread(function() -- Speeding
         Wait(10000)
     end
 end)
-
-local function IsWhitelistedWeapon(weapon)
-    if weapon ~= nil then
-        for _, v in pairs(config.WhitelistedWeapons) do
-            if weapon == GetHashKey(v) then
-                return true
-            end
-        end
-    end
-    return false
-end
 
 CreateThread(function() -- Shooting
     while true do
@@ -297,9 +320,7 @@ CreateThread(function() -- Shooting
     end
 end)
 
--- Stress Screen Effects
-
-CreateThread(function()
+CreateThread(function() -- Stress Screen Effects
     while true do
         local ped = PlayerPedId()
         if stress >= 100 then
@@ -330,25 +351,3 @@ CreateThread(function()
         Wait(GetEffectInterval(stress))
     end
 end)
-
-function GetShakeIntensity(stresslevel)
-    local retval = 0.05
-    for k, v in pairs(config.Intensity['shake']) do
-        if stresslevel >= v.min and stresslevel <= v.max then
-            retval = v.intensity
-            break
-        end
-    end
-    return retval
-end
-
-function GetEffectInterval(stresslevel)
-    local retval = 60000
-    for k, v in pairs(config.EffectInterval) do
-        if stresslevel >= v.min and stresslevel <= v.max then
-            retval = v.timeout
-            break
-        end
-    end
-    return retval
-end
