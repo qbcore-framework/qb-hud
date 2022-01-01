@@ -43,7 +43,7 @@
 #playerhud {
   display: flex;
   position: absolute;
-  bottom: 0vw;
+  bottom: 0.50vh;
   left: 1.5vh;
 }
 
