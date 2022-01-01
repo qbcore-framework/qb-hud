@@ -152,7 +152,6 @@ CreateThread(function()
                 stress,
                 oxygen,
                 stamina,
-                talking,
                 voice,
                 LocalPlayer.state['radioChannel'],
                 talking
