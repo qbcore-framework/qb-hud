@@ -8,9 +8,11 @@ local nos = 0
 local stress = 0
 local hunger = 100
 local thirst = 100
+local oxygen = 100
+local stamina = 100
 local cashAmount = 0
 local bankAmount = 0
-local prevPlayerStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil }
+local prevPlayerStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil }
 local prevVehicleStats = { nil, nil, nil, nil, nil, nil, nil, nil, nil, nil }
 local lastCrossroadUpdate = 0
 local lastCrossroadCheck = {}
@@ -37,9 +39,11 @@ local function updatePlayerHud(data)
             thirst = data[4],
             hunger = data[5],
             stress = data[6],
-            voice = data[7],
-            radio = data[8],
-            talking = data[9],
+            oxygen = data[7],
+            stamina = data[8],
+            voice = data[9],
+            radio = data[10],
+            talking = data[11],
         })
     end
 end
@@ -201,6 +205,8 @@ CreateThread(function()
             local show = true
             local player = PlayerPedId()
             -- player hud
+            local oxygen = GetPlayerUnderwaterTimeRemaining(PlayerId()) * 10
+            local stamina = GetPlayerSprintStaminaRemaining(PlayerId()) * 1
             local talking = NetworkIsPlayerTalking(PlayerId())
             local voice = 0
             if LocalPlayer.state['proximity'] ~= nil then
@@ -216,6 +222,9 @@ CreateThread(function()
                 thirst,
                 hunger,
                 stress,
+                oxygen,
+                stamina,
+                talking,
                 voice,
                 LocalPlayer.state['radioChannel'],
                 talking
