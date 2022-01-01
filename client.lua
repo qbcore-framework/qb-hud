@@ -19,8 +19,6 @@ local lastCrossroadCheck = {}
 local lastFuelUpdate = 0
 local lastFuelCheck = {}
 
--- Functions
-
 local function updatePlayerHud(data)
     local shouldUpdate = false
     for k, v in pairs(data) do
