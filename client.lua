@@ -95,7 +95,7 @@ local lastCrossroadCheck = {}
 
 local function getCrossroads(player)
     local updateTick = GetGameTimer()
-    if (updateTick - lastCrossroadUpdate) > 1500 then
+    if updateTick - lastCrossroadUpdate > 1500 then
         local pos = GetEntityCoords(player)
         local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
         lastCrossroadUpdate = updateTick
@@ -132,12 +132,13 @@ CreateThread(function()
         if LocalPlayer.state.isLoggedIn then
             local show = true
             local player = PlayerPedId()
+            local playerId = PlayerId()
             -- player hud
-            local oxygen = GetPlayerUnderwaterTimeRemaining(PlayerId()) * 10
-            local stamina = GetPlayerSprintStaminaRemaining(PlayerId()) * 1
-            local talking = NetworkIsPlayerTalking(PlayerId())
+            local oxygen = GetPlayerUnderwaterTimeRemaining(playerId) * 10
+            local stamina = GetPlayerSprintStaminaRemaining(playerId)
+            local talking = NetworkIsPlayerTalking(playerId)
             local voice = 0
-            if LocalPlayer.state['proximity'] ~= nil then
+            if LocalPlayer.state['proximity'] then
                 voice = LocalPlayer.state['proximity'].distance
             end
             if IsPauseMenuActive() then
