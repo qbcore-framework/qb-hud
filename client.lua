@@ -8,8 +8,6 @@ local nos = 0
 local stress = 0
 local hunger = 100
 local thirst = 100
-local oxygen = 100
-local stamina = 100
 local cashAmount = 0
 local bankAmount = 0
 
