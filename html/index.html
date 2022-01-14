@@ -1,80 +1,278 @@
 <html>
     <head>
-        <link rel="stylesheet" type="text/css" href="styles.css" />
+        <meta id="viewport" name="viewport" content ="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <link rel="stylesheet" type="text/css" href="styles.css"/>
+        <link rel="stylesheet" type="text/css" href="responsive.css"/>
         <link href="https://cdn.jsdelivr.net/npm/quasar@2.1.0/dist/quasar.prod.css" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/quasar@2.1.0/dist/quasar.umd.prod.js" defer></script>
         <script src="app.js" defer></script>
     </head>
     <body>
+        <div id="openmenu">
+            <div id="menu">
+                <q-splitter v-model="splitterModel" style="height: 50vh;">
+                    <template v-slot:before>
+                        <q-tabs v-model="tab" active-bg-color="active-tab" inline-label indicator-color="transparent" vertical class="text-hud bg-panel">
+                        <q-tab name="hud" icon="view_list" label="HUD" style="height: 5.5vh; padding-left: 1vh; justify-content: end;"></q-tab>
+                        </q-tabs>
+                    </template>
+                <template v-slot:after>
+                    <q-tab-panels v-model="tab" dark animated swipeable vertical transition-prev="jump-up" transition-next="jump-up" class="bg-active-tab text-hud">
+                        <q-tab-panel name="hud">
+                            <div class="q-mb-md">
+                                <div class="text-h6 q-mb-md">Reset Hud <img class="brand-logo" align="right" src="./brand-logo.svg"></img></div>
+                                    <div class="q-pa-md q-gutter-sm">
+                                        <q-btn v-on:click="resetStorage($event)" :loading="progress[0].loading" :percentage="progress[0].percentage" text-color="black" color="hud" @click="startComputing(0)" class="ResetHud" style="width: 150px">
+                                            Reset Settings
+                                        <template v-slot:loading>
+                                            <q-spinner-gears class="on-left"></q-spinner-gears>
+                                                Resetting...
+                                        </template>
+                                        </q-btn>
+                                    <div class="text-caption q-mb-md">If you want to reset your settings back to default; click this shiny red button! <br> (you will have to relog for your menu to reset changes successfully)</div>
+                                    <q-btn v-on:click="restartHud($event)" :loading="progress[1].loading" :percentage="progress[1].percentage" text-color="black" color="hud" @click="startComputing(1)" class="ResetHud" style="width: 150px">
+                                        Reset Hud
+                                    <template v-slot:loading>
+                                        <q-spinner-gears class="on-left"></q-spinner-gears>
+                                            Resetting...
+                                    </template>
+                                    </q-btn>
+                                <div class="text-caption q-mb-md">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</div>
+                                </div>
+                                <hr>
+                                <div class="text-h6 q-mb-md">Options</div>
+                                <div class="text-check">
+                                    <q-item borderless dark tag="label" v-ripple>
+                                        <q-item-section avatar>
+                                        <q-checkbox  v-model="isOutMapChecked" v-on:click="showOutMap($event)" class="OutsideMap" dark color="checkbox" val="18"></q-checkbox>
+                                    </q-item-section>
+                                    <q-item-section>
+                                        <q-item-label class="text-check">Show Minimap Only in Vehicle</q-item-label>
+                                        <q-item-label caption>Disabling this will always keep your minimap on your screen</q-item-label>
+                                    </q-item-section>
+                                    </q-item>
+                                </div>
+                                <hr>
+                                <div class="text-h6 q-mb-md">Notifications</div>
+                                    <div class="text-check">
+                                        <q-checkbox dark v-on:click="openMenuSounds($event)" label='Menu Open Sound Effect Enabled' v-model="isOpenMenuSoundsChecked" color="checkbox" val="2" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="resetHudSounds($event)" label='Reset Hud Sound Effects Enabled' v-model="isResetSoundsChecked" color="checkbox" val="3" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="checklistSounds($event)" label='GUI Sound Effects Enabled' v-model="isListSoundsChecked" color="checkbox" val="4" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="showMapNotif($event)" label='Map Notifications Enabled' v-model="isMapNotifChecked" color="checkbox" val="5" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="showFuelAlert($event)" label='Low Fuel Alert Enabled' v-model="isLowFuelChecked" color="checkbox" val="6" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="showCinematicNotif($event)" label='Cinematic Mode Notifications Enabled' v-model="isCinematicNotifChecked" color="checkbox" val="7" style="display: flex;"></q-checkbox>
+                                    </div>
+                                </div>                        
+                                <hr>
+                                <div class="text-h6 q-mb-md">Status</div>
+                                    <div class="text-check">
+                                        <q-checkbox dark v-on:click="dynamicHealth($event)" label='Show Health always' v-model="isDynamicHealthChecked" color="checkbox" val="8" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="dynamicArmor($event)" label='Show Armor always' v-model="isDynamicArmorChecked" color="checkbox" val="9" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="dynamicHunger($event)" label='Show Hunger always' v-model="isDynamicHungerChecked" color="checkbox" val="10" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="dynamicThirst($event)" label='Show Thirst always' v-model="isDynamicThirstChecked" color="checkbox" val="11" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="dynamicStress($event)" label='Show Stress always' v-model="isDynamicStressChecked" color="checkbox" val="12" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="dynamicOxygen($event)" label='Show Oxygen always' v-model="isDynamicOxygenChecked" color="checkbox" val="13" style="display: flex;"></q-checkbox>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="text-h6 q-mb-md">Vehicle</div>
+                                    <div class="text-check">
+                                        <q-toggle v-on:click="changeFPS($event)" dark size="lg" icon-color="black" color="checkbox" :label="`Speedometer FPS ${isChangeFPSChecked}`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeFPSChecked"></q-toggle>
+                                        <div class="text-caption q-mb-md-d">Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.</div>
+                                        <q-toggle v-on:click="ToggleMapShape($event)" dark size="lg" icon-color="black" color="checkbox" :label="`Minimap ${isToggleMapShapeChecked}`" unchecked-icon="check_box_outline_blank" false-value="square" true-value="circle" checked-icon="radio_button_unchecked" v-model="isToggleMapShapeChecked"></q-toggle>
+                                        <div class="text-caption q-mb-md-d">Whether it's square or circle you desire, you have the ability to choose!</div>
+                                        <q-checkbox dark v-on:click="HideMap($event)" label='Minimap Enabled' v-model="isHideMapChecked" color="checkbox" val="14" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="ToggleMapBorders($event)" label='Minimap Borders Enabled' v-model="isToggleMapBordersChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="dynamicEngine($event)" label='Show Engine always' v-model="isDynamicEngineChecked" color="checkbox" val="16" style="display: flex;"></q-checkbox>
+                                        <q-checkbox dark v-on:click="dynamicNitro($event)" label='Show Nitro always' v-model="isDynamicNitroChecked" color="checkbox" val="17" style="display: flex;"></q-checkbox>
+                                    </div>
+                                <hr>
+                                <div class="text-h6 q-mb-md">Compass</div>
+                                    <div class="text-check">
+                                        <q-item borderless dark tag="label" v-ripple>
+                                            <q-item-section avatar>
+                                            <q-checkbox v-on:click="HideCompass($event)" dark v-model="isHideCompassChecked" color="checkbox" val="18"></q-checkbox>
+                                        </q-item-section>
+                                        <q-item-section>
+                                            <q-item-label class="text-check">Compass Enabled</q-item-label>
+                                            <q-item-label caption>Disabling the compass enitrely can vastly improve performace</q-item-label>
+                                        </q-item-section>
+                                    </q-item>
+                                        <q-item borderless dark tag="label" v-ripple>
+                                        <q-item-section avatar>
+                                            <q-checkbox v-on:click="HideStreets($event)" dark v-model="isHideStreetsChecked" color="checkbox" val="19"></q-checkbox>
+                                        </q-item-section>
+                                        <q-item-section>
+                                            <q-item-label class="text-check">Show Street Names Enabled</q-item-label>
+                                            <q-item-label caption>Disabling this can help improve performace</q-item-label>
+                                        </q-item-section>
+                                    </q-item>
+                                </div>
+                                <hr>
+                                <div class="text-h6 q-mb-md">Cinematic Mode</div>
+                                    <div class="text-check">
+                                        <q-checkbox v-on:click="cinematicMode($event)" dark label='Enabled' v-model="isCineamticModeChecked" color="checkbox" val="20" style="display: flex;"></q-checkbox>
+                                    </div>
+                                <br>
+                                </q-tab-panel>
+                        </template>
+                </q-splitter>
+            </div>
+        </div>
         <div id="main-container">
             <div id="money-container">
                 <div id="money-cash">
                     <transition name="slide-fade">
-                        <p v-if="showCash">💰&nbsp;<span id="money">{{formatMoney(cash)}}</span></p>
+                        <p v-if="showCash"><span id="sign">$&nbsp;</span><span id="money">{{(cash)}}</span></p>
                     </transition>
                 </div>
                 <div id="money-bank">
                     <transition name="slide-fade">
-                        <p v-if="showBank">🏦&nbsp;<span id="money">{{formatMoney(bank)}}</span></p>
+                        <p v-if="showBank"><span id="sign">$&nbsp;</span><span id="bank">{{(bank)}}</span></p>
                     </transition>
                 </div>
                 <div id="money-change" v-if="showUpdate">
-                    <p v-if="plus" id="money">+&nbsp;<span id="money">{{formatMoney(amount)}}</span></p>
-                    <p v-else-if="minus" id="minus">-&nbsp;<span id="money-minus">{{formatMoney(amount)}}</span></p>
+                    <p v-if="plus" id="money"><span id="plus">+&nbsp;</span><span id="money">{{(amount)}}</span></p>
+                    <p v-else-if="minus" id="minus"><span id="minus">-&nbsp;</span><span id="money">{{(amount)}}</span></p>
                 </div>
             </div>
             <div id="ui-container">
                 <div id="playerHud" v-show="show">
+                    <transition name="fade">
                     <div v-if="showVoice">
-                        <q-circular-progress class="q-ml-xs" show-value :value="voice" size="45px" :thickness="0.2" :style="{color: talkingColor}" track-color="grey-9" center-color="grey-10" :min="0" :max="5"><q-icon :name="voiceIcon" size="19px" :style="{color: talkingColor}"/>
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" :style="{color: talkingColor}" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="voice" size="50px" :thickness="0.24" :style="{color: talkingColor}" :min="0" :max="5" center-color="grey-10">
+                        <q-icon style="top: -0.5px; left: 0px;" :name="voiceIcon" size="19.5px" color="white"/>
                     </div>
+                    </transition>
+                    <transition name="fade">
                     <div v-if="showHealth">
-                        <q-circular-progress class="q-ml-xs" show-value :value="health" size="45px" :thickness="0.2" color="green" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-heart" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" :style="{color: healthColor}" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="health" size="50px" :thickness="0.24" :style="{color: healthColor}" :min="0" :max="100" center-color="grey-10">
+                        <q-icon style="top: -0.5px; left: -0.4px;" name="fas fa-heart" size="19.5px" color="white"/>
                     </div>
+                    </transition>
+                    <transition name="fade">
                     <div v-if="showArmor">
-                        <q-circular-progress class="q-ml-xs" show-value :value="armor" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-shield-alt" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" :style="{color: armorColor}" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="armor" size="50px" :thickness="0.24" :style="{color: armorColor}" :min="0" :max="100" center-color="grey-10">
+                        <q-icon name="fas fa-shield-alt" size="19.5px" color="white"/>
                     </div>
+                    </transition>
+                    <transition name="fade">
                     <div v-if="showHunger">
-                        <q-circular-progress class="q-ml-xs" show-value :value="hunger" size="45px" :thickness="0.2" color="orange" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-hamburger" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" :style="{color: hungerColor}" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="hunger" size="50px" :thickness="0.24" :style="{color: hungerColor}" :min="0" :max="100" center-color="grey-10">
+                        <q-icon style="top: -1px; left: -0.5px;" name="fas fa-hamburger" size="19.5px" color="white"/>
                     </div>
+                    </transition>
+                    <transition name="fade">
                     <div v-if="showThirst">
-                        <q-circular-progress class="q-ml-xs" show-value :value="thirst" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-tint" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" :style="{color: thirstColor}" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="thirst" size="50px" :thickness="0.24" :style="{color: thirstColor}" :min="0" :max="100" center-color="grey-10">
+                        <q-icon style="top: -0.5px; left: -0.5px;" name="fas fa-tint" size="19.5px" color="white"/>
                     </div>
+                    </transition>
+                    <transition name="fade">
                     <div v-if="showStress">
-                        <q-circular-progress class="q-ml-xs" show-value :value="stress" size="45px" :thickness="0.2" color="red" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-brain" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="stress" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="stress" size="50px" :thickness="0.24" color="stress" :min="0" :max="100" center-color="grey-10">
+                        <q-icon style="top: -0.5px; left: 0.4px;" name="fas fa-brain" size="19.5px" color="white"/>
                     </div>
+                    </transition>
+                    <transition name="fade">
                     <div v-if="showOxygen">
-                        <q-circular-progress class="q-ml-xs" show-value :value="oxygen" size="45px" :thickness="0.2" color="blue" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-swimmer" size="19px" color="white"/>
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="oxygen" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="oxygen" size="50px" :thickness="0.24" color="oxygen" :min="0" :max="100" center-color="grey-10">
+                        <q-icon style="top: -2px; left: -0.1px;" name="fas fa-lungs" size="19.5px" color="white"/>
                     </div>
-                    <div v-if="showStamina">
-                        <q-circular-progress class="q-ml-xs" show-value :value="stamina" size="45px" :thickness="0.2" color="purple" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-lungs" size="19px" color="white"/>
+                    </transition>
+                    <transition name="fade">
+                    <div v-if="showArmed">
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="armed" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="static" size="50px" :thickness="0.24" color="armed" :min="0" :max="100" center-color="grey-10">
+                        <q-icon name="fas fa-bars" size="19.5px" color="white"/>
                     </div>
+                    </transition>
+                    <transition name="fade">
+                    <div v-if="showParachute">
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="parachute" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="parachute" size="50px" :thickness="0.24" color="parachute" :min="0" :max="2" center-color="grey-10">
+                        <q-icon name="fas fa-parachute-box" size="23px" color="white"/>
+                    </div>
+                    </transition>
+                    <transition name="fade">
+                    <div v-if="showEngine">
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" :style="{color: engineColor}" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="engine" size="50px" :thickness="0.24" :style="{color: engineColor}" :min="0" :max="100" center-color="grey-10">
+                        <q-icon style="top: -1px;" name="fas fa-oil-can" size="19.5px":style="{color: engineColor}"/>
+                    </div>
+                    </transition>
+                    <transition name="fade">
+                    <div v-if="showHarness">
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="harness" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="hp" size="50px" :thickness="0.24" color="harness" :min="0" :max="100" center-color="grey-10">
+                        <q-icon name="fas fa-user-slash" size="19.5px" color="white"/>
+                    </div>
+                    </transition>
+                    <transition name="fade">
+                    <div v-if="showCruise">
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="cruise" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="speed" size="50px" :thickness="0.24" color="cruise" :min="0" :max="100" center-color="grey-10">
+                        <q-icon style="top: -1.5px;" name="fas fa-tachometer-alt-fast" size="19.5px" color="white"/>
+                    </div>
+                    </transition>
+                    <transition name="fade">
+                    <div v-if="showNos">
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="nos" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="nos" size="50px" :thickness="0.24" color="nos" :min="0" :max="100" center-color="grey-10">
+                        <q-icon name="fas fa-meteor" size="19.5px" :style="{color: nosColor}"/>
+                    </div>
+                    </transition>
+                    <transition name="fade">
+                    <div v-if="showDev">
+                        <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="dev" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="static" size="50px" :thickness="0.24" color="dev" :min="0" :max="100" center-color="grey-10">
+                        <q-icon name="fas fa-terminal" size="19.5px" color="white"/>
+                    </div>
+                    </transition>
                 </div>
             </div>
             <div id="veh-container">
                 <div v-show="show">
-                    <div class="ui-car-seatbelt">
-                        <q-circular-progress show-value :value="seatbelt" size="30px" :thickness="0" color="white" track-color="grey-9" center-color="grey-10" :min="0" :max="1"><q-icon name="fas fa-user-slash" size="11px" :style="{color: seatbeltColor}"/>
+                    <div class="responsive" id="speedometer">
+                        <q-circular-progress class="q-ml-xl" style="transform: rotate(-150deg); opacity: 60%;" :value="speedometer" size="70px" :thickness="0.21" color="gauge" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="transform: rotate(-150deg); left: -50%;" show-value :value="speed" size="70px" :thickness="0.21" color="gauge" :min="0" :max="600">
+                        <speed>{{(speed)}}</speed>
                     </div>
-                    <div class="ui-car-cruise">
-                        <q-circular-progress show-value :value="cruise" size="30px" :thickness="0" color="white" track-color="grey-9" center-color="grey-10" :min="0" :max="1"><q-icon name="fas fa-tachometer-alt" size="11px" :style="{color: cruiseColor}"/>
+                    <div class="responsive" id="fuelgauge">
+                        <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); opacity: 60%;" :value="fuelgauge" size="36px" :thickness="0.21" color="gauge" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); left: -50%;" show-value :value="fuel" size="36px" :thickness="0.21" :style="{color: fuelColor}">
+                        <q-icon name="fas fa-gas-pump" style="transform: rotate(125deg);" size="14px" color="white"/>
                     </div>
-                    <div class="ui-car-speed">
-                        <q-circular-progress show-value :value="speed" class="text-white" size="60px" :thickness="0.15" color="white" track-color="grey-9" center-color="grey-10" :max="250"/>
+                    <div class="responsive" id="altitudegauge" v-if="showAltitude">
+                        <q-circular-progress class="q-ml-xl" style="transform: rotate(-135deg); opacity: 60%;" :value="altitudegauge" size="70px" :thickness="0.21" color="gauge" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="transform: rotate(-135deg); left: -50%;" show-value :value="altitude" size="70px" :thickness="0.21" color="gauge" :min="0" :max="750">
+                        <altitude>{{(altitude)}}</altitude>
                     </div>
-                    <div class="ui-car-fuel">
-                        <q-circular-progress show-value :value="fuel" size="30px" :thickness="0.1" color="orange" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-gas-pump" size="11px" color="orange"/>
+                    <transition name="fade">
+                    <div class="responsive" id="seatbelt" v-if="showSeatbelt">
+                        <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); opacity: 60%;" size="70px" :thickness="0.21" color="gauge" :min="0" :max="100"></q-circular-progress>
+                        <q-circular-progress class="q-ml-xl" style="transform: rotate(-125deg); left: -40%;" show-value size="70px" :thickness="0.21" color="gauge" :min="0" :max="750">
+                        <q-icon name="fas fa-user-slash" style="transform: rotate(125deg);" :value="seatbelt" size="21px" :style="{color: seatbeltColor}"/>
                     </div>
-                    <div class="ui-car-nos" v-if="showNos">
-                        <q-circular-progress show-value :value="nos" size="30px" :thickness="0.1" color="blue" track-color="grey-9" center-color="grey-10"><q-icon name="fas fa-fire-alt" size="12px" color="blue"/>
-                    </div>
-                    <div class="ui-car-street">
-                        <p>{{direction}} | {{street1}} | {{street2}}</p>
-                    </div>
-                </div>
+                    </transition>
+            <div class="border">
+                <div class="square" v-if="showSquare">
             </div>
+            <div class="border">
+                <div class="circle" v-if="showCircle">
+            </div>
+        </div>
         </div>
     </body>
 </html>

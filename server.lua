@@ -14,6 +14,14 @@ QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, ar
 	TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 end)
 
+QBCore.Commands.Add("dev", "Enable/Disable developer Mode", {}, false, function(source, args)
+    if QBCore.Functions.HasPermission(source, 'admin') then
+	    TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
+    else
+        TriggerClientEvent('QBCore:Notify', source, Lang:t("notify.access_denied"), 'error')
+    end
+end)
+
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
@@ -33,7 +41,7 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
         end
         Player.Functions.SetMetaData('stress', newStress)
         TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-        TriggerClientEvent('QBCore:Notify', src, 'Getting Stressed', 'error', 1500)
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_gain"), 'error', 1500)
 	end
 end)
 
@@ -57,6 +65,19 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
         end
         Player.Functions.SetMetaData('stress', newStress)
         TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-        TriggerClientEvent('QBCore:Notify', src, 'You Are Relaxing')
+        TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
 	end
+end)
+
+QBCore.Functions.CreateCallback('hud:server:HasHarness', function(source, cb)
+    local Ply = QBCore.Functions.GetPlayer(source)
+    local Harness = Ply.Functions.GetItemByName("harness")
+    if Harness ~= nil then
+        cb(true)
+    else
+        cb(false)
+    end
+end)
+QBCore.Functions.CreateCallback('hud:server:getMenu', function(source, cb)
+    cb(Config.Menu)
 end)
