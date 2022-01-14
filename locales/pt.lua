@@ -1,9 +1,9 @@
 local Translations = {
     notify = {
-        ["hud_settings_loaded"] = "Definições Da HUD Carregadas!",
-        ["hud_restart"] = "A HUD Está A Reiniciar!",
-        ["hud_start"] = "A HUD Está Agora Iniciada!",
-        ["hud_command_info"] = "Este comando reseta as definições da tua HUD!",
+        ["hud_settings_loaded"] = "Definições Do HUD Carregadas!",
+        ["hud_restart"] = "O HUD Está A Reiniciar!",
+        ["hud_start"] = "O HUD Está Agora Iniciada!",
+        ["hud_command_info"] = "Este comando reseta as definições do teu HUD!",
         ["load_square_map"] = "A Carregar Mapa Quadrado!",
         ["loaded_square_map"] = "Mapa Quadrado Carregado!",
         ["load_circle_map"] = "A Carregar Mapa Redondo!",
