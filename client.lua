@@ -98,12 +98,11 @@ end)
 -- Callbacks & Events
 RegisterCommand('menu', function()
     Wait(50)
-    if not showMenu then
-        TriggerEvent("hud:client:playOpenMenuSounds")
-        SetNuiFocus(true, true)
-        SendNUIMessage({ action = "open"})
-        showMenu = true
-    end
+    if showMenu then return end
+    TriggerEvent("hud:client:playOpenMenuSounds")
+    SetNuiFocus(true, true)
+    SendNUIMessage({ action = "open"})
+    showMenu = true
 end)
 
 RegisterNUICallback('closeMenu', function()
@@ -115,7 +114,7 @@ end)
 RegisterKeyMapping('menu', 'Open Menu', 'keyboard', Config.OpenMenu)
 
 -- Reset hud
-local restartHud = function()
+local function restartHud()
     TriggerEvent("hud:client:playResetHudSounds")
     TriggerEvent('QBCore:Notify', Lang:t("notify.hud_restart"), "error")
     if IsPedInAnyVehicle(PlayerPedId()) then
@@ -163,9 +162,8 @@ end)
 
 RegisterNetEvent("hud:client:playOpenMenuSounds", function()
     Wait(50)
-    if Menu.isOpenMenuSoundsChecked then
-        TriggerServerEvent("InteractSound_SV:PlayOnSource", "houses_door_open", 0.5)
-    end
+    if not Menu.isOpenMenuSoundsChecked then return end
+    TriggerServerEvent("InteractSound_SV:PlayOnSource", "houses_door_open", 0.5)
 end)
 
 RegisterNUICallback('resetHudSounds', function()
@@ -177,9 +175,8 @@ end)
 
 RegisterNetEvent("hud:client:playResetHudSounds", function()
     Wait(50)
-    if Menu.isResetSoundsChecked then
-        TriggerServerEvent("InteractSound_SV:PlayOnSource", "airwrench", 0.1)
-    end
+    if not Menu.isResetSoundsChecked then return end
+    TriggerServerEvent("InteractSound_SV:PlayOnSource", "airwrench", 0.1)
 end)
 
 RegisterNUICallback('checklistSounds', function()
@@ -196,9 +193,8 @@ end)
 
 RegisterNetEvent("hud:client:playHudChecklistSound", function()
     Wait(50)
-    if Menu.isListSoundsChecked then
-        TriggerServerEvent("InteractSound_SV:PlayOnSource", "lock", 0.5)
-    end
+    if not Menu.isListSoundsChecked then return end
+    TriggerServerEvent("InteractSound_SV:PlayOnSource", "lock", 0.5)
 end)
 
 RegisterNUICallback('showOutMap', function()
@@ -229,7 +225,7 @@ RegisterNUICallback('showCinematicNotif', function()
     saveSettings()
 end)
 
--- status
+-- Status
 RegisterNUICallback('dynamicHealth', function()
     Wait(50)
     TriggerEvent("hud:client:ToggleHealth")
@@ -241,7 +237,6 @@ RegisterNetEvent("hud:client:ToggleHealth", function()
     TriggerEvent("hud:client:playHudChecklistSound")
     saveSettings()
 end)
-
 
 RegisterNUICallback('dynamicArmor', function()
     Wait(50)
@@ -264,7 +259,6 @@ RegisterNUICallback('dynamicThirst', function()
     saveSettings()
 end)
 
-
 RegisterNUICallback('dynamicStress', function()
     Wait(50)
     Menu.isDynamicStressChecked = not Menu.isDynamicStressChecked
@@ -279,14 +273,13 @@ RegisterNUICallback('dynamicOxygen', function()
     saveSettings()
 end)
 
--- vehicle
+-- Vehicle
 RegisterNUICallback('changeFPS', function()
     Wait(50)
     Menu.isChangeFPSChecked = not Menu.isChangeFPSChecked
     TriggerEvent("hud:client:playHudChecklistSound")
     saveSettings()
 end)
-
 
 RegisterNUICallback('HideMap', function()
     Wait(50)
@@ -299,17 +292,17 @@ end)
 RegisterNetEvent("hud:client:LoadMap", function()
     Wait(50)
     -- Credit to Dalrae for the solve.
-    local defaultAspectRatio = 1920/1080 -- Don't change this.
+    local defaultAspectRatio = 1920 / 1080 -- Don't change this.
     local resolutionX, resolutionY = GetActiveScreenResolution()
-    local aspectRatio = resolutionX/resolutionY
+    local aspectRatio = resolutionX / resolutionY
     local minimapOffset = 0
     if aspectRatio > defaultAspectRatio then
-        minimapOffset = ((defaultAspectRatio-aspectRatio)/3.6)-0.008
+        minimapOffset = ((defaultAspectRatio-aspectRatio) / 3.6) - 0.008
     end
     if Menu.isToggleMapShapeChecked == "square" then
         RequestStreamedTextureDict("squaremap", false)
         if not HasStreamedTextureDictLoaded("squaremap") then
-            Wait(150)
+            Wait(0)
         end
         if Menu.isMapNotifChecked then
             TriggerEvent('QBCore:Notify', Lang:t("notify.load_square_map"))
@@ -320,16 +313,16 @@ RegisterNetEvent("hud:client:LoadMap", function()
         -- 0.0 = nav symbol and icons left
         -- 0.1638 = nav symbol and icons stretched
         -- 0.216 = nav symbol and icons raised up
-        SetMinimapComponentPosition("minimap", "L", "B", 0.0+minimapOffset, -0.047, 0.1638, 0.183)
+        SetMinimapComponentPosition("minimap", "L", "B", 0.0 + minimapOffset, -0.047, 0.1638, 0.183)
 
         -- icons within map
-        SetMinimapComponentPosition("minimap_mask", "L", "B", 0.2+minimapOffset, 0.0, 0.065, 0.20)
+        SetMinimapComponentPosition("minimap_mask", "L", "B", 0.2 + minimapOffset, 0.0, 0.065, 0.20)
 
         -- -0.01 = map pulled left
         -- 0.025 = map raised up
         -- 0.262 = map stretched
         -- 0.315 = map shorten
-        SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.01+minimapOffset, 0.025, 0.262, 0.300)
+        SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.01 + minimapOffset, 0.025, 0.262, 0.300)
         SetBlipAlpha(GetNorthRadarBlip(), 0)
         SetRadarBigmapEnabled(true, false)
         SetMinimapClipType(0)
@@ -346,7 +339,7 @@ RegisterNetEvent("hud:client:LoadMap", function()
     elseif Menu.isToggleMapShapeChecked == "circle" then
         RequestStreamedTextureDict("circlemap", false)
         if not HasStreamedTextureDictLoaded("circlemap") then
-            Wait(150)
+            Wait(0)
         end
         if Menu.isMapNotifChecked then
             TriggerEvent('QBCore:Notify', Lang:t("notify.load_circle_map"))
@@ -357,16 +350,16 @@ RegisterNetEvent("hud:client:LoadMap", function()
         -- -0.0100 = nav symbol and icons left
         -- 0.180 = nav symbol and icons stretched
         -- 0.258 = nav symbol and icons raised up
-        SetMinimapComponentPosition("minimap", "L", "B", -0.0100+minimapOffset, -0.030, 0.180, 0.258)
+        SetMinimapComponentPosition("minimap", "L", "B", -0.0100 + minimapOffset, -0.030, 0.180, 0.258)
 
         -- icons within map
-        SetMinimapComponentPosition("minimap_mask", "L", "B", 0.200+minimapOffset, 0.0, 0.065, 0.20)
+        SetMinimapComponentPosition("minimap_mask", "L", "B", 0.200 + minimapOffset, 0.0, 0.065, 0.20)
 
         -- -0.00 = map pulled left
         -- 0.015 = map raised up
         -- 0.252 = map stretched
         -- 0.338 = map shorten
-        SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.00+minimapOffset, 0.015, 0.252, 0.338)
+        SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.00 + minimapOffset, 0.015, 0.252, 0.338)
         SetBlipAlpha(GetNorthRadarBlip(), 0)
         SetMinimapClipType(1)
         SetRadarBigmapEnabled(true, false)
@@ -489,14 +482,13 @@ end)
 
 RegisterCommand('+engine', function()
     local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-    if vehicle ~= 0 and GetPedInVehicleSeat(vehicle, 0) then
-        if GetIsVehicleEngineRunning(vehicle) then
-            QBCore.Functions.Notify(Lang:t("notify.engine_off"))
-        else
-            QBCore.Functions.Notify(Lang:t("notify.engine_on"))
-        end
-        SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
+    if vehicle == 0 or GetPedInVehicleSeat(vehicle, -1) ~= PlayerPedId() then return end
+    if GetIsVehicleEngineRunning(vehicle) then
+        QBCore.Functions.Notify(Lang:t("notify.engine_off"))
+    else
+        QBCore.Functions.Notify(Lang:t("notify.engine_on"))
     end
+    SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
 end)
 
 RegisterKeyMapping('+engine', 'Toggle Engine', 'keyboard', 'G')
@@ -612,7 +604,7 @@ CreateThread(function()
             local player = PlayerPedId()
             local playerId = PlayerId()
             local weapon = GetSelectedPedWeapon(player)
-            -- player hud
+            -- Player hud
             if not IsWhitelistedWeaponArmed(weapon) then
                 if weapon ~= `WEAPON_UNARMED` then
                     armed = true
@@ -622,15 +614,15 @@ CreateThread(function()
             end
             playerDead = IsEntityDead(player) or PlayerData.metadata["inlaststand"] or PlayerData.metadata["isdead"] or false
             parachute = GetPedParachuteState(player)
-            -- stamina
+            -- Stamina
             if not IsEntityInWater(player) then
                 oxygen = 100 - GetPlayerSprintStaminaRemaining(playerId)
             end
-            -- oxygen
+            -- Oxygen
             if IsEntityInWater(player) then
                 oxygen = GetPlayerUnderwaterTimeRemaining(playerId) * 10
             end
-            -- player hud
+            -- Player hud
             local talking = NetworkIsPlayerTalking(playerId)
             local voice = 0
             if LocalPlayer.state['proximity'] then
@@ -639,7 +631,7 @@ CreateThread(function()
             if IsPauseMenuActive() then
                 show = false
             end
-            if not ( IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle) ) then
+            if not (IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle)) then
             updatePlayerHud({
                 show,
                 Menu.isDynamicHealthChecked,
@@ -673,7 +665,7 @@ CreateThread(function()
                 dev,
             })
             end
-            -- vehcle hud
+            -- Vehicle hud
             local vehicle = GetVehiclePedIsIn(player)
             if IsPedInAnyHeli(player) or IsPedInAnyPlane(player) then
                 showAltitude = true
@@ -713,7 +705,7 @@ CreateThread(function()
                     harness,
                     hp,
                     math.ceil(GetEntitySpeed(vehicle) * speedMultiplier),
-                    (GetVehicleEngineHealth(vehicle) /10),
+                    (GetVehicleEngineHealth(vehicle) / 10),
                     Menu.isCineamticModeChecked,
                     dev,
                 })
@@ -755,7 +747,7 @@ CreateThread(function()
     end
 end)
 
--- low fuel
+-- Low fuel
 CreateThread(function()
     while true do
         if LocalPlayer.state.isLoggedIn then
@@ -855,13 +847,31 @@ end)
 
 -- Stress Screen Effects
 
+local function GetShakeIntensity(stresslevel)
+    for k, v in pairs(config.Intensity['shake']) do
+        if stresslevel >= v.min and stresslevel <= v.max then
+            return v.intensity
+        end
+    end
+    return 0.05
+end
+
+local function GetEffectInterval(stresslevel)
+    for k, v in pairs(config.EffectInterval) do
+        if stresslevel >= v.min and stresslevel <= v.max then
+            return v.timeout
+        end
+    end
+    return 60000
+end
+
 CreateThread(function()
     while true do
         local ped = PlayerPedId()
         if stress >= 100 then
             local ShakeIntensity = GetShakeIntensity(stress)
             local FallRepeat = math.random(2, 4)
-            local RagdollTimeout = (FallRepeat * 1750)
+            local RagdollTimeout = FallRepeat * 1750
             ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
             SetFlash(0, 0, 500, 3000, 500)
 
@@ -870,7 +880,7 @@ CreateThread(function()
             end
 
             Wait(1000)
-            for i=1, FallRepeat, 1 do
+            for i = 1, FallRepeat, 1 do
                 Wait(750)
                 DoScreenFadeOut(200)
                 Wait(1000)
@@ -887,30 +897,8 @@ CreateThread(function()
     end
 end)
 
-function GetShakeIntensity(stresslevel)
-    local retval = 0.05
-    for k, v in pairs(config.Intensity['shake']) do
-        if stresslevel >= v.min and stresslevel <= v.max then
-            retval = v.intensity
-            break
-        end
-    end
-    return retval
-end
-
-function GetEffectInterval(stresslevel)
-    local retval = 60000
-    for k, v in pairs(config.EffectInterval) do
-        if stresslevel >= v.min and stresslevel <= v.max then
-            retval = v.timeout
-            break
-        end
-    end
-    return retval
-end
-
--- minimap update
-Citizen.CreateThread(function()
+-- Minimap update
+CreateThread(function()
     while true do
         Wait(500)
         SetRadarZoom(1000)
@@ -924,7 +912,7 @@ local function BlackBars()
 end
 
 CreateThread(function()
-    minimap = RequestScaleformMovie("minimap")
+    local minimap = RequestScaleformMovie("minimap")
     if not HasScaleformMovieLoaded(minimap) then
         RequestScaleformMovie(minimap)
         while not HasScaleformMovieLoaded(minimap) do
