@@ -474,7 +474,7 @@ end)
 
 RegisterCommand('+engine', function()
     local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-    if vehicle ~= nil and vehicle ~= 0 and GetPedInVehicleSeat(vehicle, 0) then
+    if vehicle ~= nil and vehicle ~= 0 and GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
         if (GetIsVehicleEngineRunning(vehicle)) then
             QBCore.Functions.Notify(Lang:t("notify.engine_off"), "error")
         else
