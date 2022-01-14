@@ -26,15 +26,15 @@
                             <div class="q-mb-md">
                                 <div class="text-h6 q-mb-md">Reset Hud <img class="brand-logo" align="right" src="./brand-logo.svg"></img></div>
                                     <div class="q-pa-md q-gutter-sm">
-                                        <q-btn v-on:click="resetStorage($event)" :loading="progress[0].loading" :percentage="progress[0].percentage" text-color="black" color="hud" @click="startComputing(0)" class="ResetHud" style="width: 150px">
+                                        <q-btn v-on:click="resetStorage($event)" :loading="progress[0].loading" :percentage="progress[0].percentage" text-color="button" color="hud" @click="startComputing(0)" style="width: 150px">
                                             Reset Settings
                                         <template v-slot:loading>
                                             <q-spinner-gears class="on-left"></q-spinner-gears>
                                                 Resetting...
                                         </template>
                                         </q-btn>
-                                    <div class="text-caption q-mb-md">If you want to reset your settings back to default; click this shiny red button! <br> (you will have to relog for your menu to reset changes successfully)</div>
-                                    <q-btn v-on:click="restartHud($event)" :loading="progress[1].loading" :percentage="progress[1].percentage" text-color="black" color="hud" @click="startComputing(1)" class="ResetHud" style="width: 150px">
+                                    <div class="text-caption q-mb-md">If you want to reset your settings back to default; click this shiny button! <br> (you will have to relog for your menu to reset changes successfully)</div>
+                                    <q-btn v-on:click="restartHud($event)" :loading="progress[1].loading" :percentage="progress[1].percentage" text-color="button" color="hud" @click="startComputing(1)" style="width: 150px">
                                         Reset Hud
                                     <template v-slot:loading>
                                         <q-spinner-gears class="on-left"></q-spinner-gears>
@@ -48,7 +48,7 @@
                                 <div class="text-check">
                                     <q-item borderless dark tag="label" v-ripple>
                                         <q-item-section avatar>
-                                        <q-checkbox  v-model="isOutMapChecked" v-on:click="showOutMap($event)" class="OutsideMap" dark color="checkbox" val="18"></q-checkbox>
+                                        <q-checkbox v-model="isOutMapChecked" v-on:click="showOutMap($event)" color="checkbox" val="1"></q-checkbox>
                                     </q-item-section>
                                     <q-item-section>
                                         <q-item-label class="text-check">Show Minimap Only in Vehicle</q-item-label>
@@ -59,43 +59,43 @@
                                 <hr>
                                 <div class="text-h6 q-mb-md">Notifications</div>
                                     <div class="text-check">
-                                        <q-checkbox dark v-on:click="openMenuSounds($event)" label='Menu Open Sound Effect Enabled' v-model="isOpenMenuSoundsChecked" color="checkbox" val="2" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="resetHudSounds($event)" label='Reset Hud Sound Effects Enabled' v-model="isResetSoundsChecked" color="checkbox" val="3" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="checklistSounds($event)" label='GUI Sound Effects Enabled' v-model="isListSoundsChecked" color="checkbox" val="4" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="showMapNotif($event)" label='Map Notifications Enabled' v-model="isMapNotifChecked" color="checkbox" val="5" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="showFuelAlert($event)" label='Low Fuel Alert Enabled' v-model="isLowFuelChecked" color="checkbox" val="6" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="showCinematicNotif($event)" label='Cinematic Mode Notifications Enabled' v-model="isCinematicNotifChecked" color="checkbox" val="7" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="openMenuSounds($event)" label='Menu Open Sound Effect Enabled' v-model="isOpenMenuSoundsChecked" color="checkbox" val="2" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="resetHudSounds($event)" label='Reset Hud Sound Effects Enabled' v-model="isResetSoundsChecked" color="checkbox" val="3" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="checklistSounds($event)" label='GUI Sound Effects Enabled' v-model="isListSoundsChecked" color="checkbox" val="4" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="showMapNotif($event)" label='Map Notifications Enabled' v-model="isMapNotifChecked" color="checkbox" val="5" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="showFuelAlert($event)" label='Low Fuel Alert Enabled' v-model="isLowFuelChecked" color="checkbox" val="6" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="showCinematicNotif($event)" label='Cinematic Mode Notifications Enabled' v-model="isCinematicNotifChecked" color="checkbox" val="7" style="display: flex;"></q-checkbox>
                                     </div>
                                 </div>                        
                                 <hr>
                                 <div class="text-h6 q-mb-md">Status</div>
                                     <div class="text-check">
-                                        <q-checkbox dark v-on:click="dynamicHealth($event)" label='Show Health always' v-model="isDynamicHealthChecked" color="checkbox" val="8" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="dynamicArmor($event)" label='Show Armor always' v-model="isDynamicArmorChecked" color="checkbox" val="9" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="dynamicHunger($event)" label='Show Hunger always' v-model="isDynamicHungerChecked" color="checkbox" val="10" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="dynamicThirst($event)" label='Show Thirst always' v-model="isDynamicThirstChecked" color="checkbox" val="11" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="dynamicStress($event)" label='Show Stress always' v-model="isDynamicStressChecked" color="checkbox" val="12" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="dynamicOxygen($event)" label='Show Oxygen always' v-model="isDynamicOxygenChecked" color="checkbox" val="13" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="dynamicHealth($event)" label='Show Health always' v-model="isDynamicHealthChecked" color="checkbox" val="8" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="dynamicArmor($event)" label='Show Armor always' v-model="isDynamicArmorChecked" color="checkbox" val="9" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="dynamicHunger($event)" label='Show Hunger always' v-model="isDynamicHungerChecked" color="checkbox" val="10" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="dynamicThirst($event)" label='Show Thirst always' v-model="isDynamicThirstChecked" color="checkbox" val="11" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="dynamicStress($event)" label='Show Stress always' v-model="isDynamicStressChecked" color="checkbox" val="12" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="dynamicOxygen($event)" label='Show Oxygen always' v-model="isDynamicOxygenChecked" color="checkbox" val="13" style="display: flex;"></q-checkbox>
                                     </div>
                                 </div>
                                 <hr>
                                 <div class="text-h6 q-mb-md">Vehicle</div>
                                     <div class="text-check">
-                                        <q-toggle v-on:click="changeFPS($event)" dark size="lg" icon-color="black" color="checkbox" :label="`Speedometer FPS ${isChangeFPSChecked}`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeFPSChecked"></q-toggle>
+                                        <q-toggle v-on:click="changeFPS($event)" size="lg" keep-color icon-color="icon" color="checkbox" :label="`Speedometer FPS ${isChangeFPSChecked}`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeFPSChecked"></q-toggle>
                                         <div class="text-caption q-mb-md-d">Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.</div>
-                                        <q-toggle v-on:click="ToggleMapShape($event)" dark size="lg" icon-color="black" color="checkbox" :label="`Minimap ${isToggleMapShapeChecked}`" unchecked-icon="check_box_outline_blank" false-value="square" true-value="circle" checked-icon="radio_button_unchecked" v-model="isToggleMapShapeChecked"></q-toggle>
+                                        <q-toggle v-on:click="ToggleMapShape($event)" size="lg" keep-color icon-color="icon" color="checkbox" :label="`Minimap ${isToggleMapShapeChecked}`" unchecked-icon="check_box_outline_blank" false-value="square" true-value="circle" checked-icon="radio_button_unchecked" v-model="isToggleMapShapeChecked"></q-toggle>
                                         <div class="text-caption q-mb-md-d">Whether it's square or circle you desire, you have the ability to choose!</div>
-                                        <q-checkbox dark v-on:click="HideMap($event)" label='Minimap Enabled' v-model="isHideMapChecked" color="checkbox" val="14" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="ToggleMapBorders($event)" label='Minimap Borders Enabled' v-model="isToggleMapBordersChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="dynamicEngine($event)" label='Show Engine always' v-model="isDynamicEngineChecked" color="checkbox" val="16" style="display: flex;"></q-checkbox>
-                                        <q-checkbox dark v-on:click="dynamicNitro($event)" label='Show Nitro always' v-model="isDynamicNitroChecked" color="checkbox" val="17" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="HideMap($event)" label='Minimap Enabled' v-model="isHideMapChecked" color="checkbox" val="14" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="ToggleMapBorders($event)" label='Minimap Borders Enabled' v-model="isToggleMapBordersChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="dynamicEngine($event)" label='Show Engine always' v-model="isDynamicEngineChecked" color="checkbox" val="16" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="dynamicNitro($event)" label='Show Nitro always' v-model="isDynamicNitroChecked" color="checkbox" val="17" style="display: flex;"></q-checkbox>
                                     </div>
                                 <hr>
                                 <div class="text-h6 q-mb-md">Compass</div>
                                     <div class="text-check">
                                         <q-item borderless dark tag="label" v-ripple>
                                             <q-item-section avatar>
-                                            <q-checkbox v-on:click="HideCompass($event)" dark v-model="isHideCompassChecked" color="checkbox" val="18"></q-checkbox>
+                                            <q-checkbox v-on:click="HideCompass($event)" v-model="isHideCompassChecked" color="checkbox" val="18"></q-checkbox>
                                         </q-item-section>
                                         <q-item-section>
                                             <q-item-label class="text-check">Compass Enabled</q-item-label>
@@ -104,7 +104,7 @@
                                     </q-item>
                                         <q-item borderless dark tag="label" v-ripple>
                                         <q-item-section avatar>
-                                            <q-checkbox v-on:click="HideStreets($event)" dark v-model="isHideStreetsChecked" color="checkbox" val="19"></q-checkbox>
+                                            <q-checkbox v-on:click="HideStreets($event)" v-model="isHideStreetsChecked" color="checkbox" val="19"></q-checkbox>
                                         </q-item-section>
                                         <q-item-section>
                                             <q-item-label class="text-check">Show Street Names Enabled</q-item-label>
@@ -115,7 +115,7 @@
                                 <hr>
                                 <div class="text-h6 q-mb-md">Cinematic Mode</div>
                                     <div class="text-check">
-                                        <q-checkbox v-on:click="cinematicMode($event)" dark label='Enabled' v-model="isCineamticModeChecked" color="checkbox" val="20" style="display: flex;"></q-checkbox>
+                                        <q-checkbox v-on:click="cinematicMode($event)" label='Enabled' v-model="isCineamticModeChecked" color="checkbox" val="20" style="display: flex;"></q-checkbox>
                                     </div>
                                 <br>
                                 </q-tab-panel>
