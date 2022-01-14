@@ -138,4 +138,3 @@ Config.Menu = {
     isCineamticModeChecked = false, -- isCineamticModeChecked
     isToggleMapShapeChecked = 'circle', -- isToggleMapShapeChecked
 }
-
