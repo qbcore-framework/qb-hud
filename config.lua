@@ -136,6 +136,5 @@ Config.Menu = {
     isHideCompassChecked = false, -- isHideCompassChecked
     isHideStreetsChecked = false, -- isHideStreetsChecked
     isCineamticModeChecked = false, -- isCineamticModeChecked
-    isToggleMapShapeChecked = 'circle', -- isToggleMapShapeChecked
+    isToggleMapShapeChecked = 'square', -- isToggleMapShapeChecked
 }
-
