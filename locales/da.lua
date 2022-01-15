@@ -5,7 +5,7 @@ local Translations = {
         ["hud_start"] = "HUD er nu startet!",
         ["hud_command_info"] = "Denne command nulstiller alle HUD insstillinger!",
         ["load_square_map"] = "Firkantet map indlæses!",
-        ["loaded_square_map"] = "Rundt map indlæses!",
+        ["loaded_square_map"] = "Firkantet map indlæst!",
         ["load_circle_map"] = "Cirkel map indlæses!",
         ["loaded_circle_map"] = "Cikel map er indlæst!",
         ["cinematic_on"] = "Cinematic mode er sat til!",
@@ -15,7 +15,7 @@ local Translations = {
         ["low_fuel"] = "Brændstof er lavt!",
         ["access_denied"] = "Du har ingen adgang!",
         ["stress_gain"] = "Du føler dig mere stresset!",
-        ["stress_removed"] = "Du føler du slapper af!"
+        ["stress_removed"] = "Du føles mere afslappet!"
     }
 }
 Lang = Locale:new({phrases = Translations, warnOnMissing = true})
