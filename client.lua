@@ -302,7 +302,7 @@ RegisterNetEvent("hud:client:LoadMap", function()
     if Menu.isToggleMapShapeChecked == "square" then
         RequestStreamedTextureDict("squaremap", false)
         if not HasStreamedTextureDictLoaded("squaremap") then
-            Wait(0)
+            Wait(200)
         end
         if Menu.isMapNotifChecked then
             QBCore.Functions.Notify(Lang:t("notify.load_square_map"))
@@ -339,7 +339,7 @@ RegisterNetEvent("hud:client:LoadMap", function()
     elseif Menu.isToggleMapShapeChecked == "circle" then
         RequestStreamedTextureDict("circlemap", false)
         if not HasStreamedTextureDictLoaded("circlemap") then
-            Wait(0)
+            Wait(200)
         end
         if Menu.isMapNotifChecked then
             QBCore.Functions.Notify(Lang:t("notify.load_circle_map"))
