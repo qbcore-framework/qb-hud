@@ -13,13 +13,9 @@ QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, ar
 	TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 end)
 
-QBCore.Commands.Add("dev", "Enable/Disable developer Mode", {}, false, function(source, args)
-    if QBCore.Functions.HasPermission(source, 'admin') then
-	    TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
-    else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t("notify.access_denied"), 'error')
-    end
-end)
+QBCore.Commands.Add("dev", "Enable/Disable developer Mode (Admin Only)", {}, false, function(source, args)
+	TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
+end, "admin")
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
