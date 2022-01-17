@@ -14,57 +14,51 @@ QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, ar
 end)
 
 QBCore.Commands.Add("dev", "Enable/Disable developer Mode", {}, false, function(source, args)
-    if QBCore.Functions.HasPermission(source, 'admin') then
-	    TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
-    else
-        TriggerClientEvent('QBCore:Notify', source, Lang:t("notify.access_denied"), 'error')
-    end
-end)
+	TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
+end, 'god')
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
-    if Player ~= nil and Player.PlayerData.job.name ~= 'police' then
-        if not ResetStress then
-            if Player.PlayerData.metadata['stress'] == nil then
-                Player.PlayerData.metadata['stress'] = 0
-            end
-            newStress = Player.PlayerData.metadata['stress'] + amount
-            if newStress <= 0 then newStress = 0 end
-        else
-            newStress = 0
+    if not Player or Player.PlayerData.job.name == 'police' then return end
+    if not ResetStress then
+        if not Player.PlayerData.metadata['stress'] then
+            Player.PlayerData.metadata['stress'] = 0
         end
-        if newStress > 100 then
-            newStress = 100
-        end
-        Player.Functions.SetMetaData('stress', newStress)
-        TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-        TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_gain"), 'error', 1500)
-	end
+        newStress = Player.PlayerData.metadata['stress'] + amount
+        if newStress <= 0 then newStress = 0 end
+    else
+        newStress = 0
+    end
+    if newStress > 100 then
+        newStress = 100
+    end
+    Player.Functions.SetMetaData('stress', newStress)
+    TriggerClientEvent('hud:client:UpdateStress', src, newStress)
+    TriggerClientEvent('QBCore:Notify', src, "Feeling More Stressed", 'error', 1500)
 end)
 
 RegisterNetEvent('hud:server:RelieveStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
-    if Player ~= nil then
-        if not ResetStress then
-            if Player.PlayerData.metadata['stress'] == nil then
-                Player.PlayerData.metadata['stress'] = 0
-            end
-            newStress = Player.PlayerData.metadata['stress'] - amount
-            if newStress <= 0 then newStress = 0 end
-        else
-            newStress = 0
+    if not Player then return end
+    if not ResetStress then
+        if not Player.PlayerData.metadata['stress'] then
+            Player.PlayerData.metadata['stress'] = 0
         end
-        if newStress > 100 then
-            newStress = 100
-        end
-        Player.Functions.SetMetaData('stress', newStress)
-        TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-        TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
-	end
+        newStress = Player.PlayerData.metadata['stress'] - amount
+        if newStress <= 0 then newStress = 0 end
+    else
+        newStress = 0
+    end
+    if newStress > 100 then
+        newStress = 100
+    end
+    Player.Functions.SetMetaData('stress', newStress)
+    TriggerClientEvent('hud:client:UpdateStress', src, newStress)
+    TriggerClientEvent('QBCore:Notify', src, "Feeling More Relaxed")
 end)
 
 QBCore.Functions.CreateCallback('hud:server:getMenu', function(source, cb)
