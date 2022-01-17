@@ -913,7 +913,6 @@ Citizen.CreateThread(function()
     while true do
         Wait(500)
         local player = PlayerPedId()
-        SetRadarZoom(1000)
         SetRadarBigmapEnabled(false, false)
     end
 end)
