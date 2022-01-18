@@ -860,11 +860,13 @@ CreateThread(function()
     while true do
         local ped = PlayerPedId()
         if stress >= 100 then
-            local ShakeIntensity = GetShakeIntensity(stress)
+            local BlurIntensity = GetBlurIntensity(stress)
             local FallRepeat = math.random(2, 4)
             local RagdollTimeout = (FallRepeat * 1750)
-            ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
-            SetFlash(0, 0, 500, 3000, 500)
+            TriggerScreenblurFadeIn(1000.0)
+            Wait(BlurIntensity)
+            TriggerScreenblurFadeOut(1000.0)
+            
             if not IsPedRagdoll(ped) and IsPedOnFoot(ped) and not IsPedSwimming(ped) then
                 SetPedToRagdollWithFall(ped, RagdollTimeout, RagdollTimeout, 1, GetEntityForwardVector(ped), 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0)
             end
@@ -874,21 +876,23 @@ CreateThread(function()
                 DoScreenFadeOut(200)
                 Wait(1000)
                 DoScreenFadeIn(200)
-                ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
-                SetFlash(0, 0, 200, 750, 200)
+                TriggerScreenblurFadeIn(1000.0)
+                Wait(BlurIntensity)
+                TriggerScreenblurFadeOut(1000.0)
             end
         elseif stress >= config.MinimumStress then
-            local ShakeIntensity = GetShakeIntensity(stress)
-            ShakeGameplayCam('SMALL_EXPLOSION_SHAKE', ShakeIntensity)
-            SetFlash(0, 0, 500, 2500, 500)
+            local BlurIntensity = GetBlurIntensity(stress)
+            TriggerScreenblurFadeIn(1000.0)
+            Wait(BlurIntensity)
+            TriggerScreenblurFadeOut(1000.0)
         end
         Wait(GetEffectInterval(stress))
     end
 end)
 
-function GetShakeIntensity(stresslevel)
-    local retval = 0.05
-    for k, v in pairs(config.Intensity['shake']) do
+function GetBlurIntensity(stresslevel)
+    local retval = 1500
+    for k, v in pairs(config.Intensity['blur']) do
         if stresslevel >= v.min and stresslevel <= v.max then
             retval = v.intensity
             break
