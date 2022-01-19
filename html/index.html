@@ -3,9 +3,9 @@
         <meta id="viewport" name="viewport" content ="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no" />
         <link rel="stylesheet" type="text/css" href="styles.css"/>
         <link rel="stylesheet" type="text/css" href="responsive.css"/>
-        <link href="https://cdn.jsdelivr.net/npm/quasar@2.1.0/dist/quasar.prod.css" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css">
-        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+        <link href="https://cdn.jsdelivr.net/npm/quasar@2.1.0/dist/quasar.prod.css" rel="stylesheet" type="text/css"/>
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet" type="text/css"/>
+        <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css"/>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/vue@3/dist/vue.global.prod.js" defer></script>
         <script src="https://cdn.jsdelivr.net/npm/quasar@2.1.0/dist/quasar.umd.prod.js" defer></script>
@@ -17,37 +17,37 @@
                 <q-splitter v-model="splitterModel" style="height: 50vh;">
                     <template v-slot:before>
                         <q-tabs v-model="tab" active-bg-color="active-tab" inline-label indicator-color="transparent" vertical class="text-tabcolor bg-panel">
-                        <q-tab name="hud" icon="view_list" label="HUD" style="height: 5.5vh; padding-left: 1vh; justify-content: end;"></q-tab>
+                            <q-tab name="hud" icon="view_list" label="HUD" style="height: 5.5vh; padding-left: 1vh; justify-content: end;"></q-tab>
                         </q-tabs>
                     </template>
-                <template v-slot:after>
-                    <q-tab-panels v-model="tab"  animated swipeable vertical transition-prev="jump-up" transition-next="jump-up" class="bg-active-tab">
-                        <q-tab-panel name="hud">
-                            <div class="q-mb-md">
-                                <div class="text-h6 q-mb-md">Reset Hud <img class="brand-logo" align="right" src="./brand-logo.svg"></img></div>
+                    <template v-slot:after>
+                        <q-tab-panels v-model="tab" animated swipeable vertical transition-prev="jump-up" transition-next="jump-up" class="bg-active-tab">
+                            <q-tab-panel name="hud">
+                                <div class="q-mb-md">
+                                    <div class="text-h6 q-mb-md">Reset Hud <img class="brand-logo" align="right" src="./brand-logo.svg"></img></div>
                                     <div class="q-pa-md q-gutter-sm">
                                         <q-btn v-on:click="resetStorage($event)" :loading="progress[0].loading" :percentage="progress[0].percentage" text-color="textbutton" color="bgbutton" @click="startComputing(0)" style="width: 150px"> Reset Settings
                                         <template v-slot:loading> <q-spinner-gears class="on-left"></q-spinner-gears> Resetting... </template></q-btn>
-                                    <div class="text-h7 q-mb-md">If you want to reset your settings back to default; click this shiny button! <br> (you will have to relog for your menu to reset changes successfully)</div>
-                                    <q-btn v-on:click="restartHud($event)" :loading="progress[1].loading" :percentage="progress[1].percentage" text-color="button" color="bgbutton" @click="startComputing(1)" style="width: 150px"> Reset Hud
-                                    <template v-slot:loading> <q-spinner-gears class="on-left"></q-spinner-gears> Resetting... </template></q-btn>
-                                <div class="text-h7 q-mb-md">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</div>
-                                </div>
-                                <hr>
-                                <div class="text-h6 q-mb-md">Options</div>
-                                <div class="text-h7">
-                                    <q-item borderless tag="label" v-ripple>
-                                        <q-item-section avatar>
-                                        <q-checkbox v-model="isOutMapChecked" v-on:click="showOutMap($event)" color="checkbox" val="1"></q-checkbox>
-                                    </q-item-section>
-                                    <q-item-section>
-                                        <q-item-label>Show Minimap Only in Vehicle</q-item-label>
-                                        <q-item-label class="text-h7" caption>Disabling this will always keep your minimap on your screen</q-item-label>
-                                    </q-item-section>
-                                    </q-item>
-                                </div>
-                                <hr>
-                                <div class="text-h6 q-mb-md">Notifications</div>
+                                        <div class="text-h7 q-mb-md">If you want to reset your settings back to default; click this shiny button! <br> (you will have to relog for your menu to reset changes successfully)</div>
+                                        <q-btn v-on:click="restartHud($event)" :loading="progress[1].loading" :percentage="progress[1].percentage" text-color="button" color="bgbutton" @click="startComputing(1)" style="width: 150px"> Reset Hud
+                                        <template v-slot:loading> <q-spinner-gears class="on-left"></q-spinner-gears> Resetting... </template></q-btn>
+                                        <div class="text-h7 q-mb-md">If your hud is acting up, give it a good ol' reset! Or you can do /resethud</div>
+                                    </div>
+                                    <hr>
+                                    <div class="text-h6 q-mb-md">Options</div>
+                                    <div class="text-h7">
+                                        <q-item borderless tag="label" v-ripple>
+                                            <q-item-section avatar>
+                                                <q-checkbox v-model="isOutMapChecked" v-on:click="showOutMap($event)" color="checkbox" val="1"></q-checkbox>
+                                            </q-item-section>
+                                            <q-item-section>
+                                                <q-item-label>Show Minimap Only in Vehicle</q-item-label>
+                                                <q-item-label class="text-h7" caption>Disabling this will always keep your minimap on your screen</q-item-label>
+                                            </q-item-section>
+                                        </q-item>
+                                    </div>
+                                    <hr>
+                                    <div class="text-h6 q-mb-md">Notifications</div>
                                     <div class="text-h7">
                                         <q-checkbox v-on:click="openMenuSounds($event)" label='Menu Sound Effects Enabled' v-model="isOpenMenuSoundsChecked" color="checkbox" val="2" style="display: flex;"></q-checkbox>
                                         <q-checkbox v-on:click="resetHudSounds($event)" label='Reset Hud Sound Effects Enabled' v-model="isResetSoundsChecked" color="checkbox" val="3" style="display: flex;"></q-checkbox>
@@ -59,32 +59,31 @@
                                 </div>                        
                                 <hr>
                                 <div class="text-h6 q-mb-md">Status</div>
-                                    <div class="text-h7">
-                                        <q-checkbox v-on:click="dynamicHealth($event)" label='Show Health always' v-model="isDynamicHealthChecked" color="checkbox" val="8" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="dynamicArmor($event)" label='Show Armor always' v-model="isDynamicArmorChecked" color="checkbox" val="9" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="dynamicHunger($event)" label='Show Hunger always' v-model="isDynamicHungerChecked" color="checkbox" val="10" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="dynamicThirst($event)" label='Show Thirst always' v-model="isDynamicThirstChecked" color="checkbox" val="11" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="dynamicStress($event)" label='Show Stress always' v-model="isDynamicStressChecked" color="checkbox" val="12" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="dynamicOxygen($event)" label='Show Oxygen always' v-model="isDynamicOxygenChecked" color="checkbox" val="13" style="display: flex;"></q-checkbox>
-                                    </div>
+                                <div class="text-h7">
+                                    <q-checkbox v-on:click="dynamicHealth($event)" label='Show Health always' v-model="isDynamicHealthChecked" color="checkbox" val="8" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicArmor($event)" label='Show Armor always' v-model="isDynamicArmorChecked" color="checkbox" val="9" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicHunger($event)" label='Show Hunger always' v-model="isDynamicHungerChecked" color="checkbox" val="10" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicThirst($event)" label='Show Thirst always' v-model="isDynamicThirstChecked" color="checkbox" val="11" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicStress($event)" label='Show Stress always' v-model="isDynamicStressChecked" color="checkbox" val="12" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicOxygen($event)" label='Show Oxygen always' v-model="isDynamicOxygenChecked" color="checkbox" val="13" style="display: flex;"></q-checkbox>
                                 </div>
                                 <hr>
                                 <div class="text-h6 q-mb-md">Vehicle</div>
-                                    <div class="text-h7">
-                                        <q-toggle v-on:click="changeFPS($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`Speedometer FPS ${isChangeFPSChecked}`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeFPSChecked"></q-toggle>
-                                        <div class="text-h7 q-mb-md-d">Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.</div>
-                                        <q-toggle v-on:click="ToggleMapShape($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`Minimap ${isToggleMapShapeChecked}`" unchecked-icon="radio_button_unchecked" false-value="circle" true-value="square" checked-icon="check_box_outline_blank" v-model="isToggleMapShapeChecked"></q-toggle>
-                                        <div class="text-h7 q-mb-md-d">Whether it's square or circle you desire, you have the ability to choose!</div>
-                                        <q-checkbox v-on:click="HideMap($event)" label='Minimap Enabled' v-model="isHideMapChecked" color="checkbox" val="14" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="ToggleMapBorders($event)" label='Minimap Borders Enabled' v-model="isToggleMapBordersChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="dynamicEngine($event)" label='Show Engine always' v-model="isDynamicEngineChecked" color="checkbox" val="16" style="display: flex;"></q-checkbox>
-                                        <q-checkbox v-on:click="dynamicNitro($event)" label='Show Nitro always' v-model="isDynamicNitroChecked" color="checkbox" val="17" style="display: flex;"></q-checkbox>
-                                    </div>
+                                <div class="text-h7">
+                                    <q-toggle v-on:click="changeFPS($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`Speedometer FPS ${isChangeFPSChecked}`" unchecked-icon="60fps" false-value="Synced" true-value="Optimized" checked-icon="30fps" v-model="isChangeFPSChecked"></q-toggle>
+                                    <div class="text-h7 q-mb-md-d">Synced FPS option will result in less optimization, but keep your speedometer in real time, however, it will also be more demanding on your machine.</div>
+                                    <q-toggle v-on:click="ToggleMapShape($event)" size="lg" keep-color icon-color="toggleicons" color="checkbox" :label="`Minimap ${isToggleMapShapeChecked}`" unchecked-icon="radio_button_unchecked" false-value="circle" true-value="square" checked-icon="check_box_outline_blank" v-model="isToggleMapShapeChecked"></q-toggle>
+                                    <div class="text-h7 q-mb-md-d">Whether it's square or circle you desire, you have the ability to choose!</div>
+                                    <q-checkbox v-on:click="HideMap($event)" label='Minimap Enabled' v-model="isHideMapChecked" color="checkbox" val="14" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="ToggleMapBorders($event)" label='Minimap Borders Enabled' v-model="isToggleMapBordersChecked" color="checkbox" val="15" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicEngine($event)" label='Show Engine always' v-model="isDynamicEngineChecked" color="checkbox" val="16" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="dynamicNitro($event)" label='Show Nitro always' v-model="isDynamicNitroChecked" color="checkbox" val="17" style="display: flex;"></q-checkbox>
+                                </div>
                                 <hr>
                                 <div class="text-h6 q-mb-md">Compass</div>
                                 <div class="text-h7">
-                                        <q-item borderless tag="label" v-ripple>
-                                            <q-item-section avatar>
+                                    <q-item borderless tag="label" v-ripple>
+                                        <q-item-section avatar>
                                             <q-checkbox v-on:click="HideCompass($event)" v-model="isHideCompassChecked" color="checkbox" val="18"></q-checkbox>
                                         </q-item-section>
                                         <q-item-section >
@@ -92,7 +91,7 @@
                                             <q-item-label class="text-h7" caption>Disabling the compass enitrely can vastly improve performace</q-item-label>
                                         </q-item-section>
                                     </q-item>
-                                        <q-item borderless tag="label" v-ripple>
+                                    <q-item borderless tag="label" v-ripple>
                                         <q-item-section avatar>
                                             <q-checkbox v-on:click="HideStreets($event)" v-model="isHideStreetsChecked" color="checkbox" val="19"></q-checkbox>
                                         </q-item-section>
@@ -104,12 +103,13 @@
                                 </div>
                                 <hr>
                                 <div class="text-h6 q-mb-md">Cinematic Mode</div>
-                                    <div class="text-h7">
-                                        <q-checkbox v-on:click="cinematicMode($event)" label='Enabled' v-model="isCineamticModeChecked" color="checkbox" val="20" style="display: flex;"></q-checkbox>
-                                    </div>
+                                <div class="text-h7">
+                                    <q-checkbox v-on:click="cinematicMode($event)" label='Enabled' v-model="isCineamticModeChecked" color="checkbox" val="20" style="display: flex;"></q-checkbox>
+                                </div>
                                 <br>
-                                </q-tab-panel>
-                        </template>
+                            </q-tab-panel>
+                        </q-tab-panels>
+                    </template>
                 </q-splitter>
             </div>
         </div>
@@ -171,7 +171,7 @@
                     <div v-if="showStress">
                         <q-circular-progress class="q-ml-xl" style="opacity: 40%;" :value="static" size="50px" :thickness="0.24" color="stress" :min="0" :max="100"></q-circular-progress>
                         <q-circular-progress class="q-ml-xl" style="left: -50%;" show-value :value="stress" size="50px" :thickness="0.24" color="stress" :min="0" :max="100" center-color="grey-10">
-                        <q-icon style="top: -0.5px; left: 0.4px;" name="fas fa-brain" size="19.5px" color="white"/>
+                        <q-icon style="top: -0.5px; left: -0.5px;" name="fas fa-brain" size="19.5px" color="white"/>
                     </div>
                     </transition>
                     <transition name="fade">
@@ -256,13 +256,14 @@
                         <q-icon name="fas fa-user-slash" style="transform: rotate(125deg);" :value="seatbelt" size="21px" :style="{color: seatbeltColor}"/>
                     </div>
                     </transition>
-            <div class="border">
-                <div class="square" v-if="showSquare">
+                    <div class="border">
+                        <div class="square" v-if="showSquare"></div>
+                    </div>
+                    <div class="border">
+                        <div class="circle" v-if="showCircle"></div>
+                    </div>
+                </div>
             </div>
-            <div class="border">
-                <div class="circle" v-if="showCircle">
-            </div>
-        </div>
         </div>
     </body>
 </html>
