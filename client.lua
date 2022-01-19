@@ -684,13 +684,7 @@ CreateThread(function()
                     DisplayRadar(true)
                 end
                 wasInVehicle = true
-                QBCore.Functions.TriggerCallback('hud:server:HasHarness', function(hasItem)
-                    if hasItem then
-                        harness = true
-                    else
-                        harness = false
-                    end
-                end, "harness")
+                harness = QBCore.Functions.HasItem('harness')
                 updatePlayerHud({
                     show,
                     Menu.isDynamicHealthChecked,
