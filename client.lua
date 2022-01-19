@@ -324,7 +324,7 @@ RegisterNetEvent("hud:client:LoadMap", function()
         SetMinimapComponentPosition("minimap", "L", "B", 0.0 + minimapOffset, -0.047, 0.1638, 0.183)
 
         -- icons within map
-        SetMinimapComponentPosition("minimap_mask", "L", "B", 0.2 + minimapOffset, 0.0, 0.065, 0.20)
+        SetMinimapComponentPosition("minimap_mask", "L", "B", 0.0 + minimapOffset, 0.0, 0.128, 0.20)
 
         -- -0.01 = map pulled left
         -- 0.025 = map raised up
