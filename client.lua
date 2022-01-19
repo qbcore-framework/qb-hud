@@ -919,6 +919,7 @@ end)
 CreateThread(function()
     while true do
         SetRadarBigmapEnabled(false, false)
+        SetRadarZoom(1000)
         Wait(500)
     end
 end)
