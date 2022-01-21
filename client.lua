@@ -494,10 +494,10 @@ RegisterCommand('+engine', function()
     if vehicle ~= nil and vehicle ~= 0 and GetPedInVehicleSeat(vehicle, 0) then
         if pause == false then
             if GetPedInVehicleSeat(vehicle, -1) == PlayerPedId() then
-                if (GetIsVehicleEngineRunning(vehicle)) then
-                    QBCore.Functions.Notify('Engine halted!', "error")
+                if GetIsVehicleEngineRunning(vehicle) then
+                    QBCore.Functions.Notify(Lang:t("notify.engine_off"))
                 else
-                    QBCore.Functions.Notify('Engine started!')
+                    QBCore.Functions.Notify(Lang:t("notify.engine_on"))
                 end
                 SetVehicleEngineOn(vehicle, (not GetIsVehicleEngineRunning(vehicle)), false, true)
             end
