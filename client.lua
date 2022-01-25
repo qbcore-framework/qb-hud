@@ -212,6 +212,20 @@ RegisterNUICallback('showOutMap', function()
     saveSettings()
 end)
 
+RegisterNUICallback('showOutCompass', function()
+    Wait(50)
+    Menu.isOutCompassChecked = not Menu.isOutCompassChecked
+    TriggerEvent("hud:client:playHudChecklistSound")
+    saveSettings()
+end)
+
+RegisterNUICallback('showFollowCompass', function()
+	Wait(50)
+    Menu.isCompassFollowChecked = not Menu.isCompassFollowChecked
+    TriggerEvent("hud:client:playHudChecklistSound")
+    saveSettings()
+end)
+
 RegisterNUICallback('showMapNotif', function()
     Wait(50)
     Menu.isMapNotifChecked = not Menu.isMapNotifChecked
@@ -422,6 +436,42 @@ end)
 RegisterNUICallback('dynamicNitro', function()
     Wait(50)
     Menu.isDynamicNitroChecked = not Menu.isDynamicNitroChecked
+    TriggerEvent("hud:client:playHudChecklistSound")
+    saveSettings()
+end)
+
+-- Compass
+RegisterNUICallback('showCompassBase', function()
+	Wait(50)
+    Menu.isCompassShowChecked = not Menu.isCompassShowChecked
+    TriggerEvent("hud:client:playHudChecklistSound")
+    saveSettings()
+end)
+
+RegisterNUICallback('showStreetsNames', function()
+	Wait(50)
+    Menu.isShowStreetsChecked = not Menu.isShowStreetsChecked
+    TriggerEvent("hud:client:playHudChecklistSound")
+    saveSettings()
+end)
+
+RegisterNUICallback('showPointerIndex', function()
+	Wait(50)
+    Menu.isPointerShowChecked = not Menu.isPointerShowChecked
+    TriggerEvent("hud:client:playHudChecklistSound")
+    saveSettings()
+end)
+
+RegisterNUICallback('showDegreesNum', function()
+	Wait(50)
+    Menu.isDegreesShowChecked = not Menu.isDegreesShowChecked
+    TriggerEvent("hud:client:playHudChecklistSound")
+    saveSettings()
+end)
+
+RegisterNUICallback('changeCompassFPS', function()
+	Wait(50)
+    Menu.isChangeCompassFPSChecked = not Menu.isChangeCompassFPSChecked
     TriggerEvent("hud:client:playHudChecklistSound")
     saveSettings()
 end)
@@ -802,7 +852,7 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
     cashAmount = PlayerData.money['cash']
     bankAmount = PlayerData.money['bank']
     SendNUIMessage({
-        action = 'update',
+        action = 'updatemoney',
         cash = cashAmount,
         bank = bankAmount,
         amount = amount,
@@ -952,4 +1002,104 @@ CreateThread(function()
         end
         Wait(0)
     end
+end)
+
+-- Compass
+function round(num, numDecimalPlaces)
+    local mult = 10^(numDecimalPlaces or 0)
+    return math.floor(num + 0.5 * mult)
+end
+
+local prevBaseplateStats = { nil, nil, nil, nil, nil, nil, nil}
+
+local function updateBaseplateHud(data)
+    local shouldUpdate = false
+    for k, v in pairs(data) do
+        if prevBaseplateStats[k] ~= v then shouldUpdate = true break end
+    end
+    prevBaseplateStats = data
+    if shouldUpdate then
+        SendNUIMessage ({
+            action = 'baseplate',
+            show = data[1],
+            street1 = data[2],
+            street2 = data[3],
+            showCompass = data[4],
+            showStreets = data[5],
+            showPointer = data[6],
+            showDegrees = data[7],
+        })
+    end
+end
+
+local lastCrossroadUpdate = 0
+local lastCrossroadCheck = {}
+
+local function getCrossroads(player)
+    local updateTick = GetGameTimer()
+    if updateTick - lastCrossroadUpdate > 1500 then
+        local pos = GetEntityCoords(player)
+        local street1, street2 = GetStreetNameAtCoord(pos.x, pos.y, pos.z)
+        lastCrossroadUpdate = updateTick
+        lastCrossroadCheck = { GetStreetNameFromHashKey(street1), GetStreetNameFromHashKey(street2) }
+    end
+    return lastCrossroadCheck
+end
+
+-- Compass Update loop
+
+CreateThread(function()
+	local heading, lastHeading = 0, 1
+	while true do
+        if Menu.isChangeCompassFPSChecked then
+            Wait(50)
+        else
+            Wait(0)
+        end
+        local show = true
+        local player = PlayerPedId()
+        local camRot = GetGameplayCamRot(0)
+        if Menu.isCompassFollowChecked then
+            heading = tostring(round(360.0 - ((camRot.z + 360.0) % 360.0)))
+        else
+            heading = tostring(round(360.0 - GetEntityHeading(player)))
+        end
+		if heading == '360' then heading = '0' end
+            if heading ~= lastHeading then
+			    if IsPedInAnyVehicle(player) then
+                    local crossroads = getCrossroads(player)
+                    SendNUIMessage ({ 
+                        action = 'update', 
+                        value = heading 
+                    })
+                    updateBaseplateHud({
+                        show,
+                        crossroads[1],
+                        crossroads[2],
+                        Menu.isCompassShowChecked,
+                        Menu.isShowStreetsChecked,
+                        Menu.isPointerShowChecked,
+                        Menu.isDegreesShowChecked,
+                    })
+			    else
+                    if Menu.isOutCompassChecked then
+                        SendNUIMessage ({ 
+                            action = 'update', 
+                            value = heading 
+                        })
+                        SendNUIMessage ({
+                            action = 'baseplate',
+                            show = true,
+                            showCompass = true,
+                        })
+                    else
+                        SendNUIMessage ({
+                            action = 'baseplate',
+                            show = false,
+                        })
+                    end
+			    end
+	        end
+		    lastHeading = heading
+	    end
 end)
