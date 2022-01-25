@@ -1,6 +1,5 @@
 
 # Things you should know:
-* This menu comes with compass options however, the compass resource does **NOT** come with the hud. You can find it here: <br> [lj-compass](https://github.com/loljoshie/lj-compass)
 * To open the menu in-game the **default key** is **"I"** or you can type **"/menu"**
 * Your settings will **always** be **stored locally**, so even if you delete the resource it **will** keep your current settings. The **only** way you can wipe the local storage sucessfully is by clicking the **"Reset Settings"** button on the in-game menu
 * If you want the new super snazzy sound effects for the menu, you'll need to download the latest update of [interact-sound](https://github.com/qbcore-framework/interact-sound) <br>
