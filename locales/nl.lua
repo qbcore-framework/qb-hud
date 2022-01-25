@@ -8,14 +8,17 @@ local Translations = {
         ["loaded_square_map"] = "Vierkante map is geladen!",
         ["load_circle_map"] = "Cirkel map is aan het laden...",
         ["loaded_circle_map"] = "Cirkel map is geladen!",
-        ["cinematic_on"] = "Cinema modus aan!",
-        ["cinematic_off"] = "Cinema modus uit!",
-        ["engine_on"] = "Motor is gestart!",
-        ["engine_off"] = "Motor is gestopt!",
+        ["cinematic_on"] = "Bioscoop modus aan!",
+        ["cinematic_off"] = "Bioscoop modus uit!",
+        ["engine_on"] = "Motor aangezet!",
+        ["engine_off"] = "Motor uitgezet!",
         ["low_fuel"] = "Laag brandstofniveau!",
         ["access_denied"] = "Je bent niet gemachtigd!",
-        ["stress_gain"] = "Gestresseerd zijn!",
-        ["stress_removed"] = "Relaxed zijn!"
+        ["stress_gain"] = "Je voelt je meer gestrest!",
+        ["stress_removed"] = "Je voelt je meer relaxed!"
     }
 }
-Lang = Locale:new({phrases = Translations, warnOnMissing = true})
+Lang = Locale:new({
+    phrases = Translations,
+    warnOnMissing = true
+})
