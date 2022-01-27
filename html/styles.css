@@ -58,7 +58,7 @@ div#q-loading-bar { display: none!important; } /* makes sure there's no ajax loa
 #money-container {
   position: absolute;
   right: 2vw;
-  top: 2vh;
+  top: 5vh;
   font-weight: 400;
   font-size: 40px;
 }
