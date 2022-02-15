@@ -734,13 +734,6 @@ CreateThread(function()
                     DisplayRadar(true)
                 end
                 wasInVehicle = true
-                QBCore.Functions.TriggerCallback('hud:server:HasHarness', function(hasItem)
-                    if hasItem then
-                        harness = true
-                    else
-                        harness = false
-                    end
-                end, "harness")
                 updatePlayerHud({
                     show,
                     Menu.isDynamicHealthChecked,
@@ -859,6 +852,26 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
         minus = isMinus,
         type = type
     })
+end)
+
+-- Harness Check
+
+CreateThread(function()
+    while true do
+        Wait(1000)
+        if LocalPlayer.state.isLoggedIn then
+            local ped = PlayerPedId()
+            if IsPedInAnyVehicle(ped, false) then
+                QBCore.Functions.TriggerCallback('hud:server:HasHarness', function(hasItem)
+                    if hasItem then
+                        harness = true
+                    else
+                        harness = false
+                    end
+                end, "harness")
+            end
+        end
+    end
 end)
 
 -- Stress Gain
