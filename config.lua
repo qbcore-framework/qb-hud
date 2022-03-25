@@ -30,10 +30,10 @@ Config.MinimumSpeed = {
 }
 Config.DrivingStressFrequency = 20000
 -- Multiplier value below will change the driving stress based on the client stress of math.random(1, 3) in client.lua (multiplied and rounded down in server.lua):
--- 1.0 →			[1, 2, 3] (no change)
+-- 1.0 →		[1, 2, 3] (no change)
 -- 0.7 to 0.9 →		[0, 1, 2]
 -- 0.5 to 0.6 →		[0, 1, 1] (note: 1 is twice as likely as 0)
--- 0.4 →			[0, 0, 1] (note: 0 is twice as likely as 1)
+-- 0.4 →		[0, 0, 1] (note: 0 is twice as likely as 1)
 -- 0.0 to 0.3 →		[0, 0, 0] (disables)
 Config.PoliceStressMultiplier = 0.4 -- value from 0.0 to 1.0
 Config.EMSStressMultiplier = 0.6 -- value from 0.0 to 1.0
