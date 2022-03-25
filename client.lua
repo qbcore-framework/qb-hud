@@ -882,7 +882,9 @@ CreateThread(function() -- Speeding
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
                 local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * speedMultiplier
-                local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
+		local vehicle = GetVehiclePedIsIn(ped, false)
+		local vehicleClass = GetVehicleClass(vehicle)
+                local stressSpeed = seatbeltOn and config.MinimumSpeed[vehicleClass].Speed or config.MinimumSpeed[vehicleClass].Unbuckled
                 if speed >= stressSpeed then
                     TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
                 end
