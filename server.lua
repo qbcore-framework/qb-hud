@@ -21,12 +21,20 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
-    if not Player or (Config.DisablePoliceStress and Player.PlayerData.job.name == 'police') then return end
+    local addAmount
+    if not Player then return end
+    if Player.PlayerData.job.name == 'police' and Player.PlayerData.job.onduty then
+        addAmount = math.floor(amount * Config.PoliceStressMultiplier)
+    elseif Player.PlayerData.job.name == 'ambulance' and Player.PlayerData.job.onduty then
+        addAmount = math.floor(amount * Config.EMSStressMultiplier)
+    else
+        addAmount = amount
+    end
     if not ResetStress then
         if not Player.PlayerData.metadata['stress'] then
             Player.PlayerData.metadata['stress'] = 0
         end
-        newStress = Player.PlayerData.metadata['stress'] + amount
+        newStress = Player.PlayerData.metadata['stress'] + addAmount
         if newStress <= 0 then newStress = 0 end
     else
         newStress = 0
@@ -36,7 +44,9 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     end
     Player.Functions.SetMetaData('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-    TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_gain"), 'error', 1500)
+    if addAmount > 0 then
+		TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_gain"), 'error', 1500)
+	end
 end)
 
 RegisterNetEvent('hud:server:RelieveStress', function(amount)
