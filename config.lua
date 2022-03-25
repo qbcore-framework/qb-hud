@@ -4,10 +4,39 @@ Config.OpenMenu = 'I' -- https://docs.fivem.net/docs/game-references/input-mappe
 Config.StressChance = 0.1 -- Default: 10% -- Percentage Stress Chance When Shooting (0-1)
 Config.UseMPH = true -- If true speed math will be done as MPH, if false KPH will be used (YOU HAVE TO CHANGE CONTENT IN STYLES.CSS TO DISPLAY THE CORRECT TEXT)
 Config.MinimumStress = 50 -- Minimum Stress Level For Screen Shaking
-Config.MinimumSpeedUnbuckled = 50 -- Going Over This Speed Will Cause Stress
-Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
-Config.DisablePoliceStress = true -- If true will disable stress for people with the police job
-
+Config.MinimumSpeed = {
+	[0] = {Speed = 90, Unbuckled = 50}, -- Compacts
+	[1] = {Speed = 100, Unbuckled = 50}, -- Sedans
+	[2] = {Speed = 90, Unbuckled = 50}, -- SUVs
+	[3] = {Speed = 100, Unbuckled = 50}, -- Coupes
+	[4] = {Speed = 100, Unbuckled = 50}, -- Muscle
+	[5] = {Speed = 100, Unbuckled = 50}, -- Sports Classics
+	[6] = {Speed = 110, Unbuckled = 50}, -- Sports
+	[7] = {Speed = 120, Unbuckled = 50}, -- Super
+	[8] = {Speed = 80, Unbuckled = 80}, -- Motorcycles
+	[9] = {Speed = 80, Unbuckled = 40}, -- Off-road
+	[10] = {Speed = 50, Unbuckled = 50}, -- Industrial
+	[11] = {Speed = 50, Unbuckled = 50}, -- Utility
+	[12] = {Speed = 70, Unbuckled = 50}, -- Vans
+	[13] = {Speed = 30, Unbuckled = 30}, -- Cycles
+	[14] = {Speed = 50, Unbuckled = 30}, -- Boats
+	[15] = {Speed = 140, Unbuckled = 80}, -- Helicopters
+	[16] = {Speed = 140, Unbuckled = 80}, -- Planes
+	[17] = {Speed = 100, Unbuckled = 50}, -- Service
+	[18] = {Speed = 120, Unbuckled = 50}, -- Emergency
+	[19] = {Speed = 80, Unbuckled = 50}, -- Military
+	[20] = {Speed = 80, Unbuckled = 50}, -- Commercial
+	[21] = {Speed = 80, Unbuckled = 50}, -- Trains
+}
+Config.DrivingStressFrequency = 20000
+-- Multiplier value below will change the driving stress based on the client stress of math.random(1, 3) in client.lua (multiplied and rounded down in server.lua):
+-- 1.0 →			[1, 2, 3] (no change)
+-- 0.7 to 0.9 →		[0, 1, 2]
+-- 0.5 to 0.6 →		[0, 1, 1] (note: 1 is twice as likely as 0)
+-- 0.4 →			[0, 0, 1] (note: 0 is twice as likely as 1)
+-- 0.0 to 0.3 →		[0, 0, 0] (disables)
+Config.PoliceStressMultiplier = 0.4 -- value from 0.0 to 1.0
+Config.EMSStressMultiplier = 0.6 -- value from 0.0 to 1.0
 -- Stress
 Config.WhitelistedWeaponArmed = { -- weapons specifically whitelisted to not show armed mode
     -- miscellaneous
