@@ -890,7 +890,7 @@ CreateThread(function() -- Speeding
                 end
             end
         end
-        Wait(10000)
+        Wait(Config.DrivingStressFrequency)
     end
 end)
 
