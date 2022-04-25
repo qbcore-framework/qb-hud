@@ -54,34 +54,59 @@
     transform: scale(1.3, 1.3);
     bottom: 7.6vh!important;
   }
+  #hud {
+    font-size: 90px!important;
+  }
+  .q-ml-xl {
+    margin-left: -40px!important; /* Change this to space radials */
+  }
+  #icon {
+    font-size: 40px!important;
+  }
   #speedometer {
     position: relative;
     left: 2.5vh!important;
   }
   #fuelgauge {
     position: relative;
-    left: 5.3vh!important;
-    bottom: 7.1vh!important;
+    left: 7.1vh!important;
+    bottom: 5.5vh!important;
   }
   #altitudegauge {
     position: relative;
-    left: 8.2vh!important;
+    left: 12.7vh!important;
   }
   #seatbelt {
     position: relative;
-    left: 6.5vh!important;
+    left: 8vh!important;
+    bottom: 10.5vh!important;
+  }
+  #speed {
+    font-size: 125px!important;
+  }
+  #fuel {
+    font-size: 91px!important;
+  }
+  #fuelicon {
+    font-size: 25px!important;
+  }
+  #alt {
+    font-size: 125px!important;
+  }
+  #seatbelticon {
+    font-size: 25px!important;
   }
   speed {
-    font-size: 1.2vh!important;
+    font-size: 2vh!important;
   }
   speed:after {
-    font-size: 0.6vh!important;
+    font-size: 1vh!important;
   }
   altitude {
-    font-size: 1.2vh!important;
+    font-size: 2vh!important;
   }
   altitude:after {
-    font-size: 0.6vh!important;
+    font-size: 1vh!important;
   }
   .square {
     left: 2.4vh!important;
