@@ -74,6 +74,22 @@ local function saveSettings()
     SetResourceKvp('hudSettings', json.encode(Menu))
 end
 
+local function hasHarness(items)
+    local ped = PlayerPedId()
+    if not IsPedInAnyVehicle(ped, false) then return end
+
+    local _harness = false
+    if items then
+        for _, v in pairs(items) do
+            if v.name == 'harness' then
+                _harness = true
+            end
+        end
+    end
+
+    harness = _harness
+end
+
 RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     Wait(2000)
     local hudSettings = GetResourceKvpString('hudSettings')
@@ -859,17 +875,10 @@ end)
 CreateThread(function()
     while true do
         Wait(1000)
-        if LocalPlayer.state.isLoggedIn then
-            local ped = PlayerPedId()
-            if IsPedInAnyVehicle(ped, false) then
-                QBCore.Functions.TriggerCallback('hud:server:HasHarness', function(hasItem)
-                    if hasItem then
-                        harness = true
-                    else
-                        harness = false
-                    end
-                end, "harness")
-            end
+
+        local ped = PlayerPedId()
+        if IsPedInAnyVehicle(ped, false) then
+            hasHarness(PlayerData.items)
         end
     end
 end)
