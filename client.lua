@@ -735,7 +735,7 @@ CreateThread(function()
                 harness,
                 hp,
                 math.ceil(GetEntitySpeed(vehicle) * speedMultiplier),
-                engine,
+                -1,
                 Menu.isCineamticModeChecked,
                 dev,
             })
