@@ -79,7 +79,7 @@ local function hasHarness(items)
     if not IsPedInAnyVehicle(ped, false) then return end
 
     local _harness = false
-    if items then 
+    if items then
         for _, v in pairs(items) do
             if v.name == 'harness' then
                 _harness = true
