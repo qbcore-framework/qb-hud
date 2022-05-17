@@ -74,6 +74,22 @@ local function saveSettings()
     SetResourceKvp('hudSettings', json.encode(Menu))
 end
 
+local function hasHarness(items)
+    local ped = PlayerPedId()
+    if not IsPedInAnyVehicle(ped, false) then return end
+
+    local _harness = false
+    if items then
+        for _, v in pairs(items) do
+            if v.name == 'harness' then
+                _harness = true
+            end
+        end
+    end
+
+    harness = _harness
+end
+
 RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     Wait(2000)
     local hudSettings = GetResourceKvpString('hudSettings')
@@ -525,7 +541,7 @@ RegisterNetEvent('seatbelt:client:ToggleCruise', function() -- Triggered in smal
     cruiseOn = not cruiseOn
 end)
 
-RegisterNetEvent('hud:client:UpdateNitrous', function(hasNitro, nitroLevel, bool)
+RegisterNetEvent('hud:client:UpdateNitrous', function(_, nitroLevel, bool)
     nos = nitroLevel
     nitroActive = bool
 end)
@@ -689,6 +705,7 @@ CreateThread(function()
             if IsPauseMenuActive() then
                 show = false
             end
+            local vehicle = GetVehiclePedIsIn(player)
             if not (IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle)) then
             updatePlayerHud({
                 show,
@@ -711,20 +728,19 @@ CreateThread(function()
                 talking,
                 armed,
                 oxygen,
-                GetPedParachuteState(player),
+                parachute,
                 -1,
                 cruiseOn,
                 nitroActive,
                 harness,
                 hp,
                 math.ceil(GetEntitySpeed(vehicle) * speedMultiplier),
-                -1,
+                engine,
                 Menu.isCineamticModeChecked,
                 dev,
             })
             end
             -- Vehicle hud
-            local vehicle = GetVehiclePedIsIn(player)
             if IsPedInAnyHeli(player) or IsPedInAnyPlane(player) then
                 showAltitude = true
                 showSeatbelt = false
@@ -859,17 +875,10 @@ end)
 CreateThread(function()
     while true do
         Wait(1000)
-        if LocalPlayer.state.isLoggedIn then
-            local ped = PlayerPedId()
-            if IsPedInAnyVehicle(ped, false) then
-                QBCore.Functions.TriggerCallback('hud:server:HasHarness', function(hasItem)
-                    if hasItem then
-                        harness = true
-                    else
-                        harness = false
-                    end
-                end, "harness")
-            end
+
+        local ped = PlayerPedId()
+        if IsPedInAnyVehicle(ped, false) then
+            hasHarness(PlayerData.items)
         end
     end
 end)
@@ -925,7 +934,7 @@ end)
 -- Stress Screen Effects
 
 local function GetBlurIntensity(stresslevel)
-    for k, v in pairs(config.Intensity['blur']) do
+    for _, v in pairs(config.Intensity['blur']) do
         if stresslevel >= v.min and stresslevel <= v.max then
             return v.intensity
         end
@@ -934,7 +943,7 @@ local function GetBlurIntensity(stresslevel)
 end
 
 local function GetEffectInterval(stresslevel)
-    for k, v in pairs(config.EffectInterval) do
+    for _, v in pairs(config.EffectInterval) do
         if stresslevel >= v.min and stresslevel <= v.max then
             return v.timeout
         end
@@ -959,7 +968,7 @@ CreateThread(function()
             end
 
             Wait(1000)
-            for i = 1, FallRepeat, 1 do
+            for _ = 1, FallRepeat, 1 do
                 Wait(750)
                 DoScreenFadeOut(200)
                 Wait(1000)
@@ -1062,7 +1071,8 @@ end
 -- Compass Update loop
 
 CreateThread(function()
-	local heading, lastHeading = 0, 1
+	local lastHeading = 1
+    local heading
 	while true do
         if Menu.isChangeCompassFPSChecked then
             Wait(50)
@@ -1081,9 +1091,9 @@ CreateThread(function()
             if heading ~= lastHeading then
 			    if IsPedInAnyVehicle(player) then
                     local crossroads = getCrossroads(player)
-                    SendNUIMessage ({ 
-                        action = 'update', 
-                        value = heading 
+                    SendNUIMessage ({
+                        action = 'update',
+                        value = heading
                     })
                     updateBaseplateHud({
                         show,
@@ -1096,9 +1106,9 @@ CreateThread(function()
                     })
 			    else
                     if Menu.isOutCompassChecked then
-                        SendNUIMessage ({ 
-                            action = 'update', 
-                            value = heading 
+                        SendNUIMessage ({
+                            action = 'update',
+                            value = heading
                         })
                         SendNUIMessage ({
                             action = 'baseplate',
