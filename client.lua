@@ -288,7 +288,6 @@ RegisterNetEvent("hud:client:ToggleHealth", function()
     Menu.isDynamicHealthChecked = not Menu.isDynamicHealthChecked
     TriggerEvent("hud:client:playHudChecklistSound")
     saveSettings()
-    cb("ok")
 end)
 
 RegisterNUICallback('dynamicArmor', function(_, cb)
