@@ -1,19 +1,19 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local ResetStress = false
 
-QBCore.Commands.Add('cash', 'Check Cash Balance', {}, false, function(source, args)
+QBCore.Commands.Add('cash', 'Check Cash Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
     local cashamount = Player.PlayerData.money.cash
     TriggerClientEvent('hud:client:ShowAccounts', source, 'cash', cashamount)
 end)
 
-QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, args)
+QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, _)
     local Player = QBCore.Functions.GetPlayer(source)
     local bankamount = Player.PlayerData.money.bank
     TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 end)
 
-QBCore.Commands.Add("dev", "Enable/Disable developer Mode", {}, false, function(source, args)
+QBCore.Commands.Add("dev", "Enable/Disable developer Mode", {}, false, function(source, _)
     TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
 end, 'admin')
 
@@ -61,15 +61,6 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
 end)
 
-QBCore.Functions.CreateCallback('hud:server:HasHarness', function(source, cb)
-    local Ply = QBCore.Functions.GetPlayer(source)
-    local Harness = Ply.Functions.GetItemByName("harness")
-    if Harness ~= nil then
-        cb(true)
-    else
-        cb(false)
-    end
-end)
-QBCore.Functions.CreateCallback('hud:server:getMenu', function(source, cb)
+QBCore.Functions.CreateCallback('hud:server:getMenu', function(_, cb)
     cb(Config.Menu)
-end) 
+end)
