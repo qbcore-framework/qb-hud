@@ -921,10 +921,20 @@ CreateThread(function() -- Speeding
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
-                local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * speedMultiplier
-                local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
-                if speed >= stressSpeed then
-                    TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                local stressSpeed = 0
+                local veh = GetVehiclePedIsIn(ped, false)
+                local vehClass = GetVehicleClass(veh)
+                local speed = GetEntitySpeed(veh) * speedMultiplier
+
+                if vehClass ~= 13 and vehClass ~= 14 and vehClass ~= 15 and vehClass ~= 16 and vehClass ~= 21 then
+                    if vehClass == 8 then
+                        stressSpeed = config.MinimumSpeed
+                    else
+                        stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
+                    end
+                    if speed >= stressSpeed then
+                        TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                    end
                 end
             end
         end
