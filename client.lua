@@ -925,6 +925,7 @@ CreateThread(function() -- Speeding
                 local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
                 if speed >= stressSpeed then
                     TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                    Wait(60000)
                 end
             end
         end
