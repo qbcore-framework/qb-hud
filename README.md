@@ -1,3 +1,9 @@
+This is just a change to Hud Menu to improve FPS
+
+I just added Fps Boost to the Hud Menu
+
+
+_______________________________________________________________________________________________________________________________________________________________________
 
 # Things you should know:
 * To open the menu in-game the **default key** is **"I"** or you can type **"/menu"**
