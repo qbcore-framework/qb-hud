@@ -490,6 +490,10 @@ const app = Vue.createApp({
       targetId = event.currentTarget.id;
       cinematicMode()
     },
+    FPSBoost: function(event) {
+      targetId = event.currentTarget.id;
+      FPSBoost()
+    },
   },
   mounted() {
     this.listener = window.addEventListener("message", (event) => {
@@ -601,6 +605,9 @@ function showDegreesNum() {
 }
 function cinematicMode() {
   $.post('https://qb-hud/cinematicMode');
+}
+function FPSBoost() {
+  $.post('https://qb-hud/fpsboost');
 }
 
 $(document).ready(function () {
