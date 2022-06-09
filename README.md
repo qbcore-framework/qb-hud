@@ -1,3 +1,9 @@
+This is just a change to Hud Menu to improve FPS
+
+I just added Fps Boost to the Hud Menu
+
+
+_______________________________________________________________________________________________________________________________________________________________________
 
 # Things you should know:
 * To open the menu in-game the **default key** is **"I"** or you can type **"/menu"**
@@ -28,6 +34,9 @@
 # Previews
 ### menu config (this is just a preview more options included than what is shown here)
 ![menu](https://user-images.githubusercontent.com/91661118/149598723-b34bb93d-8885-4b3a-a0cc-ab68d756a449.PNG)
+### FPS BOOST
+![Fps Boost](https://user-images.githubusercontent.com/91739770/172916393-95c06bc5-891e-453f-a9b4-e89fc66f75f8.png)
+
 ### all radials
 ![all radials](https://user-images.githubusercontent.com/91661118/143668930-e9475c53-284c-4054-ad9c-88aa98f76768.png)
 ### dead health
@@ -58,3 +67,5 @@
 ![oxygen](https://user-images.githubusercontent.com/91661118/143668693-d623822b-fc78-499a-baa3-a86e29504044.png)
 ### radio (outdated color)
 ![radio](https://user-images.githubusercontent.com/91661118/143668707-eb4bb5e7-5900-4dd8-b500-5fc745a7c146.png)
+
+

@@ -30,6 +30,7 @@ const app = Vue.createApp({
       isPointerShowChecked: this.initIsPointerShowChecked(),
       isDegreesShowChecked: this.initIsDegreesShowChecked(),
       isCineamticModeChecked: this.initIsCineamticModeChecked(),
+      isFPSModeChecked: this.initIsFPSModeChecked(),
 		};
 	},
   setup () {
@@ -154,6 +155,9 @@ const app = Vue.createApp({
 		},
     isCineamticModeChecked: function() {
 			localStorage.setItem("isCineamticModeChecked", this.isCineamticModeChecked);
+		},
+    isFPSModeChecked: function() {
+			localStorage.setItem("isFPSModeChecked", this.isFPSModeChecked);
 		},
 	},
   methods: {
@@ -373,6 +377,14 @@ const app = Vue.createApp({
 				return stored == 'true';
 			}
 		},
+    initIsFPSModeChecked: function() {
+			const stored = localStorage.getItem("isFPSModeChecked");
+			if (stored === null) {
+				return false;
+			} else {
+				return stored == 'true';
+			}
+		},
     resetStorage: function(event) {
       targetId = event.currentTarget.id;
       localStorage.clear();
@@ -490,6 +502,10 @@ const app = Vue.createApp({
       targetId = event.currentTarget.id;
       cinematicMode()
     },
+    FPSBoost: function(event) {
+      targetId = event.currentTarget.id;
+      FPSBoost()
+    },
   },
   mounted() {
     this.listener = window.addEventListener("message", (event) => {
@@ -601,6 +617,9 @@ function showDegreesNum() {
 }
 function cinematicMode() {
   $.post('https://qb-hud/cinematicMode');
+}
+function FPSBoost() {
+  $.post('https://qb-hud/fpsboost');
 }
 
 $(document).ready(function () {
