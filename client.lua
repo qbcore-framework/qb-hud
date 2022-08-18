@@ -1,7 +1,6 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 local PlayerData = QBCore.Functions.GetPlayerData()
-local config = Config
-local speedMultiplier = config.UseMPH and 2.23694 or 3.6
+local speedMultiplier = Config.UseMPH and 2.23694 or 3.6
 local seatbeltOn = false
 local cruiseOn = false
 local showAltitude = false
@@ -24,7 +23,7 @@ local playerDead = false
 local showMenu = false
 local showCircleB = false
 local showSquareB = false
-local Menu = config.Menu
+local Menu = Config.Menu
 local CinematicHeight = 0.2
 local w = 0
 
@@ -600,7 +599,7 @@ RegisterKeyMapping('+engine', 'Toggle Engine', 'keyboard', 'G')
 
 local function IsWhitelistedWeaponArmed(weapon)
     if weapon then
-        for _, v in pairs(config.WhitelistedWeaponArmed) do
+        for _, v in pairs(Config.WhitelistedWeaponArmed) do
             if weapon == v then
                 return true
             end
@@ -928,9 +927,9 @@ CreateThread(function() -- Speeding
 
                 if vehClass ~= 13 and vehClass ~= 14 and vehClass ~= 15 and vehClass ~= 16 and vehClass ~= 21 then
                     if vehClass == 8 then
-                        stressSpeed = config.MinimumSpeed
+                        stressSpeed = Config.MinimumSpeed
                     else
-                        stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
+                        stressSpeed = seatbeltOn and Config.MinimumSpeed or Config.MinimumSpeedUnbuckled
                     end
                     if speed >= stressSpeed then
                         TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
@@ -944,7 +943,7 @@ end)
 
 local function IsWhitelistedWeaponStress(weapon)
     if weapon then
-        for _, v in pairs(config.WhitelistedWeaponStress) do
+        for _, v in pairs(Config.WhitelistedWeaponStress) do
             if weapon == v then
                 return true
             end
@@ -960,7 +959,7 @@ CreateThread(function() -- Shooting
             local weapon = GetSelectedPedWeapon(ped)
             if weapon ~= `WEAPON_UNARMED` then
                 if IsPedShooting(ped) and not IsWhitelistedWeaponStress(weapon) then
-                    if math.random() < config.StressChance then
+                    if math.random() < Config.StressChance then
                         TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
                     end
                 end
@@ -975,7 +974,7 @@ end)
 -- Stress Screen Effects
 
 local function GetBlurIntensity(stresslevel)
-    for _, v in pairs(config.Intensity['blur']) do
+    for _, v in pairs(Config.Intensity['blur']) do
         if stresslevel >= v.min and stresslevel <= v.max then
             return v.intensity
         end
@@ -984,7 +983,7 @@ local function GetBlurIntensity(stresslevel)
 end
 
 local function GetEffectInterval(stresslevel)
-    for _, v in pairs(config.EffectInterval) do
+    for _, v in pairs(Config.EffectInterval) do
         if stresslevel >= v.min and stresslevel <= v.max then
             return v.timeout
         end
@@ -1018,7 +1017,7 @@ CreateThread(function()
                 Wait(BlurIntensity)
                 TriggerScreenblurFadeOut(1000.0)
             end
-        elseif stress >= config.MinimumStress then
+        elseif stress >= Config.MinimumStress then
             local BlurIntensity = GetBlurIntensity(stress)
             TriggerScreenblurFadeIn(1000.0)
             Wait(BlurIntensity)
