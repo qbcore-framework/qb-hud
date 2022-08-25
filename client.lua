@@ -18,7 +18,6 @@ local hp = 100
 local armed = 0
 local parachute = -1
 local oxygen = 100
-local engine = 0
 local dev = false
 local playerDead = false
 local showMenu = false
@@ -921,12 +920,12 @@ CreateThread(function() -- Speeding
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
-                local stressSpeed = 0
                 local veh = GetVehiclePedIsIn(ped, false)
                 local vehClass = GetVehicleClass(veh)
                 local speed = GetEntitySpeed(veh) * speedMultiplier
 
                 if vehClass ~= 13 and vehClass ~= 14 and vehClass ~= 15 and vehClass ~= 16 and vehClass ~= 21 then
+                    local stressSpeed
                     if vehClass == 8 then
                         stressSpeed = config.MinimumSpeed
                     else
