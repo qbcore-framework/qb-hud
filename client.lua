@@ -542,10 +542,6 @@ RegisterNUICallback('cinematicMode', function(_, cb)
     cb("ok")
 end)
 
-RegisterNetEvent("hud:client:EngineHealth", function(newEngine)
-    engine = newEngine
-end)
-
 RegisterNetEvent('hud:client:ToggleAirHud', function()
     showAltitude = not showAltitude
 end)
