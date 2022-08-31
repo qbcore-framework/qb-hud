@@ -18,7 +18,6 @@ local hp = 100
 local armed = 0
 local parachute = -1
 local oxygen = 100
-local engine = 0
 local dev = false
 local playerDead = false
 local showMenu = false
@@ -543,10 +542,6 @@ RegisterNUICallback('cinematicMode', function(_, cb)
     cb("ok")
 end)
 
-RegisterNetEvent("hud:client:EngineHealth", function(newEngine)
-    engine = newEngine
-end)
-
 RegisterNetEvent('hud:client:ToggleAirHud', function()
     showAltitude = not showAltitude
 end)
@@ -584,19 +579,6 @@ end)
 RegisterNetEvent("qb-admin:client:ToggleDevmode", function()
     dev = not dev
 end)
-
-RegisterCommand('+engine', function()
-    local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
-    if vehicle == 0 or GetPedInVehicleSeat(vehicle, -1) ~= PlayerPedId() then return end
-    if GetIsVehicleEngineRunning(vehicle) then
-        QBCore.Functions.Notify(Lang:t("notify.engine_off"))
-    else
-        QBCore.Functions.Notify(Lang:t("notify.engine_on"))
-    end
-    SetVehicleEngineOn(vehicle, not GetIsVehicleEngineRunning(vehicle), false, true)
-end)
-
-RegisterKeyMapping('+engine', 'Toggle Engine', 'keyboard', 'G')
 
 local function IsWhitelistedWeaponArmed(weapon)
     if weapon then
@@ -921,10 +903,20 @@ CreateThread(function() -- Speeding
         if LocalPlayer.state.isLoggedIn then
             local ped = PlayerPedId()
             if IsPedInAnyVehicle(ped, false) then
-                local speed = GetEntitySpeed(GetVehiclePedIsIn(ped, false)) * speedMultiplier
-                local stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
-                if speed >= stressSpeed then
-                    TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                local veh = GetVehiclePedIsIn(ped, false)
+                local vehClass = GetVehicleClass(veh)
+                local speed = GetEntitySpeed(veh) * speedMultiplier
+
+                if vehClass ~= 13 and vehClass ~= 14 and vehClass ~= 15 and vehClass ~= 16 and vehClass ~= 21 then
+                    local stressSpeed
+                    if vehClass == 8 then
+                        stressSpeed = config.MinimumSpeed
+                    else
+                        stressSpeed = seatbeltOn and config.MinimumSpeed or config.MinimumSpeedUnbuckled
+                    end
+                    if speed >= stressSpeed then
+                        TriggerServerEvent('hud:server:GainStress', math.random(1, 3))
+                    end
                 end
             end
         end
