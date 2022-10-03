@@ -26,6 +26,7 @@ local showSquareB = false
 local Menu = config.Menu
 local CinematicHeight = 0.2
 local w = 0
+local booston = false
 
 DisplayRadar(false)
 
@@ -543,7 +544,6 @@ RegisterNUICallback('cinematicMode', function(_, cb)
 end)
 
 RegisterNUICallback('fpsboost', function()
-    local booston = false
     setFpsBoost = not setFpsBoost
     if setFpsBoost then
         SetTimecycleModifier("cinema")
@@ -551,7 +551,7 @@ RegisterNUICallback('fpsboost', function()
     elseif not setFpsBoost then
         SetTimecycleModifier("default")
         booston = false
-    end 
+    end
 end)
 
 RegisterNetEvent('hud:client:ToggleAirHud', function()
