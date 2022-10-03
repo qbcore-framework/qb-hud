@@ -542,6 +542,18 @@ RegisterNUICallback('cinematicMode', function(_, cb)
     cb("ok")
 end)
 
+RegisterNUICallback('fpsboost', function()
+    local booston = false
+    setFpsBoost = not setFpsBoost
+    if setFpsBoost then
+        SetTimecycleModifier("cinema")
+        booston = true
+    elseif not setFpsBoost then
+        SetTimecycleModifier("default")
+        booston = false
+    end 
+end)
+
 RegisterNetEvent('hud:client:ToggleAirHud', function()
     showAltitude = not showAltitude
 end)
