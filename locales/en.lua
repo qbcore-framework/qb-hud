@@ -18,4 +18,8 @@ local Translations = {
         ["stress_removed"] = "Feeling More Relaxed!"
     }
 }
-Lang = Locale:new({phrases = Translations, warnOnMissing = true})
+
+Lang = Lang or Locale:new({
+    phrases = Translations,
+    warnOnMissing = true
+})
