@@ -94,11 +94,14 @@ RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     local hudSettings = GetResourceKvpString('hudSettings')
     if hudSettings then loadSettings(json.decode(hudSettings)) end
     PlayerData = QBCore.Functions.GetPlayerData()
+    local hash = GetEntityModel(PlayerPedId())
     Citizen.Wait(3000)
-    if GetEntityMaxHealth(GetPlayerPed(-1)) ~= 200 then
+    local hash = GetEntityModel(PlayerPedId())
 
-    SetEntityHealth(PlayerPedId(), 200)
+    if GetEntityMaxHealth(GetPlayerPed(-1)) ~= 200  and  hash == `mp_f_freemode_01` then
+        SetEntityHealth(PlayerPedId(), 200)
     end
+
 end)
 
 RegisterNetEvent("QBCore:Client:OnPlayerUnload", function()
