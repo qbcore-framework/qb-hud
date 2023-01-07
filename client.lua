@@ -94,6 +94,11 @@ RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     local hudSettings = GetResourceKvpString('hudSettings')
     if hudSettings then loadSettings(json.decode(hudSettings)) end
     PlayerData = QBCore.Functions.GetPlayerData()
+    Citizen.Wait(3000)
+    if GetEntityMaxHealth(GetPlayerPed(-1)) ~= 200 then
+
+    SetEntityHealth(PlayerPedId(), 200)
+    end
 end)
 
 RegisterNetEvent("QBCore:Client:OnPlayerUnload", function()
