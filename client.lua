@@ -94,7 +94,6 @@ RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     local hudSettings = GetResourceKvpString('hudSettings')
     if hudSettings then loadSettings(json.decode(hudSettings)) end
     PlayerData = QBCore.Functions.GetPlayerData()
-    local hash = GetEntityModel(PlayerPedId())
     Citizen.Wait(3000)
     local hash = GetEntityModel(PlayerPedId())
 
@@ -103,6 +102,7 @@ RegisterNetEvent("QBCore:Client:OnPlayerLoaded", function()
     end
 
 end)
+
 
 RegisterNetEvent("QBCore:Client:OnPlayerUnload", function()
     PlayerData = {}
