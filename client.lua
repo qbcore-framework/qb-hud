@@ -544,11 +544,10 @@ RegisterNUICallback('cinematicMode', function(_, cb)
 end)
 
 RegisterNUICallback('fpsboost', function()
-    setFpsBoost = not setFpsBoost
-    if setFpsBoost then
+    if booston then
         SetTimecycleModifier("cinema")
         booston = true
-    elseif not setFpsBoost then
+    else
         SetTimecycleModifier("default")
         booston = false
     end
