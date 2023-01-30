@@ -947,7 +947,7 @@ const playerHud = {
         this.nosColor = "#FFFFFF";
       }
 
-      if (data.talking && data.radioActive) {
+      if (data.radioActive) {
         this.talkingColor = "#D64763";
       } else if (data.talking) {
         this.talkingColor = '#FFFF3E';
