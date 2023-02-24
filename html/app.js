@@ -29,7 +29,7 @@ const app = Vue.createApp({
       isShowStreetsChecked: this.initIsShowStreetsChecked(),
       isPointerShowChecked: this.initIsPointerShowChecked(),
       isDegreesShowChecked: this.initIsDegreesShowChecked(),
-      isCineamticModeChecked: this.initIsCineamticModeChecked(),
+      isCinematicModeChecked: this.initisCinematicModeChecked(),
 		};
 	},
   setup () {
@@ -152,8 +152,8 @@ const app = Vue.createApp({
     isDegreesShowChecked: function() {
 			localStorage.setItem("isDegreesShowChecked", this.isDegreesShowChecked);
 		},
-    isCineamticModeChecked: function() {
-			localStorage.setItem("isCineamticModeChecked", this.isCineamticModeChecked);
+    isCinematicModeChecked: function() {
+			localStorage.setItem("isCinematicModeChecked", this.isCinematicModeChecked);
 		},
 	},
   methods: {
@@ -365,8 +365,8 @@ const app = Vue.createApp({
 				return stored == 'true';
 			}
 		},
-    initIsCineamticModeChecked: function() {
-			const stored = localStorage.getItem("isCineamticModeChecked");
+    initisCinematicModeChecked: function() {
+			const stored = localStorage.getItem("isCinematicModeChecked");
 			if (stored === null) {
 				return false;
 			} else {

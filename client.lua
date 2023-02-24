@@ -52,8 +52,8 @@ local function loadSettings(settings)
         if k == 'isToggleMapShapeChecked' then
             Menu.isToggleMapShapeChecked = v
             SendNUIMessage({ test = true, event = k, toggle = v})
-        elseif k == 'isCineamticModeChecked' then
-            Menu.isCineamticModeChecked = v
+        elseif k == 'isCinematicModeChecked' then
+            Menu.isCinematicModeChecked = v
             CinematicShow(v)
             SendNUIMessage({ test = true, event = k, toggle = v})
         elseif k == 'isChangeFPSChecked' then
@@ -528,16 +528,16 @@ end)
 
 RegisterNUICallback('cinematicMode', function(_, cb)
     Wait(50)
-    if Menu.isCineamticModeChecked then
+    if Menu.isCinematicModeChecked then
         CinematicShow(false)
-        Menu.isCineamticModeChecked = false
+        Menu.isCinematicModeChecked = false
         if Menu.isCinematicNotifChecked then
             QBCore.Functions.Notify(Lang:t("notify.cinematic_off"), 'error')
         end
         DisplayRadar(1)
     else
         CinematicShow(true)
-        Menu.isCineamticModeChecked = true
+        Menu.isCinematicModeChecked = true
         if Menu.isCinematicNotifChecked then
             QBCore.Functions.Notify(Lang:t("notify.cinematic_on"))
         end
@@ -755,7 +755,7 @@ CreateThread(function()
                 hp,
                 math.ceil(GetEntitySpeed(vehicle) * speedMultiplier),
                 -1,
-                Menu.isCineamticModeChecked,
+                Menu.isCinematicModeChecked,
                 dev,
                 radioActive,
             })
@@ -799,7 +799,7 @@ CreateThread(function()
                     hp,
                     math.ceil(GetEntitySpeed(vehicle) * speedMultiplier),
                     (GetVehicleEngineHealth(vehicle) / 10),
-                    Menu.isCineamticModeChecked,
+                    Menu.isCinematicModeChecked,
                     dev,
                     radioActive,
                 })

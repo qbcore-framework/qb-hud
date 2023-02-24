@@ -140,6 +140,6 @@ Config.Menu = {
     isShowStreetsChecked = true, -- isShowStreetsChecked
     isPointerShowChecked = true, -- isPointerShowChecked
     isDegreesShowChecked = true, -- isDegreesShowChecked
-    isCineamticModeChecked = false, -- isCineamticModeChecked
+    isCinematicModeChecked = false, -- isCinematicModeChecked
     isToggleMapShapeChecked = 'square', -- isToggleMapShapeChecked
 }
