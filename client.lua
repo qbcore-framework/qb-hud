@@ -549,7 +549,7 @@ RegisterNUICallback('cinematicMode', function(_, cb)
 end)
 
 RegisterNUICallback('fpsboost', function()
-    if booston then
+    if not booston then
         SetTimecycleModifier("cinema")
         booston = true
     else
