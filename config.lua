@@ -1,20 +1,20 @@
 Config = {}
 
-Config.OpenMenu = 'I' -- https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/keyboard/
-Config.StressChance = 0.1 -- Default: 10% -- Percentage Stress Chance When Shooting (0-1)
-Config.UseMPH = true -- If true speed math will be done as MPH, if false KPH will be used (YOU HAVE TO CHANGE CONTENT IN STYLES.CSS TO DISPLAY THE CORRECT TEXT)
-Config.MinimumStress = 50 -- Minimum Stress Level For Screen Shaking
+Config.OpenMenu = 'I'             -- https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/keyboard/
+Config.StressChance = 0.1         -- Default: 10% -- Percentage Stress Chance When Shooting (0-1)
+Config.UseMPH = true              -- If true speed math will be done as MPH, if false KPH will be used (YOU HAVE TO CHANGE CONTENT IN STYLES.CSS TO DISPLAY THE CORRECT TEXT)
+Config.MinimumStress = 50         -- Minimum Stress Level For Screen Shaking
 Config.MinimumSpeedUnbuckled = 50 -- Going Over This Speed Will Cause Stress
-Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
-Config.DisableStress = false -- If true will disable stress completely for all players
+Config.MinimumSpeed = 100         -- Going Over This Speed Will Cause Stress
+Config.DisableStress = false      -- If true will disable stress completely for all players
 
 -- Stress:
-Config.WhitelistedVehicles = { -- Disable gaining stress from speeding in any vehicle in this table
+Config.StressDisabledVehicles = { -- Disable gaining stress from speeding in any vehicle in this table
     -- "adder",
 }
 
 
-Config.WhitelistedVehClasses = { -- Disable gaining stress from speeding in any vehicle class in this table
+Config.StressDisabledVehClasses = { -- Disable gaining stress from speeding in any vehicle class in this table
     13,
     14,
     15,
@@ -22,13 +22,13 @@ Config.WhitelistedVehClasses = { -- Disable gaining stress from speeding in any 
     21
 }
 
-Config.WhitelistedJobs = { -- Disable stress completely for players with matching job when set to true
+Config.StressDisabledJobs = { -- Disable stress completely for players with matching job when set to true
     ["police"] = true,
     ["ambulance"] = false,
     -- ["customjob"] = true
 }
 
-Config.WhitelistedWeaponArmed = { -- weapons specifically whitelisted to not show armed mode
+Config.WeaponNotArmed = { -- Weapons in this table will not show "armed" icon on hud
     -- miscellaneous
     `weapon_petrolcan`,
     `weapon_hazardcan`,
@@ -69,7 +69,7 @@ Config.WhitelistedWeaponArmed = { -- weapons specifically whitelisted to not sho
     `weapon_flare`
 }
 
-Config.WhitelistedWeaponStress = {
+Config.StressDisabledWeapon = {
     `weapon_petrolcan`,
     `weapon_hazardcan`,
     `weapon_fireextinguisher`
@@ -134,31 +134,31 @@ Config.EffectInterval = {
 }
 
 Config.Menu = {
-    isOutMapChecked = false, -- isOutMapChecked
-    isOutCompassChecked = false, -- isOutMapChecked
-    isCompassFollowChecked = true, -- isCompassFollowChecked
-    isOpenMenuSoundsChecked = true, -- isOpenMenuSoundsChecked
-    isResetSoundsChecked = true, -- isResetSoundsChecked
-    isListSoundsChecked = true, -- isListSoundsChecked
-    isMapNotifChecked = true, -- isMapNotifChecked
-    isLowFuelChecked = true, -- isLowFuelChecked
-    isCinematicNotifChecked = true, -- isCinematicNotifChecked
-    isDynamicHealthChecked = true, -- isDynamicHealthChecked
-    isDynamicArmorChecked= true, -- isDynamicArmorChecked
-    isDynamicHungerChecked = true, -- isDynamicHungerChecked
-    isDynamicThirstChecked = true, -- isDynamicThirstChecked
-    isDynamicStressChecked = true, -- isDynamicStressChecked
-    isDynamicOxygenChecked = true, -- isDynamicOxygenChecked
-    isChangeFPSChecked = true, -- isChangeFPSChecked
-    isHideMapChecked = false, -- isHideMapChecked
-    isToggleMapBordersChecked = true, -- isToggleMapBordersChecked
-    isDynamicEngineChecked = true, -- isDynamicEngineChecked
-    isDynamicNitroChecked = true, -- isDynamicNitroChecked
-    isChangeCompassFPSChecked = true, -- isChangeCompassFPSChecked
-    isCompassShowChecked = true, -- isShowCompassChecked
-    isShowStreetsChecked = true, -- isShowStreetsChecked
-    isPointerShowChecked = true, -- isPointerShowChecked
-    isDegreesShowChecked = true, -- isDegreesShowChecked
-    isCineamticModeChecked = false, -- isCineamticModeChecked
+    isOutMapChecked = false,            -- isOutMapChecked
+    isOutCompassChecked = false,        -- isOutMapChecked
+    isCompassFollowChecked = true,      -- isCompassFollowChecked
+    isOpenMenuSoundsChecked = true,     -- isOpenMenuSoundsChecked
+    isResetSoundsChecked = true,        -- isResetSoundsChecked
+    isListSoundsChecked = true,         -- isListSoundsChecked
+    isMapNotifChecked = true,           -- isMapNotifChecked
+    isLowFuelChecked = true,            -- isLowFuelChecked
+    isCinematicNotifChecked = true,     -- isCinematicNotifChecked
+    isDynamicHealthChecked = true,      -- isDynamicHealthChecked
+    isDynamicArmorChecked = true,       -- isDynamicArmorChecked
+    isDynamicHungerChecked = true,      -- isDynamicHungerChecked
+    isDynamicThirstChecked = true,      -- isDynamicThirstChecked
+    isDynamicStressChecked = true,      -- isDynamicStressChecked
+    isDynamicOxygenChecked = true,      -- isDynamicOxygenChecked
+    isChangeFPSChecked = true,          -- isChangeFPSChecked
+    isHideMapChecked = false,           -- isHideMapChecked
+    isToggleMapBordersChecked = true,   -- isToggleMapBordersChecked
+    isDynamicEngineChecked = true,      -- isDynamicEngineChecked
+    isDynamicNitroChecked = true,       -- isDynamicNitroChecked
+    isChangeCompassFPSChecked = true,   -- isChangeCompassFPSChecked
+    isCompassShowChecked = true,        -- isShowCompassChecked
+    isShowStreetsChecked = true,        -- isShowStreetsChecked
+    isPointerShowChecked = true,        -- isPointerShowChecked
+    isDegreesShowChecked = true,        -- isDegreesShowChecked
+    isCineamticModeChecked = false,     -- isCineamticModeChecked
     isToggleMapShapeChecked = 'square', -- isToggleMapShapeChecked
 }
