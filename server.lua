@@ -21,8 +21,11 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress
-    if not Player or (Config.DisablePoliceStress and Player.PlayerData.job.name == 'police') then return end
-    if not Player or (Config.DisableAmbulanceStress and Player.PlayerData.job.name == 'ambulance') then return end
+    for _,i in ipairs(Config.DisableJobStress) do
+        if Player.PlayerData.job.name == i then
+            return
+        end
+    end
     if not ResetStress then
         if not Player.PlayerData.metadata['stress'] then
             Player.PlayerData.metadata['stress'] = 0
