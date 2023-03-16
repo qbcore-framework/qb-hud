@@ -6,13 +6,12 @@ Config.UseMPH = true -- If true speed math will be done as MPH, if false KPH wil
 Config.MinimumStress = 50 -- Minimum Stress Level For Screen Shaking
 Config.MinimumSpeedUnbuckled = 50 -- Going Over This Speed Will Cause Stress
 Config.MinimumSpeed = 100 -- Going Over This Speed Will Cause Stress
-
--- List of Jobs to disable stress for
-Config.DisableJobStress = {
-    'police',
-    'ambulance',
-    'tow'
-}
+Config.DisableStress = false -- Disable Stress for everyone
+Config.DisableJobStress = { -- Disable job for specific jobs
+    ["police"] = true,
+    ["ambulance"] = true,
+    ["taxi"] = false
+  }
 
 -- Stress
 Config.WhitelistedWeaponArmed = { -- weapons specifically whitelisted to not show armed mode
