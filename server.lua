@@ -18,10 +18,13 @@ QBCore.Commands.Add("dev", "Enable/Disable developer Mode", {}, false, function(
 end, 'admin')
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
+    if Config.DisableStress then return end
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
+    local Job = Player.PlayerData.job.name
+    local JobType = Player.PlayerData.job.type
     local newStress
-    if not Player or (Config.DisablePoliceStress and Player.PlayerData.job.name == 'police') then return end
+    if not Player or Config.WhitelistedJobs[JobType] or Config.WhitelistedJobs[Job] then return end
     if not ResetStress then
         if not Player.PlayerData.metadata['stress'] then
             Player.PlayerData.metadata['stress'] = 0
@@ -40,6 +43,7 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
 end)
 
 RegisterNetEvent('hud:server:RelieveStress', function(amount)
+    if Config.DisableStress then return end
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
     local newStress

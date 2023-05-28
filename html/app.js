@@ -29,7 +29,7 @@ const app = Vue.createApp({
       isShowStreetsChecked: this.initIsShowStreetsChecked(),
       isPointerShowChecked: this.initIsPointerShowChecked(),
       isDegreesShowChecked: this.initIsDegreesShowChecked(),
-      isCineamticModeChecked: this.initIsCineamticModeChecked(),
+      isCinematicModeChecked: this.initisCinematicModeChecked(),
 		};
 	},
   setup () {
@@ -38,7 +38,7 @@ const app = Vue.createApp({
       { loading: false, percentage: 0 },
       { loading: false, percentage: 0 }
     ])
-    
+
     const intervals = [ null, null, null ]
 
     function startComputing (id) {
@@ -58,7 +58,7 @@ const app = Vue.createApp({
       intervals.forEach(val => {
         clearInterval(val)
       })
-    }) 
+    })
     return {
       framework: {
         plugins: [
@@ -152,8 +152,8 @@ const app = Vue.createApp({
     isDegreesShowChecked: function() {
 			localStorage.setItem("isDegreesShowChecked", this.isDegreesShowChecked);
 		},
-    isCineamticModeChecked: function() {
-			localStorage.setItem("isCineamticModeChecked", this.isCineamticModeChecked);
+    isCinematicModeChecked: function() {
+			localStorage.setItem("isCinematicModeChecked", this.isCinematicModeChecked);
 		},
 	},
   methods: {
@@ -284,7 +284,7 @@ const app = Vue.createApp({
 			} else {
 				return stored;
 			}
-		}, 
+		},
     initIsToggleMapShapeChecked: function() {
 			const stored = localStorage.getItem("isToggleMapShapeChecked");
 			if (stored === null) {
@@ -332,7 +332,7 @@ const app = Vue.createApp({
 			} else {
 				return stored;
 			}
-		}, 
+		},
     initIsShowCompassChecked: function() {
 			const stored = localStorage.getItem("isShowCompassChecked");
 			if (stored === null) {
@@ -365,8 +365,8 @@ const app = Vue.createApp({
 				return stored == 'true';
 			}
 		},
-    initIsCineamticModeChecked: function() {
-			const stored = localStorage.getItem("isCineamticModeChecked");
+    initisCinematicModeChecked: function() {
+			const stored = localStorage.getItem("isCinematicModeChecked");
 			if (stored === null) {
 				return false;
 			} else {
@@ -779,7 +779,7 @@ const playerHud = {
       radioActive: false,
     };
   },
-  
+
   destroyed() {
     window.removeEventListener("message", this.listener);
   },
@@ -787,7 +787,7 @@ const playerHud = {
     this.listener = window.addEventListener("message", (event) => {
       if (event.data.action === "hudtick") {
         this.hudTick(event.data);
-      } 
+      }
       // else if(event.data.update) {
       //   eval(event.data.action + "(" + event.data.show + ')')
       // }
@@ -836,7 +836,7 @@ const playerHud = {
           }
       } else if (data.dynamicHealth == false){
         this.showHealth = true;
-      } 
+      }
       if (data.playerDead === false) {
         this.healthColor = "#3FA554";
       } else {
@@ -846,13 +846,13 @@ const playerHud = {
 
       if (data.dynamicArmor == true) {
         if (data.armor == 0) {
-          this.showArmor = false; 
+          this.showArmor = false;
         }  else {
             this.showArmor = true;
           }
       } else if (data.dynamicArmor == false){
         this.showArmor = true;
-      } 
+      }
 
       if (data.armor <= 0) {
         this.armorColor = "#FF0000";
@@ -868,7 +868,7 @@ const playerHud = {
           }
       } else if (data.dynamicHunger == false){
         this.showHunger = true;
-      } 
+      }
       if (data.hunger >= 100) {
         this.hungerColor = "#dd6e14";
       } else if(data.hunger <= 30){
@@ -885,7 +885,7 @@ const playerHud = {
           }
       } else if (data.dynamicThirst == false){
         this.showThirst = true;
-      } 
+      }
       if (data.thirst >= 100) {
         this.thirstColor = "#1a7cad";
       } else if(data.thirst <= 30){
@@ -896,13 +896,13 @@ const playerHud = {
 
       if (data.dynamicStress == true) {
         if (data.stress == 0) {
-          this.showStress = false; 
+          this.showStress = false;
         }  else {
             this.showStress = true;
           }
       } else if (data.dynamicStress == false){
         this.showStress = true;
-      } 
+      }
 
       if (data.dynamicOxygen == true) {
         if (data.oxygen >= 100) {
@@ -912,30 +912,30 @@ const playerHud = {
           }
       } else if (data.dynamicOxygen == false){
         this.showOxygen = true;
-      } 
+      }
 
       if (data.dynamicEngine == true) {
         if (data.engine >= 95) {
-          this.showEngine = false; 
+          this.showEngine = false;
         } else if  (data.engine < 0){
           this.showEngine = false;} else {this.showEngine = true;}
       } else if (data.dynamicEngine == false){
         if  (data.engine < 0) {
           this.showEngine = false;} else {this.showEngine = true;}
-      } 
+      }
       if (data.engine <= 45) {
         this.engineColor = "#ff0000";
       } else if (data.engine <= 75 && data.engine >= 46 ) {
         this.engineColor = "#dd6e14";
       } else if(data.engine<=100) {
         this.engineColor = "#3FA554";
-      } 
+      }
 
       if (data.dynamicNitro == true) {
       if (data.nos === 0 || data.nos === undefined) {
         this.showNos = false;
       } else if  (data.nos < 0){
-        this.showNos = false;} else {this.showNos = true;}  
+        this.showNos = false;} else {this.showNos = true;}
       } else if  (data.dynamicNitro == false)  {
         if  (data.nos < 0){
           this.showNos = false;
@@ -1020,7 +1020,7 @@ const vehHud = {
       seatbeltColor: "",
     };
   },
-  
+
   destroyed() {
     window.removeEventListener("message", this.listener);
   },

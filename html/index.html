@@ -35,7 +35,7 @@
                         <rect width="3" stroke="black" fill="white" stroke-width="0.5" stroke-opacity="0.6" v-if="showCompass" height="9" x="405"/>
                         <rect width="3" stroke="black" fill="white" stroke-width="0.5" stroke-opacity="0.6" v-if="showCompass" height="20" x="450"/>
                     </svg>
-            
+
                     <svg class="bearing">
                         <text v-if="showCompass" x="0" y="1.5" dominant-baseline="middle" text-anchor="middle" fill= "yellow">N</text>
                         <text v-if="showCompass" x="360" y="1.5" dominant-baseline="middle" text-anchor="middle" fill= "yellow">N</text>
@@ -113,7 +113,7 @@
                                         <q-checkbox v-on:click="showFuelAlert($event)" label='Low Fuel Alert Enabled' v-model="isLowFuelChecked" color="checkbox" val="8" style="display: flex;"></q-checkbox>
                                         <q-checkbox v-on:click="showCinematicNotif($event)" label='Cinematic Mode Notifications Enabled' v-model="isCinematicNotifChecked" color="checkbox" val="9" style="display: flex;"></q-checkbox>
                                     </div>
-                                </div>                        
+                                </div>
                                 <hr>
                                 <div class="text-h6 q-mb-md">Status</div>
                                 <div class="text-h7">
@@ -181,7 +181,7 @@
                                 <hr>
                                 <div class="text-h6 q-mb-md">Cinematic Mode</div>
                                 <div class="text-h7">
-                                    <q-checkbox v-on:click="cinematicMode($event)" label='Enabled' v-model="isCineamticModeChecked" color="checkbox" val="23" style="display: flex;"></q-checkbox>
+                                    <q-checkbox v-on:click="cinematicMode($event)" label='Enabled' v-model="isCinematicModeChecked" color="checkbox" val="23" style="display: flex;"></q-checkbox>
                                 </div>
                                 <br>
                             </q-tab-panel>
