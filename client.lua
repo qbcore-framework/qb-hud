@@ -857,13 +857,13 @@ RegisterNetEvent('hud:client:ShowAccounts', function(type, amount)
         SendNUIMessage({
             action = 'show',
             type = 'cash',
-            cash = amount
+            cash = math.floor(amount)
         })
     else
         SendNUIMessage({
             action = 'show',
             type = 'bank',
-            bank = amount
+            bank = math.floor(amount)
         })
     end
 end)
@@ -873,9 +873,9 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
     bankAmount = PlayerData.money['bank']
     SendNUIMessage({
         action = 'updatemoney',
-        cash = cashAmount,
-        bank = bankAmount,
-        amount = amount,
+        cash = math.floor(cashAmount),
+        bank = math.floor(bankAmount),
+        amount = math.floor(amount),
         minus = isMinus,
         type = type
     })
