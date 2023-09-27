@@ -852,18 +852,20 @@ end)
 
 -- Money HUD
 
+local Round = math.floor
+
 RegisterNetEvent('hud:client:ShowAccounts', function(type, amount)
     if type == 'cash' then
         SendNUIMessage({
             action = 'show',
             type = 'cash',
-            cash = amount
+            cash = Round(amount)
         })
     else
         SendNUIMessage({
             action = 'show',
             type = 'bank',
-            bank = amount
+            bank = Round(amount)
         })
     end
 end)
@@ -873,9 +875,9 @@ RegisterNetEvent('hud:client:OnMoneyChange', function(type, amount, isMinus)
     bankAmount = PlayerData.money['bank']
     SendNUIMessage({
         action = 'updatemoney',
-        cash = cashAmount,
-        bank = bankAmount,
-        amount = amount,
+        cash = Round(cashAmount),
+        bank = Round(bankAmount),
+        amount = Round(amount),
         minus = isMinus,
         type = type
     })
