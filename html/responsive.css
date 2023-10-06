@@ -286,6 +286,31 @@
   }
 }
 
+@media (width:2560px) and (height:1080px) {
+  #speedometer {
+    position: relative;
+    left: 2.5vh!important;
+  }
+  #fuelgauge {
+    position: relative;
+    left: 6.5vh!important;
+    bottom: 5.7vh!important;
+  }
+  #seatbelt {
+    position: relative;
+    left: 6.5vh!important;
+  }
+  .square {
+    left: 2.5vh!important;
+    bottom: 6%!important;
+  }
+  .circle {
+    left: 3.2vh!important;
+    width: 27.6vh!important;
+    bottom: 6.9%!important;
+  }
+}
+
 @media (width: 1920px) and (height: 1440px) {
   .responsive {
     margin-left: 32vh!important;
