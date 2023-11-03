@@ -13,8 +13,8 @@ QBCore.Commands.Add('bank', 'Check Bank Balance', {}, false, function(source, _)
     TriggerClientEvent('hud:client:ShowAccounts', source, 'bank', bankamount)
 end)
 
-QBCore.Commands.Add("dev", "Enable/Disable developer Mode", {}, false, function(source, _)
-    TriggerClientEvent("qb-admin:client:ToggleDevmode", source)
+QBCore.Commands.Add('dev', 'Enable/Disable developer Mode', {}, false, function(source, _)
+    TriggerClientEvent('qb-admin:client:ToggleDevmode', source)
 end, 'admin')
 
 RegisterNetEvent('hud:server:GainStress', function(amount)
@@ -39,7 +39,7 @@ RegisterNetEvent('hud:server:GainStress', function(amount)
     end
     Player.Functions.SetMetaData('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-    TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_gain"), 'error', 1500)
+    TriggerClientEvent('QBCore:Notify', src, Lang:t('notify.stress_gain'), 'error', 1500)
 end)
 
 RegisterNetEvent('hud:server:RelieveStress', function(amount)
@@ -62,7 +62,7 @@ RegisterNetEvent('hud:server:RelieveStress', function(amount)
     end
     Player.Functions.SetMetaData('stress', newStress)
     TriggerClientEvent('hud:client:UpdateStress', src, newStress)
-    TriggerClientEvent('QBCore:Notify', src, Lang:t("notify.stress_removed"))
+    TriggerClientEvent('QBCore:Notify', src, Lang:t('notify.stress_removed'))
 end)
 
 QBCore.Functions.CreateCallback('hud:server:getMenu', function(_, cb)

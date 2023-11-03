@@ -1,6 +1,6 @@
 fx_version 'cerulean'
 game 'gta5'
-
+lua54 'yes'
 description 'qb-hud'
 version '2.2.0'
 
@@ -23,5 +23,3 @@ files {
     'html/responsive.css',
     'html/app.js',
 }
-
-lua54 'yes'
