@@ -575,7 +575,7 @@ RegisterNetEvent('seatbelt:client:ToggleCruise', function() -- Triggered in smal
     cruiseOn = not cruiseOn
 end)
 
-RegisterNetEvent('hud:client:UpdateNitrous', function(_, nitroLevel, bool)
+RegisterNetEvent('hud:client:UpdateNitrous', function(nitroLevel, bool)
     nos = nitroLevel
     nitroActive = bool
 end)
