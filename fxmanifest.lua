@@ -1,7 +1,8 @@
 fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
-description 'qb-hud'
+author 'Kakarot'
+description 'Heads-up display letting players track their hunger, thirst, stress, and more'
 version '2.2.0'
 
 shared_scripts {
