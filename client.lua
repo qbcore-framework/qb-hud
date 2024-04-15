@@ -31,9 +31,9 @@ local radioActive = false
 DisplayRadar(false)
 
 local function CinematicShow(bool)
-    SetRadarBigmapEnabled(true, false)
+    SetBigmapActive(true, false)
     Wait(0)
-    SetRadarBigmapEnabled(false, false)
+    SetBigmapActive(false, false)
     if bool then
         for i = CinematicHeight, 0, -1.0 do
             Wait(10)
@@ -390,10 +390,10 @@ RegisterNetEvent('hud:client:LoadMap', function()
         -- 0.315 = map shorten
         SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.01 + minimapOffset, 0.025, 0.262, 0.300)
         SetBlipAlpha(GetNorthRadarBlip(), 0)
-        SetRadarBigmapEnabled(true, false)
+        SetBigmapActive(true, false)
         SetMinimapClipType(0)
         Wait(50)
-        SetRadarBigmapEnabled(false, false)
+        SetBigmapActive(false, false)
         if Menu.isToggleMapBordersChecked then
             showCircleB = false
             showSquareB = true
@@ -428,9 +428,9 @@ RegisterNetEvent('hud:client:LoadMap', function()
         SetMinimapComponentPosition('minimap_blur', 'L', 'B', -0.00 + minimapOffset, 0.015, 0.252, 0.338)
         SetBlipAlpha(GetNorthRadarBlip(), 0)
         SetMinimapClipType(1)
-        SetRadarBigmapEnabled(true, false)
+        SetBigmapActive(true, false)
         Wait(50)
-        SetRadarBigmapEnabled(false, false)
+        SetBigmapActive(false, false)
         if Menu.isToggleMapBordersChecked then
             showSquareB = false
             showCircleB = true
@@ -1009,7 +1009,7 @@ end)
 -- Minimap update
 CreateThread(function()
     while true do
-        SetRadarBigmapEnabled(false, false)
+        SetBigmapActive(false, false)
         SetRadarZoom(1000)
         Wait(500)
     end
