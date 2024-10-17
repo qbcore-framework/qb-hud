@@ -765,6 +765,10 @@ CreateThread(function()
                     DisplayRadar(true)
                 end
                 wasInVehicle = true
+                local engineHealth = GetVehicleEngineHealth(vehicle)
+                if engineHealth ~= engineHealth then -- This checks for NaN, as any NaN value is not equal to itself
+                    engineHealth = 0
+                end
                 updatePlayerHud({
                     show,
                     Menu.isDynamicHealthChecked,
@@ -793,7 +797,7 @@ CreateThread(function()
                     harness,
                     hp,
                     math.ceil(GetEntitySpeed(vehicle) * speedMultiplier),
-                    (GetVehicleEngineHealth(vehicle) / 10),
+                    (engineHealth / 10),
                     Menu.isCinematicModeChecked,
                     dev,
                     radioActive,
