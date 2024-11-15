@@ -1049,12 +1049,6 @@ CreateThread(function()
     end
 end)
 
--- Compass
-function round(num, numDecimalPlaces)
-    local mult = 10 ^ (numDecimalPlaces or 0)
-    return math.floor(num + 0.5 * mult)
-end
-
 local prevBaseplateStats = { nil, nil, nil, nil, nil, nil, nil }
 
 local function updateBaseplateHud(data)
@@ -1109,9 +1103,9 @@ CreateThread(function()
         local player = PlayerPedId()
         local camRot = GetGameplayCamRot(0)
         if Menu.isCompassFollowChecked then
-            heading = tostring(round(360.0 - ((camRot.z + 360.0) % 360.0)))
+            heading = tostring(QBCore.Shared.Round(360.0 - ((camRot.z + 360.0) % 360.0)))
         else
-            heading = tostring(round(360.0 - GetEntityHeading(player)))
+            heading = tostring(QBCore.Shared.Round(360.0 - GetEntityHeading(player)))
         end
         if heading == '360' then heading = '0' end
         if heading ~= lastHeading then
