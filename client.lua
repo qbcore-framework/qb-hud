@@ -27,6 +27,79 @@ local Menu = config.Menu
 local CinematicHeight = 0.2
 local w = 0
 local radioActive = false
+local isPauseMenuActive = false
+local hudHidden = false
+
+
+
+-- HUD VISIBILITY
+
+local function shouldDisplayRadar()
+    if hudHidden then return false end
+    if isPauseMenuActive then return false end
+    if Menu.isHideMapChecked then return false end
+    if Menu.isCinematicModeChecked then return false end
+    
+    local player = PlayerPedId()
+    local vehicle = GetVehiclePedIsIn(player, false)
+    
+    if IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle) then
+        return true
+    end
+    
+    return Menu.isOutMapChecked
+end
+
+-- HUD Visibility Toggle Function
+local function ToggleHudVisibility()
+    hudHidden = not hudHidden
+    
+    if hudHidden then
+        SendNUIMessage({
+            action = 'hudtick',
+            show = false
+        })
+        SendNUIMessage({
+            action = 'car',
+            show = false
+        })
+        SendNUIMessage({
+            action = 'baseplate',
+            show = false
+        })
+        DisplayRadar(false)
+    else
+        if not isPauseMenuActive then
+            SendNUIMessage({
+                action = 'hudtick',
+                show = true
+            })
+            DisplayRadar(shouldDisplayRadar())
+        end
+    end
+end
+
+-- Export Functions
+exports('ToggleHud', function()
+    ToggleHudVisibility()
+end)
+
+exports('SetHudState', function(state)
+    if hudHidden ~= not state then
+        ToggleHudVisibility()
+    end
+    DisplayRadar(shouldDisplayRadar())
+end)
+
+exports('IsHudHidden', function()
+    return hudHidden
+end)
+
+-- Event Handlers
+RegisterNetEvent('qb-hud:client:ToggleHud', function()
+    ToggleHudVisibility()
+end)
+
 
 DisplayRadar(false)
 
@@ -349,7 +422,7 @@ end)
 RegisterNUICallback('HideMap', function(_, cb)
     Wait(50)
     Menu.isHideMapChecked = not Menu.isHideMapChecked
-    DisplayRadar(not Menu.isHideMapChecked)
+    DisplayRadar(shouldDisplayRadar())
     TriggerEvent('hud:client:playHudChecklistSound')
     saveSettings()
     cb('ok')
@@ -678,7 +751,7 @@ local function getFuelLevel(vehicle)
 end
 
 -- HUD Update loop
-
+-- UPDATED TO RESPECT THE HUD HIDDEN STATE
 CreateThread(function()
     local wasInVehicle = false
     while true do
@@ -687,12 +760,38 @@ CreateThread(function()
         else
             Wait(50)
         end
+        
         if LocalPlayer.state.isLoggedIn then
-            local show = true
+            local show = not hudHidden
             local player = PlayerPedId()
             local playerId = PlayerId()
+            
+            -- Check pause menu state
+            local currentPauseState = IsPauseMenuActive()
+            if currentPauseState ~= isPauseMenuActive then
+                isPauseMenuActive = currentPauseState
+                if isPauseMenuActive then
+                    show = false
+                end
+                DisplayRadar(shouldDisplayRadar())
+            end
+
+            -- If pause menu is active, hide HUD elements
+            if isPauseMenuActive then
+                show = false
+                SendNUIMessage({
+                    action = 'hudtick',
+                    show = false
+                })
+                SendNUIMessage({
+                    action = 'car',
+                    show = false
+                })
+                Wait(100)
+                goto continue
+            end
+
             local weapon = GetSelectedPedWeapon(player)
-            -- Player hud
             if not config.WhitelistedWeaponArmed[weapon] then
                 if weapon ~= `WEAPON_UNARMED` then
                     armed = true
@@ -700,25 +799,26 @@ CreateThread(function()
                     armed = false
                 end
             end
+
             playerDead = IsEntityDead(player) or PlayerData.metadata['inlaststand'] or PlayerData.metadata['isdead'] or false
             parachute = GetPedParachuteState(player)
+
             -- Stamina
             if not IsEntityInWater(player) then
                 oxygen = 100 - GetPlayerSprintStaminaRemaining(playerId)
             end
+            
             -- Oxygen
             if IsEntityInWater(player) then
                 oxygen = GetPlayerUnderwaterTimeRemaining(playerId) * 10
             end
-            -- Player hud
+
             local talking = NetworkIsPlayerTalking(playerId)
             local voice = 0
             if LocalPlayer.state['proximity'] then
                 voice = LocalPlayer.state['proximity'].distance
             end
-            if IsPauseMenuActive() then
-                show = false
-            end
+
             local vehicle = GetVehiclePedIsIn(player)
             if not (IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle)) then
                 updatePlayerHud({
@@ -752,23 +852,27 @@ CreateThread(function()
                     -1,
                     Menu.isCinematicModeChecked,
                     dev,
-                    radioActive,
+                    radioActive
                 })
             end
-            -- Vehicle hud
+
+            -- Vehicle HUD
             if IsPedInAnyHeli(player) or IsPedInAnyPlane(player) then
                 showAltitude = true
                 showSeatbelt = false
             end
+
             if IsPedInAnyVehicle(player) and not IsThisModelABicycle(vehicle) then
                 if not wasInVehicle then
-                    DisplayRadar(true)
+                    wasInVehicle = true
+                    DisplayRadar(shouldDisplayRadar())
                 end
-                wasInVehicle = true
+
                 local engineHealth = GetVehicleEngineHealth(vehicle)
-                if engineHealth ~= engineHealth then -- This checks for NaN, as any NaN value is not equal to itself
+                if engineHealth ~= engineHealth then
                     engineHealth = 0
                 end
+
                 updatePlayerHud({
                     show,
                     Menu.isDynamicHealthChecked,
@@ -800,11 +904,12 @@ CreateThread(function()
                     (engineHealth / 10),
                     Menu.isCinematicModeChecked,
                     dev,
-                    radioActive,
+                    radioActive
                 })
+
                 updateVehicleHud({
                     show,
-                    IsPauseMenuActive(),
+                    isPauseMenuActive,
                     seatbeltOn,
                     math.ceil(GetEntitySpeed(vehicle) * speedMultiplier),
                     getFuelLevel(vehicle),
@@ -812,8 +917,9 @@ CreateThread(function()
                     showAltitude,
                     showSeatbelt,
                     showSquareB,
-                    showCircleB,
+                    showCircleB
                 })
+
                 showAltitude = false
                 showSeatbelt = true
             else
@@ -829,13 +935,16 @@ CreateThread(function()
                     cruiseOn = false
                     harness = false
                 end
-                DisplayRadar(Menu.isOutMapChecked)
+                DisplayRadar(shouldDisplayRadar())
             end
+            
+            ::continue::
         else
             SendNUIMessage({
                 action = 'hudtick',
                 show = false
             })
+            DisplayRadar(false)
         end
     end
 end)
