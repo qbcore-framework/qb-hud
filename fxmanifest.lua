@@ -3,7 +3,7 @@ game 'gta5'
 lua54 'yes'
 author 'Kakarot'
 description 'Heads-up display letting players track their hunger, thirst, stress, and more'
-version '2.2.0'
+version '2.2.1'
 
 shared_scripts {
     '@qb-core/shared/locale.lua',
