@@ -778,7 +778,6 @@ CreateThread(function()
 
             -- If pause menu is active, hide HUD elements
             if isPauseMenuActive then
-                show = false
                 SendNUIMessage({
                     action = 'hudtick',
                     show = false
